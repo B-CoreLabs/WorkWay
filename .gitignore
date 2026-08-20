@@ -1,6 +1,27 @@
+# Environment & secrets
 .env
 .env.local
 .env.*.local
+
+# Node
 node_modules/
+
+# OS files
 .DS_Store
 Thumbs.db
+
+# Python scripts with hardcoded credentials (migration/utility only)
+diagnose_signup.py
+apply_auth_fix.py
+disable_email_confirm.py
+confirm_users.py
+install_autoconfirm.py
+fix_auth_trigger.sql
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
