@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Started — Create your WorkWay Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      body {
+        background: #f4f8fc;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .auth-wrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 20px 60px;
+      }
+      .auth-card {
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(1, 69, 178, 0.12);
+        border: 1px solid rgba(1, 69, 178, 0.08);
+        width: 100%;
+        max-width: 520px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+      .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #0145b2 0%, #f5bf0b 100%);
+      }
+      .auth-header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .auth-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+      }
+      .auth-header p {
+        font-size: 0.92rem;
+        color: #64748b;
+      }
+      .role-selector {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        background: #eef4fc;
+        padding: 6px;
+        border-radius: 14px;
+        margin-bottom: 24px;
+      }
+      .role-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border: none;
+        background: transparent;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #4a5568;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .role-btn.active {
+        background: #ffffff;
+        color: #0145b2;
+        box-shadow: 0 4px 12px rgba(1, 69, 178, 0.15);
+      }
+      .form-group {
+        margin-bottom: 18px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .form-control {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        outline: none;
+      }
+      .form-control:focus {
+        border-color: #0145b2;
+        box-shadow: 0 0 0 4px rgba(1, 69, 178, 0.12);
+      }
+      .auth-alert {
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 0.88rem;
+        margin-bottom: 20px;
+        display: none;
+      }
+      .auth-alert.error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #f87171;
+        display: block;
+      }
+      .auth-alert.success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+        display: block;
+      }
+      .auth-footer {
+        text-align: center;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+        font-size: 0.9rem;
+        color: #64748b;
+      }
+      .auth-footer a {
+        color: #0145b2;
+        font-weight: 700;
+      }
+      .auth-footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Site Header -->
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="recruiter.html">For Recruiters</a>
+          <a href="how.html">How It Works</a>
+          <a href="resources.html">Career Resources</a>
+        </nav>
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-secondary">Log In</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>Join WorkWay</h1>
+          <p>Create your free account and start connecting with opportunities</p>
+        </div>
+
+        <div class="role-selector">
+          <button type="button" class="role-btn active" id="btnSeeker">
+            <i class="fa-solid fa-user-graduate"></i> Job Seeker
+          </button>
+          <button type="button" class="role-btn" id="btnRecruiter">
+            <i class="fa-solid fa-briefcase"></i> Recruiter / Employer
+          </button>
+        </div>
+
+        <div id="authAlert" class="auth-alert"></div>
+
+        <form id="signupForm">
+          <input type="hidden" id="roleInput" value="job_seeker" />
+
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" class="form-control" placeholder="e.g. Alex Morgan" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="alex@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required />
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 14px;">
+            Create Account
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          Already have an account? <a href="login.html">Log In here</a>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { AuthService } from './js/services/auth.service.js';
+
+      const btnSeeker = document.getElementById('btnSeeker');
+      const btnRecruiter = document.getElementById('btnRecruiter');
+      const roleInput = document.getElementById('roleInput');
+      const signupForm = document.getElementById('signupForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const authAlert = document.getElementById('authAlert');
+
+      btnSeeker.addEventListener('click', () => {
+        btnSeeker.classList.add('active');
+        btnRecruiter.classList.remove('active');
+        roleInput.value = 'job_seeker';
+      });
+
+      btnRecruiter.addEventListener('click', () => {
+        btnRecruiter.classList.add('active');
+        btnSeeker.classList.remove('active');
+        roleInput.value = 'recruiter';
+      });
+
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        authAlert.className = 'auth-alert';
+        authAlert.style.display = 'none';
+
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const role = roleInput.value;
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'Creating account...';
+
+        try {
+          // Step 1: Sign up user with Supabase Auth
+          const data = await AuthService.signUp({ email, password, fullName, role });
+
+          // Step 2: Immediately sign in (works because email confirmation is auto-handled by our trigger)
+          try {
+            await AuthService.signIn({ email, password });
+            authAlert.className = 'auth-alert success';
+            authAlert.innerText = 'Account created! Taking you to your dashboard...';
+
+            setTimeout(async () => {
+              await AuthService.routeUserByRole();
+            }, 1000);
+
+          } catch (loginErr) {
+            // Email confirmation might still be pending on free Supabase tier
+            // Show a friendly message instead of an error
+            authAlert.className = 'auth-alert success';
+            authAlert.innerHTML = `
+              <strong>Account created successfully!</strong><br>
+              <span style="font-size:0.9rem;">We sent a confirmation email to <strong>${email}</strong>.<br>
+              Click the link in that email, then <a href="login.html" style="color:#0145b2; font-weight:700;">log in here</a>.</span>
+            `;
+            submitBtn.disabled = false;
+            submitBtn.innerText = 'Create Account';
+          }
+
+        } catch (err) {
+          authAlert.className = 'auth-alert error';
+          authAlert.innerText = err.message || 'An error occurred during sign up.';
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'Create Account';
+        }
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

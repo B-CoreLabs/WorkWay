@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Seeker Dashboard — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="icon" type="image/x-icon" href="../WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      body {
+        background: #f4f7fb;
+      }
+      .portal-header {
+        background: #ffffff;
+        border-bottom: 1px solid rgba(1, 69, 178, 0.1);
+        padding: 16px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .portal-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .portal-logo img {
+        height: 42px;
+      }
+      .portal-layout {
+        max-width: 1360px;
+        margin: 30px auto 60px;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 30px;
+      }
+      /* Left Sidebar Profile Card */
+      .profile-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px 24px;
+        border: 1px solid rgba(1, 69, 178, 0.08);
+        box-shadow: 0 10px 30px rgba(1, 69, 178, 0.06);
+        text-align: center;
+      }
+      .profile-avatar-large {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #0145b2;
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+      }
+      .profile-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+      }
+      .profile-headline {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 20px;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .stat-card {
+        background: #f8fafc;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #edf2f7;
+      }
+      .stat-value {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #0145b2;
+      }
+      .stat-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+      /* Main Content Tabs & Panels */
+      .main-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .dashboard-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 28px;
+        border: 1px solid rgba(1, 69, 178, 0.08);
+        box-shadow: 0 10px 30px rgba(1, 69, 178, 0.06);
+      }
+      .card-header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .card-header-flex h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1a1a1a;
+      }
+      /* Applications Table */
+      .app-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 14px;
+        margin-bottom: 12px;
+        border: 1px solid #edf2f7;
+      }
+      .status-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 50px;
+        text-transform: uppercase;
+      }
+      .status-applied { background: #e0f2fe; color: #0369a1; }
+      .status-reviewing { background: #fef3c7; color: #b45309; }
+      .status-shortlisted { background: #f3e8ff; color: #7e22ce; }
+      .status-interviewing { background: #dcfce7; color: #15803d; }
+      .status-offered { background: #ecfdf5; color: #047857; border: 1px solid #10b981; }
+      .status-rejected { background: #fee2e2; color: #b91c1c; }
+
+      @media (max-width: 900px) {
+        .portal-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Nav -->
+    <header class="portal-header">
+      <div class="container portal-nav">
+        <a href="../index.html" class="portal-logo">
+          <img src="../WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" />
+        </a>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <a href="../jobs.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-magnifying-glass"></i> Explore Jobs</a>
+          <button id="logoutBtn" class="btn btn-outline btn-sm">Log Out</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="portal-layout">
+      <!-- Left Profile Sidebar -->
+      <aside>
+        <div class="profile-card">
+          <div class="profile-avatar-large" id="userAvatar">A</div>
+          <h2 class="profile-name" id="userName">Job Seeker</h2>
+          <p class="profile-headline" id="userHeadline">Professional Member</p>
+
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="statApplications">0</div>
+              <div class="stat-label">Applications</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="statActive">0</div>
+              <div class="stat-label">Active</div>
+            </div>
+          </div>
+
+          <button id="editProfileBtn" class="btn btn-outline btn-sm" style="width: 100%;">
+            <i class="fa-solid fa-pen-to-square"></i> Edit Profile & CV
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Activity Panel -->
+      <main class="main-panel">
+        <!-- Application Tracker Card -->
+        <div class="dashboard-card">
+          <div class="card-header-flex">
+            <h3><i class="fa-solid fa-paper-plane" style="color: #0145b2; margin-right: 8px;"></i> My Applications</h3>
+            <span id="appCountBadge" style="font-size: 0.82rem; font-weight: 600; color: #64748b;">0 submitted</span>
+          </div>
+
+          <div id="applicationsList">
+            <p style="text-align: center; color: #64748b; padding: 30px;">Loading your applications...</p>
+          </div>
+        </div>
+
+        <!-- Profile Update Modal / Form -->
+        <div class="dashboard-card" id="profileEditSection" style="display: none;">
+          <div class="card-header-flex">
+            <h3><i class="fa-solid fa-user" style="color: #0145b2; margin-right: 8px;"></i> Profile & Career Details</h3>
+            <button type="button" id="closeProfileEdit" style="background: none; border: none; cursor: pointer; color: #64748b;"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <form id="profileForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+              <div>
+                <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">FULL NAME</label>
+                <input type="text" id="inputFullName" class="form-control" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px;" required />
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">HEADLINE / TARGET TITLE</label>
+                <input type="text" id="inputHeadline" class="form-control" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px;" placeholder="e.g. Senior Frontend Engineer" />
+              </div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">CORE SKILLS (comma-separated)</label>
+              <input type="text" id="inputSkills" class="form-control" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px;" placeholder="React, TypeScript, Node.js, UI/UX" />
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">SHORT PROFESSIONAL BIO</label>
+              <textarea id="inputBio" rows="3" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 10px; font-family: inherit; font-size: 0.9rem;" placeholder="Brief summary of your background and career highlights..."></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 6px;">UPDATE CV / RESUME (PDF)</label>
+              <input type="file" id="inputResume" accept=".pdf,.doc,.docx" />
+            </div>
+
+            <button type="submit" id="saveProfileBtn" class="btn btn-primary">
+              Save Profile Changes
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+      import { AuthService } from '../js/services/auth.service.js';
+      import { ApplicationService } from '../js/services/applications.service.js';
+      import { ProfileService } from '../js/services/profiles.service.js';
+      import { StorageService } from '../js/services/storage.service.js';
+
+      let currentUser = null;
+
+      async function init() {
+        currentUser = await AuthService.getCurrentProfile();
+        if (!currentUser) {
+          window.location.href = '/login.html';
+          return;
+        }
+
+        // Populate User Info
+        const displayName = currentUser.full_name || currentUser.email.split('@')[0];
+        document.getElementById('userName').innerText = displayName;
+        document.getElementById('userAvatar').innerText = displayName.charAt(0).toUpperCase();
+        document.getElementById('userHeadline').innerText = currentUser.headline || 'WorkWay Member';
+
+        document.getElementById('inputFullName').value = currentUser.full_name || '';
+        document.getElementById('inputHeadline').value = currentUser.headline || '';
+        document.getElementById('inputBio').value = currentUser.bio || '';
+        document.getElementById('inputSkills').value = Array.isArray(currentUser.skills) ? currentUser.skills.join(', ') : '';
+
+        // Load Applications
+        await loadApplications();
+      }
+
+      async function loadApplications() {
+        const appList = document.getElementById('applicationsList');
+        try {
+          const apps = await ApplicationService.getSeekerApplications(currentUser.id);
+          document.getElementById('statApplications').innerText = apps.length;
+          document.getElementById('appCountBadge').innerText = `${apps.length} submitted`;
+
+          const activeCount = apps.filter(a => ['applied', 'reviewing', 'shortlisted', 'interviewing'].includes(a.status)).length;
+          document.getElementById('statActive').innerText = activeCount;
+
+          if (apps.length === 0) {
+            appList.innerHTML = `
+              <div style="text-align: center; padding: 40px 20px;">
+                <p style="color: #64748b; margin-bottom: 16px;">You haven't submitted any applications yet.</p>
+                <a href="../jobs.html" class="btn btn-primary btn-sm">Find & Apply for Jobs</a>
+              </div>
+            `;
+            return;
+          }
+
+          appList.innerHTML = '';
+          apps.forEach(app => {
+            const job = app.jobs || { title: 'Opportunity', companies: { name: 'WorkWay Employer' } };
+            const companyName = job.companies?.name || 'Company';
+            const statusClass = `status-${app.status || 'applied'}`;
+            const dateStr = new Date(app.created_at).toLocaleDateString();
+
+            const item = document.createElement('div');
+            item.className = 'app-item';
+            item.innerHTML = `
+              <div>
+                <h4 style="font-size: 1rem; color: #1a1a1a; margin-bottom: 4px;">${job.title}</h4>
+                <p style="font-size: 0.85rem; color: #64748b;">${companyName} &bull; Applied on ${dateStr}</p>
+              </div>
+              <div>
+                <span class="status-badge ${statusClass}">${(app.status || 'applied').toUpperCase()}</span>
+              </div>
+            `;
+            appList.appendChild(item);
+          });
+
+        } catch (err) {
+          appList.innerHTML = `<p style="color: #e53e3e;">Failed to load applications: ${err.message}</p>`;
+        }
+      }
+
+      // Profile edit toggling
+      const editProfileBtn = document.getElementById('editProfileBtn');
+      const profileEditSection = document.getElementById('profileEditSection');
+      const closeProfileEdit = document.getElementById('closeProfileEdit');
+      const profileForm = document.getElementById('profileForm');
+      const saveProfileBtn = document.getElementById('saveProfileBtn');
+
+      editProfileBtn.addEventListener('click', () => {
+        profileEditSection.style.display = 'block';
+        profileEditSection.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      closeProfileEdit.addEventListener('click', () => {
+        profileEditSection.style.display = 'none';
+      });
+
+      profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        saveProfileBtn.disabled = true;
+        saveProfileBtn.innerText = 'Saving...';
+
+        try {
+          const fullName = document.getElementById('inputFullName').value.trim();
+          const headline = document.getElementById('inputHeadline').value.trim();
+          const bio = document.getElementById('inputBio').value.trim();
+          const skillsRaw = document.getElementById('inputSkills').value.trim();
+          const skills = skillsRaw ? skillsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+          const resumeFile = document.getElementById('inputResume').files[0];
+          let resume_url = currentUser.resume_url;
+          if (resumeFile) {
+            try {
+              resume_url = await StorageService.uploadResume(currentUser.id, resumeFile);
+            } catch (sErr) {
+              console.warn('Resume upload notice:', sErr.message);
+            }
+          }
+
+          await ProfileService.updateProfile(currentUser.id, {
+            full_name: fullName,
+            headline,
+            bio,
+            skills,
+            resume_url
+          });
+
+          saveProfileBtn.disabled = false;
+          saveProfileBtn.innerText = 'Saved Successfully!';
+          setTimeout(() => {
+            saveProfileBtn.innerText = 'Save Profile Changes';
+            profileEditSection.style.display = 'none';
+            init();
+          }, 1000);
+
+        } catch (err) {
+          alert('Error updating profile: ' + err.message);
+          saveProfileBtn.disabled = false;
+          saveProfileBtn.innerText = 'Save Profile Changes';
+        }
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        await AuthService.signOut();
+      });
+
+      init();
+    </script>
+  </body>
+</html>

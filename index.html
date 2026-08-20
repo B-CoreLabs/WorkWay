@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WorkWay — Your Path To The Right Job</title>
+    <script>
+      document.documentElement.classList.add("is-loading");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style (2).css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
+    />
+
+    <!-- Boxicons: required for the "bx bxl-..." social icons used in the footer -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    />
+
+    <!-- Initializing Swiper -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="WorkWay Images/WorkWayLogo 2.png"
+    />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img
+            src="WorkWay Images/Workwaylogo.png"
+            alt="WorkWay Logo"
+            width="200"
+            height="150"
+          />
+        </a>
+
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="recruiter.html">For Recruiters</a>
+          <a href="how.html">How It Works</a>
+          <a href="resources.html">Career Resources</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-secondary">Log In</a>
+          <a href="signup.html" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Toggle menu"
+          aria-expanded="true"
+          aria-controls="navLinks"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="slider-container">
+        <!-- Slider Items -->
+        <div class="slider-wrapper swiper-wrapper">
+          <div class="slider-item swiper-slide">
+            <div class="slide-content">
+              <h1 class="slide-title">
+                Find the <span>Right Opportunity.</span><br />
+                Build the <span>Right Future.</span>
+              </h1>
+
+              <p class="slide-description">
+                WorkWay uses your skills, experience, CV, and career profile to
+                connect you with opportunities that actually fit you — while
+                helping employers discover qualified candidates faster.
+              </p>
+
+              <a href="how.html" class="slide-button">
+                <span>Learn More</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="slider-item swiper-slide">
+            <div class="slide-content">
+              <h3 class="slide-subtitle">
+                <span style="font-size: 10px">&#127775;</span> For Job Seekers
+              </h3>
+
+              <h2 class="slide-title">
+                Stop Searching.<br />
+                <span>Start Matching with the Right Career.</span>
+              </h2>
+
+              <p class="slide-description">
+                WorkWay analyzes your skills, experience, and personality
+                profile to connect you with jobs where you will thrive -
+                automatically.
+              </p>
+
+              <a href="signup.html" class="slide-button">
+                <span>Upload CV &amp; Get Matched</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="slider-item swiper-slide">
+            <div class="slide-content">
+              <h3 class="slide-subtitle">
+                <span style="font-size: 10px">&#127775;</span> For Recruiters
+              </h3>
+
+              <h2 class="slide-title">
+                Hire Top-Tier Talent Matched by AI,
+                <span>Not Just Keywords.</span>
+              </h2>
+
+              <p class="slide-description">
+                Skip thousands of irrelevant resumes.<br />
+                WorkWay delivers pre-screened, personality-aligned candidates
+                directly to your dashboard.
+              </p>
+
+              <a href="signup.html" class="slide-button">
+                <span>Post a Job Free</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Pagination -->
+        <div class="slider-controls">
+          <div class="slider-pagination">
+            <button class="slider-tab active" type="button">
+              Find the Right Opportunity.<br />
+              Build the Right Future.
+            </button>
+
+            <button class="slider-tab" type="button">
+              Stop Searching.<br />
+              Start Matching with the Right Career.
+            </button>
+
+            <button class="slider-tab" type="button">
+              Hire Top-Tier Talent Matched by AI, Not Just Keywords.
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section class="value-strip">
+        <article class="value-card reveal">
+          <div class="value-icon">
+            <span style="font-size: 25px">&#10022;</span>
+          </div>
+
+          <h3>AI-Powered Matching</h3>
+
+          <p>
+            Connect your skills, experience, and profile with relevant
+            opportunities.
+          </p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-icon">
+            <span style="font-size: 25px">&#127919;</span>
+          </div>
+
+          <h3>Personalized Recommendations</h3>
+
+          <p>Discover opportunities selected around your profile.</p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-icon">
+            <span style="font-size: 25px">&#128276;</span>
+          </div>
+
+          <h3>Smart Job Alerts</h3>
+
+          <p>Never miss an opportunity that matches your profile.</p>
+        </article>
+
+        <article class="value-card reveal">
+          <div class="value-icon">
+            <span style="font-size: 25px">&#128101;</span>
+          </div>
+
+          <h3>Smarter Recruitment</h3>
+
+          <p>Help employers discover relevant candidates faster.</p>
+        </article>
+      </section>
+
+      <section class="problem-section" id="problem">
+        <div class="problem-intro">
+          <span class="section-label reveal">THE EMPLOYMENT GAP</span>
+
+          <h2 class="reveal">
+            Talent exists. Opportunities exist.
+            <span>The connection is often missing.</span>
+          </h2>
+
+          <p class="reveal">
+            Job seekers can struggle to discover opportunities that truly match
+            their skills and ambitions, while recruiters can spend valuable time
+            searching for the right candidates. WorkWay is built to bridge that
+            gap.
+          </p>
+          <div class="problem-image" data-image-position="right">
+            <img src="WorkWay Images/The Employment Gap.jpg" alt="The Employment Gap" class="reveal" />
+          </div>
+        </div>
+
+        <div class="problem-container">
+          <article class="problem-card job-seeker-card reveal">
+            <div class="problem-card-header">
+              <div class="problem-icon">
+                <span style="font-size: 15px">&#128100;</span>
+              </div>
+
+              <div>
+                <span class="card-label">FOR JOB SEEKERS</span>
+
+                <h3>
+                  Finding the right opportunity shouldn't be overwhelming.
+                </h3>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#8981;</span>
+              </div>
+
+              <div>
+                <h4>Too many choices</h4>
+
+                <p>
+                  Thousands of job listings can make it difficult to identify
+                  the opportunities that actually fit your profile.
+                </p>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#129517;</span>
+              </div>
+
+              <div>
+                <h4>Not sure where to look</h4>
+
+                <p>
+                  Many job seekers don't know which opportunities are most
+                  relevant to their skills and experience.
+                </p>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#128276;</span>
+              </div>
+
+              <div>
+                <h4>Opportunities can be missed</h4>
+
+                <p>
+                  The right vacancy may appear at the wrong time, and without
+                  personalized alerts it can easily go unnoticed.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <div class="problem-connector reveal">
+            <div class="connector-line"></div>
+
+            <div class="workway-center">
+              <span class="workway-symbol" style="font-size: 15px"
+                >&#10022;</span
+              >
+              <span>WORKWAY</span>
+            </div>
+
+            <div class="connector-line"></div>
+          </div>
+
+          <article class="problem-card recruiter-card reveal">
+            <div class="problem-card-header">
+              <div class="problem-icon">
+                <span style="font-size: 15px">&#127970;</span>
+              </div>
+
+              <div>
+                <span class="card-label">FOR RECRUITERS</span>
+
+                <h3>
+                  Finding the right candidate shouldn't be so time-consuming.
+                </h3>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#128101;</span>
+              </div>
+
+              <div>
+                <h4>Too many applications</h4>
+
+                <p>
+                  Recruiters can receive large numbers of applications, making
+                  it difficult to focus on the most relevant candidates.
+                </p>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#8987;</span>
+              </div>
+
+              <div>
+                <h4>Time-consuming screening</h4>
+
+                <p>
+                  Manually reviewing CVs and comparing qualifications can take
+                  valuable time.
+                </p>
+              </div>
+            </div>
+
+            <div class="problem-item">
+              <div class="problem-item-icon">
+                <span style="font-size: 15px">&#10003;</span>
+              </div>
+
+              <div>
+                <h4>The right candidate can be overlooked</h4>
+
+                <p>
+                  Strong candidates can sometimes disappear among hundreds of
+                  applications.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="problem-transition reveal">
+          <p>
+            <strong>Two sides of the same problem.</strong>
+            WorkWay brings them together.
+          </p>
+
+          <a href="how.html" class="problem-cta">
+            See How WorkWay Works
+            <span>&#8594;</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="workway-solution" id="solution">
+        <div class="solution-container">
+          <h2 class="powering-text reveal">
+            One platform.<br />Two sides of the opportunity.
+          </h2>
+          <p class="powering-paragraph reveal">
+            WorkWay brings job seekers and employers together through
+            intelligent profiles, personalized recommendations, and smarter
+            matching.
+          </p>
+          <div class="powering-image" data-image-position="left">
+            <img src="WorkWay Images/presentation.jpg" alt="WorkWay Presentation" class="reveal" />
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta-section" id="get-started">
+        <div class="final-cta-content reveal">
+          <span class="section-label">YOUR NEXT STEP STARTS HERE</span>
+          <h2>
+            Stop searching alone.
+            <span>Let WorkWay help you move forward.</span>
+          </h2>
+          <p>
+            Whether you're looking for your next opportunity or searching for
+            the right person to join your team, WorkWay is built to connect the
+            right people with the right opportunities.
+          </p>
+          <div class="final-cta-actions">
+            <a href="signup.html" class="btn btn-primary"
+              >Get Started <span>&#8594;</span></a
+            ><a href="how.html" class="btn btn-secondary">See How It Works</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img
+            src="WorkWay Images/WorkWayLogo1.png"
+            alt="WorkWay Logo"
+            class="footer-logo"
+            width="200"
+            height="150"
+          />
+          <p>
+            Connecting people with opportunities and helping organizations
+            discover the right talent.
+          </p>
+          <div class="footer-links">
+            <a href="#" target="_blank" aria-label="YouTube"
+              ><i class="bx bxl-youtube"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="Facebook"
+              ><i class="bx bxl-facebook"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="Twitter"
+              ><i class="bx bxl-twitter"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="LinkedIn"
+              ><i class="bx bxl-linkedin"></i
+            ></a>
+            <a href="#" target="_blank" aria-label="Instagram"
+              ><i class="bx bxl-instagram"></i
+            ></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">For Job Seekers</h3>
+          <ul class="footer-list">
+            <li><a href="jobs.html">Find Jobs</a></li>
+            <li><a href="how.html#ai-cv-analysis">AI CV Analysis</a></li>
+            <li><a href="how.html#recommendations">Job Recommendations</a></li>
+            <li><a href="how.html#applications">Applications</a></li>
+            <li>
+              <a href="resources.html#career-development">Career Development</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">For Recruiters</h3>
+          <ul class="footer-list">
+            <li><a href="recruiter.html">For Recruiters</a></li>
+            <li>
+              <a href="recruiter.html#recruiter-experience"
+                >Candidate Matching</a
+              >
+            </li>
+            <li>
+              <a href="recruiter.html#company-profiles">Company Profiles</a>
+            </li>
+            <li>
+              <a href="recruiter.html#communication">Interview Management</a>
+            </li>
+            <li>
+              <a href="resources.html#analytics-security"
+                >Recruitment Insights</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">WorkWay</h3>
+          <ul class="footer-list">
+            <li><a href="how.html#how-it-works">How It Works</a></li>
+            <li><a href="resources.html#future">Future Features</a></li>
+            <li><a href="resources.html">Career Resources</a></li>
+            <li><a href="index.html#get-started">Get Started</a></li>
+            <li><a href="#">Privacy &amp; Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-text">
+        &copy; 2026 WorkWay | All rights reserved | The WorkWay Team
+      </p>
+    </footer>
+
+    <!-- Linking Swiper script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
+    <!-- Linking Custom Script -->
+    <script src="script (2).js"></script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>
