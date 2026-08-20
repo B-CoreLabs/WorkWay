@@ -42,9 +42,7 @@ export const AuthService = {
   async signOut() {
     const { error } = await supabase.auth.signOut();
     if (error) console.warn('Sign out error:', error.message);
-    // Use relative path so it works on localhost AND hosted domains
-    const base = window.location.pathname.replace(/\/[^/]*$/, '');
-    window.location.href = base + '/index.html';
+    window.location.href = window.location.origin + '/index.html';
   },
 
   /**
@@ -83,33 +81,21 @@ export const AuthService = {
 
   /**
    * Redirect user to their appropriate portal dashboard based on role.
-   * Uses a base-path-aware redirect to work on localhost, file servers & production.
+   * Always resolves from origin root so paths are never relative to current page.
    */
   async routeUserByRole() {
     const profile = await this.getCurrentProfile();
-
-    // Compute root of the project regardless of current page depth
-    const pathParts = window.location.pathname.split('/');
-    // Find the WorkWay root by going up until we're at project root
-    let rootPath = '';
-    for (let i = pathParts.length - 1; i >= 0; i--) {
-      if (pathParts[i].toLowerCase().includes('portal') || pathParts[i] === '') {
-        continue;
-      }
-      rootPath = pathParts.slice(0, i + 1).join('/');
-      break;
-    }
-    if (!rootPath) rootPath = '';
+    const root = window.location.origin;
 
     if (!profile) {
-      window.location.href = rootPath + '/login.html';
+      window.location.href = root + '/login.html';
       return;
     }
 
     if (profile.role === 'recruiter') {
-      window.location.href = rootPath + '/Recruiter%20Portal/dashboard.html';
+      window.location.href = root + '/Recruiter%20Portal/dashboard.html';
     } else {
-      window.location.href = rootPath + '/Job%20Seeker%20Portal/dashboard.html';
+      window.location.href = root + '/Job%20Seeker%20Portal/dashboard.html';
     }
   },
 
