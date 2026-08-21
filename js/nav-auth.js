@@ -141,27 +141,23 @@ class NavigationController {
           </div>
 
           <div class="user-menu-wrapper" id="userMenuWrapper">
-            <button type="button" class="user-menu-btn" id="userMenuBtn" aria-label="Open Dashboard Hub">
-              <div class="dashboard-hub-pill">
-                <i class="fa-solid fa-gauge-high"></i>
-                <span>Dashboard</span>
-              </div>
+            <button type="button" class="user-menu-btn" id="userMenuBtn" aria-label="Open user menu">
               ${avatarMarkup}
-              <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
+              <span class="user-menu-name">${(profile.full_name || profile.email || 'User').split(' ')[0]}</span>
+              <i class="fa-solid fa-chevron-down user-menu-chevron"></i>
             </button>
-            <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown" id="userDropdown" role="menu" aria-label="User menu">
               <div class="user-dropdown-header">
                 <div style="display:flex; align-items:center; gap:12px;">
                   ${avatarMarkup}
                   <div style="flex:1; overflow:hidden;">
                     <strong style="font-size: 0.92rem; color: var(--text-primary); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${profile.full_name || 'User'}</strong>
-                    <span style="font-size: 0.75rem; color: var(--brand-blue); font-weight:700; text-transform: capitalize;">${profile.role === 'recruiter' ? '🏢 Recruiter Portal' : '🎓 Job Seeker Portal'}</span>
+                    <span style="font-size: 0.75rem; color: var(--brand-blue); font-weight:700;">${profile.role === 'recruiter' ? '🏢 Recruiter Portal' : '🎓 Job Seeker Portal'}</span>
                   </div>
                 </div>
               </div>
               <div class="user-dropdown-divider"></div>
-
-              <a href="${dashboardUrl}" class="dropdown-highlight-link">
+              <a href="${dashboardUrl}" class="dropdown-highlight-link" role="menuitem">
                 <i class="fa-solid fa-house-laptop" style="font-size: 1.1rem;"></i>
                 <div>
                   <strong style="font-size: 0.9rem; display:block;">Open My Dashboard</strong>
@@ -169,33 +165,9 @@ class NavigationController {
                 </div>
               </a>
               <div class="user-dropdown-divider"></div>
-
-              <div class="dropdown-section-title">PORTAL &amp; TOOLS</div>
-              ${profile.role === 'recruiter' ? `
-                <a href="post-job.html"><i class="fa-solid fa-circle-plus" style="color:#22c55e;"></i> Post a New Job</a>
-                <a href="manage-jobs.html"><i class="fa-solid fa-briefcase"></i> Manage Job Listings</a>
-                <a href="candidate-search.html"><i class="fa-solid fa-users-viewfinder" style="color:var(--brand-blue);"></i> AI Candidate Search</a>
-                <a href="recruiter-onboarding.html"><i class="fa-solid fa-building"></i> Company Profile</a>
-              ` : `
-                <a href="my-applications.html"><i class="fa-solid fa-file-signature" style="color:var(--brand-blue);"></i> My Applications</a>
-                <a href="saved-jobs.html"><i class="fa-solid fa-bookmark" style="color:var(--brand-gold);"></i> Saved Jobs</a>
-                <a href="profile.html"><i class="fa-solid fa-user-circle"></i> My Profile &amp; Photo</a>
-                <a href="profile-setup.html"><i class="fa-solid fa-id-card"></i> Profile Setup Wizard</a>
-                <a href="career-assessment.html"><i class="fa-solid fa-brain" style="color:#8b5cf6;"></i> AI Career Assessment</a>
-                <a href="resume-analysis.html"><i class="fa-solid fa-wand-magic-sparkles" style="color:#ec4899;"></i> AI Resume &amp; ATS Score</a>
-              `}
-
-              <div class="user-dropdown-divider"></div>
-              <div class="dropdown-section-title">COMMUNICATION</div>
-              <a href="messages.html"><i class="fa-solid fa-comments"></i> Messages &amp; Chat</a>
-              <a href="notifications.html"><i class="fa-solid fa-bell"></i> Notifications</a>
-
-              <div class="user-dropdown-divider"></div>
-              <div class="dropdown-section-title">SECURITY &amp; SETTINGS</div>
-              <a href="2fa-setup.html"><i class="fa-solid fa-shield-halved" style="color:#10b981;"></i> 2-Factor Authentication</a>
-              <a href="forgot-password.html"><i class="fa-solid fa-key"></i> Reset Password</a>
-              <div class="user-dropdown-divider"></div>
-              <button type="button" id="logoutBtn" style="color: #ef4444; font-weight:700;"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+              <button type="button" id="logoutBtn" role="menuitem" style="color: #ef4444; font-weight:700;">
+                <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+              </button>
             </div>
           </div>
         `;
@@ -208,11 +180,23 @@ class NavigationController {
         if (userMenuBtn && userDropdown) {
           userMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            userDropdown.classList.toggle('show');
+            const isOpen = userDropdown.classList.toggle('show');
+            userMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
           });
 
-          document.addEventListener('click', () => {
-            userDropdown.classList.remove('show');
+          document.addEventListener('click', (e) => {
+            if (!userDropdown.contains(e.target) && !userMenuBtn.contains(e.target)) {
+              userDropdown.classList.remove('show');
+              userMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && userDropdown.classList.contains('show')) {
+              userDropdown.classList.remove('show');
+              userMenuBtn.setAttribute('aria-expanded', 'false');
+              userMenuBtn.focus();
+            }
           });
         }
 

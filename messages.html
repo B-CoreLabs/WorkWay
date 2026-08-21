@@ -4,216 +4,359 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Messages — WorkWay</title>
+    <meta name="description" content="Communicate with recruiters and hiring managers in real-time on WorkWay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .messaging-page { padding: 100px 0 0; height: 100vh; display: flex; flex-direction: column; }
-      .messaging-layout {
+      .msg-container-box {
         display: grid;
-        grid-template-columns: 320px 1fr;
-        flex: 1;
+        grid-template-columns: 290px 1fr;
+        height: calc(100vh - 210px);
+        min-height: 520px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
         overflow: hidden;
-        border-top: 1px solid var(--border-color);
+        box-shadow: var(--shadow-sm);
       }
-      /* Left: Conversation List */
       .conv-sidebar {
-        border-right: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-subtle);
         background: var(--bg-card);
         display: flex;
         flex-direction: column;
         overflow: hidden;
       }
       .conv-sidebar-header {
-        padding: 20px 20px 14px;
+        padding: 16px;
         border-bottom: 1px solid var(--border-subtle);
       }
       .conv-search {
-        width: 100%; padding: 10px 14px;
+        width: 100%;
+        padding: 9px 14px;
         border: 1px solid var(--border-subtle);
         border-radius: var(--radius-full);
-        background: var(--bg-input); color: var(--text-primary);
-        font-size: 0.88rem; outline: none; font-family: 'Montserrat', sans-serif;
-        margin-top: 12px;
+        background: var(--bg-input);
+        color: var(--text-primary);
+        font-size: 0.84rem;
+        outline: none;
+        font-family: 'Montserrat', sans-serif;
+        margin-top: 10px;
       }
       .conv-list { flex: 1; overflow-y: auto; }
       .conv-item {
-        display: flex; align-items: center; gap: 14px;
-        padding: 16px 20px; cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        cursor: pointer;
         border-bottom: 1px solid var(--border-subtle);
         transition: background var(--transition-fast);
       }
       .conv-item:hover, .conv-item.active { background: var(--bg-tag); }
       .conv-avatar {
-        width: 44px; height: 44px; border-radius: 50%;
-        background: var(--brand-blue); color: #fff;
-        font-weight: 700; font-size: 1rem;
-        display: flex; align-items: center; justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
       }
-      .conv-name { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
-      .conv-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+      .conv-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
+      .conv-preview { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
       .unread-dot {
-        width: 8px; height: 8px; border-radius: 50%;
-        background: var(--brand-blue); margin-left: auto; flex-shrink: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        margin-left: auto;
+        flex-shrink: 0;
       }
-      /* Right: Active Chat */
       .chat-main {
-        display: flex; flex-direction: column; background: var(--bg-body); overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-body);
+        overflow: hidden;
       }
       .chat-header {
-        padding: 16px 24px; border-bottom: 1px solid var(--border-color);
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border-subtle);
         background: var(--bg-card);
-        display: flex; align-items: center; gap: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
       }
       .chat-messages {
-        flex: 1; overflow-y: auto; padding: 24px;
-        display: flex; flex-direction: column; gap: 14px;
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
       }
       .msg-bubble {
-        max-width: 60%; padding: 12px 16px;
+        max-width: 65%;
+        padding: 11px 16px;
         border-radius: 18px;
-        font-size: 0.9rem; line-height: 1.5;
+        font-size: 0.88rem;
+        line-height: 1.5;
         position: relative;
       }
       .msg-bubble.incoming {
-        background: var(--bg-card); border: 1px solid var(--border-subtle);
-        color: var(--text-primary); align-self: flex-start;
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        color: var(--text-primary);
+        align-self: flex-start;
         border-bottom-left-radius: 4px;
       }
       .msg-bubble.outgoing {
-        background: var(--brand-blue); color: #ffffff;
+        background: var(--brand-blue);
+        color: #ffffff;
         align-self: flex-end;
         border-bottom-right-radius: 4px;
       }
-      .msg-time { font-size: 0.72rem; opacity: 0.65; margin-top: 4px; }
+      .msg-time { font-size: 0.7rem; opacity: 0.7; margin-top: 4px; }
       .chat-input-bar {
-        padding: 16px 24px; border-top: 1px solid var(--border-color);
+        padding: 14px 20px;
+        border-top: 1px solid var(--border-subtle);
         background: var(--bg-card);
-        display: flex; gap: 12px; align-items: center;
+        display: flex;
+        gap: 10px;
+        align-items: center;
       }
       .chat-input {
-        flex: 1; padding: 12px 18px;
+        flex: 1;
+        padding: 10px 16px;
         border: 1px solid var(--border-color);
         border-radius: var(--radius-full);
-        background: var(--bg-input); color: var(--text-primary);
-        font-size: 0.9rem; outline: none;
+        background: var(--bg-input);
+        color: var(--text-primary);
+        font-size: 0.88rem;
+        outline: none;
         font-family: 'Montserrat', sans-serif;
-        transition: border-color var(--transition-fast);
       }
-      .chat-input:focus { border-color: var(--brand-blue); }
       .send-btn {
-        width: 44px; height: 44px; border-radius: 50%;
-        background: var(--brand-blue); color: #fff; border: none;
-        font-size: 1.1rem; cursor: pointer; display: flex;
-        align-items: center; justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: all var(--transition-fast);
       }
       .send-btn:hover { background: var(--brand-blue-hover); transform: scale(1.05); }
       .no-chat-placeholder {
-        flex: 1; display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        color: var(--text-muted); text-align: center; padding: 40px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        text-align: center;
+        padding: 30px;
       }
-      @media (max-width: 768px) {
-        .messaging-layout { grid-template-columns: 1fr; }
+      @media (max-width: 900px) {
+        .msg-container-box { grid-template-columns: 1fr; }
         .chat-main { display: none; }
         .chat-main.mobile-open { display: flex; }
       }
     </style>
   </head>
   <body>
+    <!-- Minimized Top Header for Dashboard view -->
     <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="jobs.html">Find Jobs</a>
-          <a href="profile.html">My Profile</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="messaging-page">
-      <div class="messaging-layout">
-        <!-- Conversation Sidebar -->
-        <aside class="conv-sidebar">
-          <div class="conv-sidebar-header">
-            <h2 style="font-size:1.1rem;font-weight:800;color:var(--text-primary);">Messages</h2>
-            <input type="text" class="conv-search" placeholder="Search conversations..." id="convSearch" />
-          </div>
-          <div class="conv-list" id="convList">
-            <!-- Demo conversations -->
-            <div class="conv-item active" onclick="openChat('Josephine Ngom', 'JN', 'Recruiter at Afriland First Bank')">
-              <div class="conv-avatar" style="background:#0145b2;">JN</div>
-              <div style="flex:1;overflow:hidden;">
-                <div class="conv-name">Josephine Ngom</div>
-                <div class="conv-preview">Your application was reviewed. We'd like to...</div>
-              </div>
-              <div class="unread-dot"></div>
-            </div>
-            <div class="conv-item" onclick="openChat('Paul Ekema', 'PE', 'HR Director at Razel-BEC')">
-              <div class="conv-avatar" style="background:#7c3aed;">PE</div>
-              <div style="flex:1;overflow:hidden;">
-                <div class="conv-name">Paul Ekema</div>
-                <div class="conv-preview">Please confirm your availability for a call on...</div>
-              </div>
-            </div>
-            <div class="conv-item" onclick="openChat('WorkWay Support', 'WW', 'WorkWay Platform Support')">
-              <div class="conv-avatar" style="background:var(--brand-gold);color:#000;">WW</div>
-              <div style="flex:1;overflow:hidden;">
-                <div class="conv-name">WorkWay Support</div>
-                <div class="conv-preview">Welcome to WorkWay! Your profile is 75% complete.</div>
-              </div>
-            </div>
-          </div>
-        </aside>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Chat Main Area -->
-        <div class="chat-main" id="chatMain">
-          <!-- Default placeholder -->
-          <div class="no-chat-placeholder" id="chatPlaceholder">
-            <i class="fa-solid fa-comments" style="font-size:3rem;opacity:0.2;margin-bottom:16px;"></i>
-            <p>Select a conversation to start messaging</p>
-          </div>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-          <!-- Active chat -->
-          <div id="activeChatArea" style="display:none;flex:1;flex-direction:column;overflow:hidden;display:flex;">
-            <div class="chat-header" id="chatHeader">
-              <div class="conv-avatar" id="chatAvatar">JN</div>
-              <div>
-                <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);" id="chatName">Contact Name</div>
-                <div style="font-size:0.78rem;color:var(--text-muted);" id="chatRole">Role / Company</div>
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
               </div>
             </div>
 
-            <div class="chat-messages" id="chatMessages">
-              <div class="msg-bubble incoming">
-                Hello! Thank you for applying to the Senior Financial Analyst position. We were impressed with your profile and would like to schedule an initial interview.
-                <div class="msg-time">2:15 PM</div>
-              </div>
-              <div class="msg-bubble outgoing">
-                Thank you so much for reaching out! I'm very excited about this opportunity. I'm available any day next week between 9AM and 4PM.
-                <div class="msg-time">2:32 PM</div>
-              </div>
-              <div class="msg-bubble incoming">
-                Perfect! Let's schedule a video call for Tuesday at 10AM. I'll send the meeting link shortly.
-                <div class="msg-time">2:40 PM</div>
-              </div>
-            </div>
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
 
-            <div class="chat-input-bar">
-              <input type="text" class="chat-input" id="msgInput" placeholder="Type your message..." onkeydown="sendMsg(event)" />
-              <button class="send-btn" onclick="sendMsgBtn()">
-                <i class="fa-solid fa-paper-plane"></i>
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
               </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: Chat Main Area ────────────── -->
+          <div class="dash-main">
+            <div class="dash-main-header" style="margin-bottom: 0;">
+              <div>
+                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Messages &amp; Chat</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Direct conversations with recruiters and hiring managers</p>
+              </div>
+            </div>
+
+            <div class="msg-container-box">
+              <!-- Conversation Sidebar -->
+              <aside class="conv-sidebar">
+                <div class="conv-sidebar-header">
+                  <strong style="font-size: 0.95rem; color: var(--text-primary);">Inbox</strong>
+                  <input type="text" class="conv-search" placeholder="Search conversations..." id="convSearch" />
+                </div>
+                <div class="conv-list" id="convList">
+                  <div class="conv-item active" onclick="openChat('Josephine Ngom', 'JN', 'Recruiter at Afriland First Bank')">
+                    <div class="conv-avatar" style="background:#0145b2;">JN</div>
+                    <div style="flex:1;overflow:hidden;">
+                      <div class="conv-name">Josephine Ngom</div>
+                      <div class="conv-preview">Your application was reviewed. We'd like to...</div>
+                    </div>
+                    <div class="unread-dot"></div>
+                  </div>
+                  <div class="conv-item" onclick="openChat('Paul Ekema', 'PE', 'HR Director at Razel-BEC')">
+                    <div class="conv-avatar" style="background:#7c3aed;">PE</div>
+                    <div style="flex:1;overflow:hidden;">
+                      <div class="conv-name">Paul Ekema</div>
+                      <div class="conv-preview">Please confirm your availability for a call on...</div>
+                    </div>
+                  </div>
+                  <div class="conv-item" onclick="openChat('WorkWay Support', 'WW', 'WorkWay Platform Support')">
+                    <div class="conv-avatar" style="background:var(--brand-gold);color:#000;">WW</div>
+                    <div style="flex:1;overflow:hidden;">
+                      <div class="conv-name">WorkWay Support</div>
+                      <div class="conv-preview">Welcome to WorkWay! Your profile is 75% complete.</div>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+              <!-- Active Chat -->
+              <div class="chat-main" id="chatMain">
+                <div class="no-chat-placeholder" id="chatPlaceholder" style="display: none;">
+                  <i class="fa-solid fa-comments" style="font-size: 2.5rem; opacity: 0.2; margin-bottom: 12px;"></i>
+                  <p>Select a conversation to start messaging</p>
+                </div>
+
+                <div id="activeChatArea" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+                  <div class="chat-header" id="chatHeader">
+                    <div class="conv-avatar" id="chatAvatar">JN</div>
+                    <div>
+                      <div style="font-weight:700;font-size:0.92rem;color:var(--text-primary);" id="chatName">Josephine Ngom</div>
+                      <div style="font-size:0.76rem;color:var(--text-muted);" id="chatRole">Recruiter at Afriland First Bank</div>
+                    </div>
+                  </div>
+
+                  <div class="chat-messages" id="chatMessages">
+                    <div class="msg-bubble incoming">
+                      Hello! Thank you for applying to the Senior Financial Analyst position. We were impressed with your profile and would like to schedule an initial interview.
+                      <div class="msg-time">2:15 PM</div>
+                    </div>
+                    <div class="msg-bubble outgoing">
+                      Thank you so much for reaching out! I'm very excited about this opportunity. I'm available any day next week between 9AM and 4PM.
+                      <div class="msg-time">2:32 PM</div>
+                    </div>
+                    <div class="msg-bubble incoming">
+                      Perfect! Let's schedule a video call for Tuesday at 10AM. I'll send the meeting link shortly.
+                      <div class="msg-time">2:40 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="chat-input-bar">
+                    <input type="text" class="chat-input" id="msgInput" placeholder="Type your message..." onkeydown="sendMsg(event)" />
+                    <button class="send-btn" onclick="sendMsgBtn()" aria-label="Send Message">
+                      <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -226,16 +369,11 @@
       document.addEventListener('DOMContentLoaded', async () => {
         const user = await AuthService.getCurrentProfile();
         if (!user) { window.location.href = 'login.html'; return; }
-
-        // Show first conv by default on desktop
-        if (window.innerWidth > 768) {
-          openChat('Josephine Ngom', 'JN', 'Recruiter at Afriland First Bank');
-        }
       });
 
       window.openChat = function(name, initials, role) {
         document.querySelectorAll('.conv-item').forEach(i => i.classList.remove('active'));
-        event?.currentTarget?.classList.add('active');
+        if (event?.currentTarget) event.currentTarget.classList.add('active');
 
         document.getElementById('chatPlaceholder').style.display = 'none';
         document.getElementById('activeChatArea').style.display = 'flex';
@@ -259,6 +397,7 @@
         input.value = '';
       };
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

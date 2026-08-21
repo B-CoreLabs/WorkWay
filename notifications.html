@@ -4,17 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notifications — WorkWay</title>
+    <meta name="description" content="Stay updated on job matches, application status changes, recruiter views, and interview invites on WorkWay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .page-wrapper { padding: 100px 0 80px; }
       .notif-card {
-        display: flex; align-items: flex-start; gap: 16px;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
         padding: 18px 20px;
         border-bottom: 1px solid var(--border-subtle);
         transition: background var(--transition-fast);
@@ -22,48 +25,152 @@
       }
       .notif-card:hover { background: var(--bg-card-subtle); }
       .notif-card.unread { background: var(--brand-blue-light); }
-      .notif-card.unread:hover { background: rgba(1,69,178,0.08); }
+      .notif-card.unread:hover { background: rgba(1, 69, 178, 0.08); }
       .notif-icon {
-        width: 44px; height: 44px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.1rem; flex-shrink: 0;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        flex-shrink: 0;
       }
-      .notif-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+      .notif-text { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
       .notif-text strong { color: var(--text-primary); }
-      .notif-time { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
-      .notif-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand-blue); flex-shrink: 0; margin-top: 6px; }
+      .notif-time { font-size: 0.76rem; color: var(--text-muted); margin-top: 4px; }
+      .notif-unread-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
     </style>
   </head>
   <body>
+    <!-- Minimized Top Header for Dashboard view -->
     <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="jobs.html">Find Jobs</a>
-          <a href="messages.html">Messages</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="page-wrapper">
-      <div class="container" style="max-width:800px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-          <h1 style="font-size:1.8rem;font-weight:800;color:var(--text-primary);">Notifications</h1>
-          <button id="markAllBtn" class="btn btn-secondary" style="padding:9px 18px;font-size:0.82rem;background:transparent;border-color:var(--border-color);color:var(--text-secondary);" onclick="markAllRead()">
-            <i class="fa-solid fa-check-double"></i> Mark all as read
-          </button>
-        </div>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="card-standard" style="padding:0;overflow:hidden;">
-          <div id="notifList">
-            <!-- Skeleton -->
-            <div class="notif-card">
-              <div class="skeleton" style="width:44px;height:44px;border-radius:50%;flex-shrink:0;"></div>
-              <div style="flex:1;"><div class="skeleton skel-row" style="width:80%;height:13px;margin-bottom:8px;"></div><div class="skeleton skel-row" style="width:40%;height:10px;"></div></div>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
+
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
+              </div>
+            </div>
+
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: Notifications Main Area ───── -->
+          <div class="dash-main">
+            <div class="dash-main-header">
+              <div>
+                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Notifications</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Updates on applications, recruiter visits, and job matches</p>
+              </div>
+              <button id="markAllBtn" class="btn btn-secondary" style="padding: 9px 18px; font-size: 0.82rem; background: transparent; border-color: var(--border-color); color: var(--text-secondary);" onclick="markAllRead()">
+                <i class="fa-solid fa-check-double"></i> Mark all as read
+              </button>
+            </div>
+
+            <div class="card-standard" style="padding: 0; overflow: hidden;">
+              <div id="notifList">
+                <div class="notif-card">
+                  <div class="skeleton" style="width:42px;height:42px;border-radius:50%;flex-shrink:0;"></div>
+                  <div style="flex:1;">
+                    <div class="skeleton skel-row" style="width:80%;height:13px;margin-bottom:8px;"></div>
+                    <div class="skeleton skel-row" style="width:40%;height:10px;"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -117,7 +224,6 @@
         }).join('');
       }
 
-      // Demo notifications when DB is empty
       function getDemoNotifs() {
         return [
           { id: '1', notification_type: 'profile_viewed', content: '<strong>Josephine Ngom</strong> from Afriland First Bank viewed your profile.', created_at: new Date(Date.now() - 3600*1000).toISOString(), is_read: false },
@@ -156,6 +262,7 @@
         });
       };
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

@@ -4,162 +4,256 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Career &amp; Personality Assessment — WorkWay</title>
+    <meta name="description" content="Discover your work personality, leadership style, and career match insights with WorkWay AI Assessment." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .quiz-container {
-        padding: 120px 20px 80px;
-        max-width: 860px;
-        margin: 0 auto;
-      }
       .quiz-card {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
         border-radius: var(--radius-xl);
-        padding: 44px;
-        box-shadow: var(--shadow-md);
+        padding: 36px;
+        box-shadow: var(--shadow-sm);
       }
       .question-box {
-        margin-bottom: 28px;
+        margin-bottom: 24px;
       }
       .question-title {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         font-weight: 700;
         color: var(--text-primary);
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
       .option-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 14px 18px;
-        border: 2px solid var(--border-subtle);
+        padding: 12px 16px;
+        border: 1.5px solid var(--border-subtle);
         border-radius: var(--radius-md);
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         cursor: pointer;
         transition: all var(--transition-fast);
         background: var(--bg-surface);
+        font-size: 0.9rem;
       }
       .option-item:hover {
         border-color: var(--brand-blue);
         background: var(--bg-tag);
       }
-      .option-item.selected {
-        border-color: var(--brand-blue);
-        background: var(--brand-blue-light);
-      }
       .results-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-top: 24px;
+        gap: 16px;
+        margin-top: 20px;
       }
       .result-stat-box {
         background: var(--bg-card-subtle);
-        padding: 20px;
+        padding: 18px;
         border-radius: var(--radius-md);
         border: 1px solid var(--border-subtle);
       }
       .result-stat-box h4 {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         text-transform: uppercase;
         color: var(--text-muted);
         margin-bottom: 6px;
       }
       .result-stat-box .val {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         font-weight: 800;
         color: var(--brand-blue);
+      }
+      .tag-pill {
+        display: inline-block;
+        background: var(--bg-tag);
+        color: var(--brand-blue);
+        padding: 6px 14px;
+        border-radius: var(--radius-full);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin: 4px;
+      }
+      @media (max-width: 768px) {
+        .quiz-card { padding: 24px 18px; }
+        .results-grid { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
+    <!-- Minimized Top Header for Dashboard view -->
+    <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="profile.html">My Profile</a>
-          <a href="resources.html">Resources</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="quiz-container">
-      <!-- Quiz Interface -->
-      <div class="quiz-card" id="quizView">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
-          <span class="tag-pill" style="background: var(--brand-blue-light); color: var(--brand-blue);">AI Career Signal</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);" id="quizProgress">Question 1 of 5</span>
-        </div>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">Career &amp; Personality Assessment</h1>
-        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 32px;">Answer 5 quick situational questions to evaluate your problem-solving style, communication patterns, and work-mode alignment.</p>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-        <form id="quizForm">
-          <div id="questionsContainer">
-            <!-- Questions rendered via JS -->
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
+              </div>
+            </div>
+
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: Assessment Content Area ───── -->
+          <div class="dash-main">
+            <!-- Quiz Interface -->
+            <div class="quiz-card" id="quizView">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <span class="tag-pill" style="background: var(--brand-blue-light); color: var(--brand-blue);">AI Career Signal</span>
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);" id="quizProgress">Question 1 of 5</span>
+              </div>
+
+              <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px;">Career &amp; Personality Assessment</h1>
+              <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 28px;">Answer 5 situational questions to evaluate your problem-solving style, communication patterns, and career path alignment.</p>
+
+              <form id="quizForm">
+                <div id="questionsContainer"></div>
+
+                <div style="margin-top: 28px; display: flex; justify-content: flex-end;">
+                  <button type="submit" id="submitQuizBtn" class="btn btn-primary" style="padding: 12px 30px;">
+                    Compute Career Match Profile <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Results Interface -->
+            <div class="quiz-card" id="resultsView" style="display: none;">
+              <div style="text-align: center; margin-bottom: 28px;">
+                <div style="width: 64px; height: 64px; border-radius: 50%; background: #dcfce7; color: #166534; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+                  <i class="fa-solid fa-award"></i>
+                </div>
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-primary);">Assessment Completed!</h2>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">Your responses have been processed and fed into your AI job-recommendation profile.</p>
+              </div>
+
+              <div class="results-grid">
+                <div class="result-stat-box">
+                  <h4>Personality Style</h4>
+                  <div class="val" id="resPersonality" style="font-size: 1.2rem;">Strategic Innovator</div>
+                </div>
+                <div class="result-stat-box">
+                  <h4>Work Preference Alignment</h4>
+                  <div class="val" id="resScore">92.5%</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 24px;">
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Top Identified Strengths</h3>
+                <div id="resStrengths">
+                  <span class="tag-pill">Strategic Systems Thinking</span>
+                  <span class="tag-pill">Cross-Functional Leadership</span>
+                  <span class="tag-pill">Data-Driven Problem Solving</span>
+                </div>
+              </div>
+
+              <div style="margin-top: 24px;">
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Recommended Career Paths</h3>
+                <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-secondary);" id="resCareers">
+                  <li>Senior Project Engineer / Technical Lead</li>
+                  <li>Enterprise Solutions Architect</li>
+                  <li>Infrastructure Operations Manager</li>
+                </ul>
+              </div>
+
+              <div style="margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap;">
+                <a href="jobs.html" class="btn btn-primary" style="flex: 1; text-align: center;">View Recommended Jobs</a>
+                <a href="profile.html" class="btn btn-secondary" style="flex: 1; text-align: center;">Go to My Profile</a>
+              </div>
+            </div>
           </div>
-
-          <div style="margin-top: 32px; display: flex; justify-content: flex-end;">
-            <button type="submit" id="submitQuizBtn" class="btn btn-primary" style="padding: 14px 36px;">
-              Compute Career Match Profile <i class="fa-solid fa-wand-magic-sparkles"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Results Interface -->
-      <div class="quiz-card" id="resultsView" style="display: none;">
-        <div style="text-align: center; margin-bottom: 28px;">
-          <div style="width: 70px; height: 70px; border-radius: 50%; background: #dcfce7; color: #166534; font-size: 2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-            <i class="fa-solid fa-award"></i>
-          </div>
-          <h2 style="font-size: 1.7rem; font-weight: 800; color: var(--text-primary);">Assessment Completed!</h2>
-          <p style="font-size: 0.95rem; color: var(--text-muted);">Your responses have been processed and fed into your AI job-recommendation profile.</p>
-        </div>
-
-        <div class="results-grid">
-          <div class="result-stat-box">
-            <h4>Personality Style</h4>
-            <div class="val" id="resPersonality" style="font-size: 1.25rem;">Strategic Innovator</div>
-          </div>
-          <div class="result-stat-box">
-            <h4>Work Preference Alignment</h4>
-            <div class="val" id="resScore">92.5%</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 24px;">
-          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Top Identified Strengths</h3>
-          <div id="resStrengths">
-            <span class="tag-pill">Strategic Systems Thinking</span>
-            <span class="tag-pill">Cross-Functional Leadership</span>
-            <span class="tag-pill">Data-Driven Problem Solving</span>
-          </div>
-        </div>
-
-        <div style="margin-top: 24px;">
-          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Recommended Career Paths</h3>
-          <ul style="padding-left: 20px; line-height: 1.8; color: var(--text-secondary);" id="resCareers">
-            <li>Senior Project Engineer / Technical Lead</li>
-            <li>Enterprise Solutions Architect</li>
-            <li>Infrastructure Operations Manager</li>
-          </ul>
-        </div>
-
-        <div style="margin-top: 32px; display: flex; gap: 14px;">
-          <a href="jobs.html" class="btn btn-primary" style="flex: 1; text-align: center;">View Recommended Jobs</a>
-          <a href="profile.html" class="btn btn-secondary" style="flex: 1; text-align: center;">Go to My Profile</a>
         </div>
       </div>
     </main>
@@ -265,6 +359,7 @@
         }
       });
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

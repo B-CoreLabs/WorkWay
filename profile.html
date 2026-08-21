@@ -4,25 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Profile — WorkWay</title>
+    <meta name="description" content="View and manage your candidate profile, uploaded resume versions, skills, and work history on WorkWay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .profile-layout {
-        padding: 120px 20px 80px;
-        max-width: 1280px;
-        margin: 0 auto;
+      .profile-grid {
         display: grid;
-        grid-template-columns: 340px 1fr;
-        gap: 32px;
-      }
-      .profile-sidebar {
-        display: flex;
-        flex-direction: column;
+        grid-template-columns: 320px 1fr;
         gap: 24px;
       }
       .profile-avatar-box {
@@ -31,12 +25,12 @@
         border-radius: 50%;
         background: var(--brand-blue);
         color: #ffffff;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 800;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 16px;
+        margin: 0 auto;
       }
       .tag-pill {
         display: inline-block;
@@ -57,132 +51,218 @@
         border-radius: var(--radius-md);
         margin-bottom: 12px;
         background: var(--bg-card-subtle);
+        gap: 12px;
       }
-      @media (max-width: 900px) {
-        .profile-layout {
+      @media (max-width: 1100px) {
+        .profile-grid {
           grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
+    <!-- Minimized Top Header for Dashboard view -->
+    <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="my-applications.html">My Applications</a>
-          <a href="career-assessment.html">Assessments</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="profile-layout">
-      <!-- Left Sidebar -->
-      <aside class="profile-sidebar">
-        <div class="card-standard" style="text-align: center;">
-          <div class="avatar-upload-wrapper" style="position: relative; width: 110px; height: 110px; margin: 0 auto 16px;">
-            <div class="profile-avatar-box" id="avatarBox" style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; margin: 0; box-shadow: 0 0 0 4px var(--brand-gold-light), 0 0 0 6px var(--brand-gold);">
-              JS
-            </div>
-            <label for="avatarFileInput" id="avatarEditBadge" class="avatar-edit-badge" title="Upload Profile Picture" style="position: absolute; bottom: 0; right: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-gold); color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid #ffffff; transition: transform var(--transition-fast);">
-              <i class="fa-solid fa-camera" style="font-size: 0.85rem;"></i>
-            </label>
-            <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display: none;" />
-          </div>
-          <div id="avatarUploadStatus" style="font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; display: none;"></div>
-          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);" id="profName">Loading...</h2>
-          <p style="font-size: 0.88rem; color: var(--brand-blue); font-weight: 600; margin-bottom: 16px;" id="profHeadline">Candidate</p>
-          <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
-            <i class="fa-solid fa-location-dot"></i> <span id="profLocation">Cameroon</span>
-          </div>
-          <div style="display: flex; gap: 10px; justify-content: center;">
-            <a href="resume-analysis.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.78rem;">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> AI CV Analysis
-            </a>
-          </div>
-        </div>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="card-standard">
-          <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 14px;">Preferences</h3>
-          <div style="font-size: 0.88rem; line-height: 1.8; color: var(--text-secondary);">
-            <div><strong>Target Role:</strong> <span id="prefRole">Not specified</span></div>
-            <div><strong>Expected Salary:</strong> <span id="prefSalary">XAF</span></div>
-            <div><strong>Work Mode:</strong> <span id="prefMode">Hybrid</span></div>
-          </div>
-        </div>
-      </aside>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-      <!-- Main Profile Body -->
-      <section style="display: flex; flex-direction: column; gap: 24px;">
-        <!-- Bio & Summary -->
-        <div class="card-standard">
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">About &amp; Summary</h3>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;" id="profBio">
-            No bio provided yet. Complete your profile setup to share your experience.
-          </p>
-        </div>
-
-        <!-- Skills -->
-        <div class="card-standard">
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">Verified Skills</h3>
-          <div id="skillsContainer">
-            <span class="tag-pill">Project Management</span>
-            <span class="tag-pill">Engineering Design</span>
-            <span class="tag-pill">Bilingual FR/EN</span>
-          </div>
-        </div>
-
-        <!-- Multiple CV Versions Management -->
-        <div class="card-standard">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Resume / CV Versions</h3>
-            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.78rem;" onclick="alert('Upload new resume version dialog opened.')">
-              <i class="fa-solid fa-plus"></i> Upload New Version
-            </button>
-          </div>
-
-          <div class="cv-version-row">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <i class="fa-solid fa-file-pdf" style="font-size: 1.8rem; color: #ef4444;"></i>
-              <div>
-                <strong style="color: var(--text-primary); font-size: 0.95rem;">Primary_Technical_Resume_2026.pdf</strong>
-                <div style="font-size: 0.78rem; color: var(--text-muted);">Uploaded Aug 2026 &bull; ATS Compatibility 88%</div>
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
               </div>
             </div>
-            <span class="tag-pill" style="background: #dcfce7; color: #166534;">Active Primary</span>
-          </div>
 
-          <div class="cv-version-row">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <i class="fa-solid fa-file-lines" style="font-size: 1.8rem; color: var(--brand-blue);"></i>
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: Main Profile Area ─────────── -->
+          <div class="dash-main">
+            <div class="dash-main-header">
               <div>
-                <strong style="color: var(--text-primary); font-size: 0.95rem;">Executive_Consultancy_Resume.docx</strong>
-                <div style="font-size: 0.78rem; color: var(--text-muted);">Uploaded Jul 2026 &bull; ATS Compatibility 84%</div>
+                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">My Profile</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage your professional profile and resume versions</p>
+              </div>
+              <a href="profile-setup.html" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit Profile Wizard</a>
+            </div>
+
+            <div class="profile-grid">
+              <!-- Left Profile Card -->
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card-standard" style="text-align: center;">
+                  <div class="avatar-upload-wrapper" style="position: relative; width: 110px; height: 110px; margin: 0 auto 16px;">
+                    <div class="profile-avatar-box" id="avatarBox" style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; margin: 0; box-shadow: 0 0 0 4px var(--brand-gold-light), 0 0 0 6px var(--brand-gold);">
+                      JS
+                    </div>
+                    <label for="avatarFileInput" id="avatarEditBadge" class="avatar-edit-badge" title="Upload Profile Picture" style="position: absolute; bottom: 0; right: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-gold); color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid #ffffff; transition: transform var(--transition-fast);">
+                      <i class="fa-solid fa-camera" style="font-size: 0.85rem;"></i>
+                    </label>
+                    <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display: none;" />
+                  </div>
+                  <div id="avatarUploadStatus" style="font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; display: none;"></div>
+                  <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary);" id="profName">Candidate</h2>
+                  <p style="font-size: 0.86rem; color: var(--brand-blue); font-weight: 600; margin-bottom: 14px;" id="profHeadline">Candidate</p>
+                  <div style="font-size: 0.84rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 18px;">
+                    <i class="fa-solid fa-location-dot"></i> <span id="profLocation">Cameroon</span>
+                  </div>
+                  <div style="display: flex; gap: 10px; justify-content: center;">
+                    <a href="resume-analysis.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.78rem; width: 100%;">
+                      <i class="fa-solid fa-wand-magic-sparkles"></i> AI CV Analysis
+                    </a>
+                  </div>
+                </div>
+
+                <div class="card-standard">
+                  <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px;">Job Preferences</h3>
+                  <div style="font-size: 0.86rem; line-height: 1.8; color: var(--text-secondary);">
+                    <div><strong>Target Role:</strong> <span id="prefRole">Not specified</span></div>
+                    <div><strong>Expected Salary:</strong> <span id="prefSalary">XAF</span></div>
+                    <div><strong>Work Mode:</strong> <span id="prefMode">Hybrid</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Profile Details Body -->
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- Bio & Summary -->
+                <div class="card-standard">
+                  <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">About &amp; Summary</h3>
+                  <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6;" id="profBio">
+                    No bio provided yet. Complete your profile setup to share your experience.
+                  </p>
+                </div>
+
+                <!-- Skills -->
+                <div class="card-standard">
+                  <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">Verified Skills</h3>
+                  <div id="skillsContainer">
+                    <span class="tag-pill">Project Management</span>
+                    <span class="tag-pill">Engineering Design</span>
+                    <span class="tag-pill">Bilingual FR/EN</span>
+                  </div>
+                </div>
+
+                <!-- Multiple CV Versions Management -->
+                <div class="card-standard">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                    <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Resume / CV Versions</h3>
+                    <a href="profile-setup.html" class="btn btn-secondary" style="padding: 7px 14px; font-size: 0.78rem;">
+                      <i class="fa-solid fa-plus"></i> Upload New Version
+                    </a>
+                  </div>
+
+                  <div class="cv-version-row">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                      <i class="fa-solid fa-file-pdf" style="font-size: 1.8rem; color: #ef4444;"></i>
+                      <div>
+                        <strong style="color: var(--text-primary); font-size: 0.92rem;">Primary_Technical_Resume_2026.pdf</strong>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">Uploaded Aug 2026 &bull; ATS Compatibility 88%</div>
+                      </div>
+                    </div>
+                    <span class="tag-pill" style="background: #dcfce7; color: #166534;">Active Primary</span>
+                  </div>
+                </div>
+
+                <!-- Experience History -->
+                <div class="card-standard">
+                  <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">Work Experience History</h3>
+                  <div id="experienceList">
+                    <div style="padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">
+                      <h4 style="font-size: 0.95rem; color: var(--text-primary); font-weight: 700;">Senior Project Engineer</h4>
+                      <div style="font-size: 0.84rem; color: var(--brand-blue); font-weight: 600;">Razel-BEC Cameroun &bull; Douala</div>
+                      <p style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 6px;">Supervised highway corridor construction, aggregate testing, and team safety compliance across national infrastructure routes.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.75rem; background: transparent; color: var(--text-secondary); border-color: var(--border-color);">
-              Set as Primary
-            </button>
           </div>
         </div>
-
-        <!-- Experience History -->
-        <div class="card-standard">
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">Work Experience History</h3>
-          <div id="experienceList">
-            <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle);">
-              <h4 style="font-size: 1rem; color: var(--text-primary); font-weight: 700;">Senior Project Engineer</h4>
-              <div style="font-size: 0.85rem; color: var(--brand-blue); font-weight: 600;">Razel-BEC Cameroun &bull; Douala</div>
-              <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 6px;">Supervised highway corridor construction, aggregate testing, and team safety compliance across national infrastructure routes.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
 
     <script type="module">
@@ -207,7 +287,6 @@
         activeUserId = targetUserId;
         isOwner = currentUser && (currentUser.id === targetUserId);
 
-        // Hide upload badge if viewing someone else's profile
         if (!isOwner) {
           const editBadge = document.getElementById('avatarEditBadge');
           if (editBadge) editBadge.style.display = 'none';
@@ -222,7 +301,6 @@
         document.getElementById('profLocation').textContent = p.location || 'Cameroon';
         if (p.bio) document.getElementById('profBio').textContent = p.bio;
 
-        // Render Avatar (Photo or Initials)
         renderAvatar(p);
 
         if (d.desired_role) document.getElementById('prefRole').textContent = d.desired_role;
@@ -246,64 +324,55 @@
         }
       }
 
-      // Profile Picture Upload Handler with Cybersecurity Sanitization
       const fileInput = document.getElementById('avatarFileInput');
       const uploadStatus = document.getElementById('avatarUploadStatus');
 
-      fileInput.addEventListener('change', async (e) => {
-        const file = e.target.files?.[0];
-        if (!file || !activeUserId) return;
+      if (fileInput) {
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files?.[0];
+          if (!file || !activeUserId) return;
 
-        // Cybersecurity Guard 1: MIME-Type Whitelist
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-        if (!allowedTypes.includes(file.type)) {
-          showStatus('Security notice: Only valid images (JPEG, PNG, WebP, GIF) are accepted.', '#ef4444');
-          fileInput.value = '';
-          return;
-        }
+          const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+          if (!allowedTypes.includes(file.type)) {
+            showStatus('Security notice: Only valid images (JPEG, PNG, WebP, GIF) are accepted.', '#ef4444');
+            fileInput.value = '';
+            return;
+          }
 
-        // Cybersecurity Guard 2: File Size Cap (5MB max to prevent payload abuse)
-        const maxSize = 5 * 1024 * 1024;
-        if (file.size > maxSize) {
-          showStatus('File exceeds maximum allowed size (5 MB). Please choose a smaller image.', '#ef4444');
-          fileInput.value = '';
-          return;
-        }
+          const maxSize = 5 * 1024 * 1024;
+          if (file.size > maxSize) {
+            showStatus('File exceeds maximum allowed size (5 MB). Please choose a smaller image.', '#ef4444');
+            fileInput.value = '';
+            return;
+          }
 
-        showStatus('<i class="fa-solid fa-spinner fa-spin"></i> Encrypting & uploading avatar...', 'var(--brand-blue)');
-        const avatarBox = document.getElementById('avatarBox');
-        const prevContent = avatarBox.innerHTML;
-        avatarBox.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: #ffffff;"></i>';
+          showStatus('<i class="fa-solid fa-spinner fa-spin"></i> Uploading avatar...', 'var(--brand-blue)');
+          const avatarBox = document.getElementById('avatarBox');
+          const prevContent = avatarBox.innerHTML;
+          avatarBox.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: #ffffff;"></i>';
 
-        try {
-          // Upload to Supabase Storage 'avatars' bucket
-          const publicUrl = await StorageService.uploadAvatar(activeUserId, file);
+          try {
+            const publicUrl = await StorageService.uploadAvatar(activeUserId, file);
+            const { error: dbError } = await supabase
+              .from('profiles')
+              .update({ avatar_url: publicUrl, updated_at: new Date().toISOString() })
+              .eq('id', activeUserId);
 
-          // Update user's profile record in database
-          const { error: dbError } = await supabase
-            .from('profiles')
-            .update({ 
-              avatar_url: publicUrl,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', activeUserId);
+            if (dbError) throw dbError;
 
-          if (dbError) throw dbError;
+            avatarBox.innerHTML = `<img src="${publicUrl}" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" />`;
+            showStatus('✅ Profile picture updated successfully!', '#15803d');
 
-          // Update UI
-          avatarBox.innerHTML = `<img src="${publicUrl}" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" />`;
-          showStatus('✅ Profile picture updated successfully!', '#15803d');
-
-          setTimeout(() => {
-            uploadStatus.style.display = 'none';
-          }, 3500);
-
-        } catch (err) {
-          console.error('Avatar upload failed:', err);
-          avatarBox.innerHTML = prevContent;
-          showStatus('Upload failed: ' + (err.message || 'Storage error'), '#ef4444');
-        }
-      });
+            setTimeout(() => {
+              uploadStatus.style.display = 'none';
+            }, 3500);
+          } catch (err) {
+            console.error('Avatar upload failed:', err);
+            avatarBox.innerHTML = prevContent;
+            showStatus('Upload failed: ' + (err.message || 'Storage error'), '#ef4444');
+          }
+        });
+      }
 
       function showStatus(msg, color) {
         uploadStatus.innerHTML = msg;
@@ -311,6 +380,7 @@
         uploadStatus.style.display = 'block';
       }
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

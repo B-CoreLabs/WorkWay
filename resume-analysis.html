@@ -4,35 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Resume Analysis &amp; ATS Score — WorkWay</title>
+    <meta name="description" content="AI Resume diagnostics, ATS compatibility breakdown, and actionable suggestions to maximize employer callbacks on WorkWay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .analysis-wrapper {
-        padding: 120px 20px 80px;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
       .score-banner {
         background: linear-gradient(135deg, var(--brand-blue) 0%, #002566 100%);
         border-radius: var(--radius-xl);
-        padding: 40px;
+        padding: 32px;
         color: #ffffff;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 32px;
-        box-shadow: var(--shadow-lg);
+        box-shadow: var(--shadow-sm);
         flex-wrap: wrap;
-        gap: 24px;
+        gap: 20px;
       }
       .score-circle {
-        width: 120px;
-        height: 120px;
+        width: 105px;
+        height: 105px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.15);
         border: 4px solid var(--brand-gold);
@@ -40,15 +36,16 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
       }
       .score-val {
-        font-size: 2.2rem;
+        font-size: 2rem;
         font-weight: 800;
         color: #ffffff;
         line-height: 1;
       }
       .score-label {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
         font-weight: 700;
         color: var(--brand-gold);
@@ -56,8 +53,7 @@
       .analysis-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 24px;
-        margin-bottom: 32px;
+        gap: 20px;
       }
       .suggestion-item {
         display: flex;
@@ -78,131 +74,229 @@
         justify-content: center;
         flex-shrink: 0;
       }
+      .tag-pill {
+        display: inline-block;
+        background: var(--bg-tag);
+        color: var(--brand-blue);
+        padding: 6px 14px;
+        border-radius: var(--radius-full);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin: 4px;
+      }
       @media (max-width: 768px) {
-        .analysis-grid {
-          grid-template-columns: 1fr;
-        }
+        .analysis-grid { grid-template-columns: 1fr; }
+        .score-banner { padding: 24px 20px; }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
+    <!-- Minimized Top Header for Dashboard view -->
+    <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="profile.html">My Profile</a>
-          <a href="career-assessment.html">Assessments</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="analysis-wrapper">
-      <!-- Top Score Banner -->
-      <div class="score-banner">
-        <div>
-          <span class="tag-pill" style="background: rgba(245, 191, 11, 0.2); color: var(--brand-gold); margin-bottom: 12px;">AI CV Evaluation</span>
-          <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">Resume Diagnostics &amp; ATS Score</h1>
-          <p style="opacity: 0.85; font-size: 0.95rem; max-width: 580px;">Your resume has been parsed against regional employer criteria and applicant tracking systems (ATS).</p>
-        </div>
-        <div class="score-circle">
-          <div class="score-val">88<span style="font-size: 1.2rem;">%</span></div>
-          <div class="score-label">ATS Score</div>
-        </div>
-      </div>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-      <!-- Analysis Grid -->
-      <div class="analysis-grid">
-        <!-- Parsed Skills & Keyword Density -->
-        <div class="card-standard">
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 14px;">
-            <i class="fa-solid fa-tags" style="color: var(--brand-blue);"></i> Extracted Skills &amp; Keywords
-          </h3>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">These skills were automatically recognized by the AI matching engine:</p>
-          <div>
-            <span class="tag-pill">Civil Engineering</span>
-            <span class="tag-pill">AutoCAD Civil 3D</span>
-            <span class="tag-pill">Site Supervision</span>
-            <span class="tag-pill">BOQ Tracking</span>
-            <span class="tag-pill">Risk Management</span>
-            <span class="tag-pill">COBAC Compliance</span>
-            <span class="tag-pill">Bilingual FR/EN</span>
-          </div>
-        </div>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-        <!-- ATS Compatibility Breakdown -->
-        <div class="card-standard">
-          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 14px;">
-            <i class="fa-solid fa-list-check" style="color: var(--brand-blue);"></i> ATS Section Compatibility
-          </h3>
-          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem;">
-            <div style="display: flex; justify-content: space-between;">
-              <span>Contact &amp; Personal Information</span>
-              <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 100%</strong>
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
+              </div>
             </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span>Work Experience Chronology</span>
-              <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 95%</strong>
+
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
             </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span>Technical Skills Normalization</span>
-              <strong style="color: #854d0e;"><i class="fa-solid fa-triangle-exclamation"></i> 80%</strong>
+          </aside>
+
+          <!-- ── Right Column: Resume Diagnostics Area ───── -->
+          <div class="dash-main">
+            <!-- Top Score Banner -->
+            <div class="score-banner">
+              <div>
+                <span class="tag-pill" style="background: rgba(245, 191, 11, 0.2); color: var(--brand-gold); margin-bottom: 10px;">AI CV Evaluation</span>
+                <h1 style="font-size: 1.7rem; font-weight: 800; margin-bottom: 6px;">Resume Diagnostics &amp; ATS Score</h1>
+                <p style="opacity: 0.85; font-size: 0.92rem; max-width: 580px;">Your resume has been parsed against regional employer criteria and applicant tracking systems (ATS).</p>
+              </div>
+              <div class="score-circle">
+                <div class="score-val">88<span style="font-size: 1.1rem;">%</span></div>
+                <div class="score-label">ATS Score</div>
+              </div>
             </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span>Education &amp; Credentials</span>
-              <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 90%</strong>
+
+            <!-- Analysis Grid -->
+            <div class="analysis-grid">
+              <!-- Parsed Skills -->
+              <div class="card-standard">
+                <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">
+                  <i class="fa-solid fa-tags" style="color: var(--brand-blue);"></i> Extracted Skills &amp; Keywords
+                </h3>
+                <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 14px;">These skills were automatically recognized by the AI matching engine:</p>
+                <div>
+                  <span class="tag-pill">Civil Engineering</span>
+                  <span class="tag-pill">AutoCAD Civil 3D</span>
+                  <span class="tag-pill">Site Supervision</span>
+                  <span class="tag-pill">BOQ Tracking</span>
+                  <span class="tag-pill">Risk Management</span>
+                  <span class="tag-pill">COBAC Compliance</span>
+                  <span class="tag-pill">Bilingual FR/EN</span>
+                </div>
+              </div>
+
+              <!-- ATS Compatibility Breakdown -->
+              <div class="card-standard">
+                <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">
+                  <i class="fa-solid fa-list-check" style="color: var(--brand-blue);"></i> ATS Section Compatibility
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.88rem;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Contact &amp; Personal Information</span>
+                    <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 100%</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Work Experience Chronology</span>
+                    <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 95%</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Technical Skills Normalization</span>
+                    <strong style="color: #854d0e;"><i class="fa-solid fa-triangle-exclamation"></i> 80%</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Education &amp; Credentials</span>
+                    <strong style="color: #166534;"><i class="fa-solid fa-circle-check"></i> 90%</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actionable Improvement Suggestions -->
+            <div class="card-standard">
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">
+                <i class="fa-solid fa-lightbulb" style="color: var(--brand-gold);"></i> Actionable AI Resume Improvements
+              </h3>
+
+              <div class="suggestion-item">
+                <div class="suggestion-icon" style="background: #fef9c3; color: #854d0e;">
+                  <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+                <div>
+                  <strong style="color: var(--text-primary); font-size: 0.92rem;">Quantify Business &amp; Engineering Outcomes</strong>
+                  <p style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 4px;">In your latest experience, adding exact metrics (e.g. <em>"Managed a 1.2B XAF highway corridor delivery with 0 safety incidents"</em>) boosts employer match relevance by up to 18%.</p>
+                </div>
+              </div>
+
+              <div class="suggestion-item">
+                <div class="suggestion-icon" style="background: #eef4fc; color: var(--brand-blue);">
+                  <i class="fa-solid fa-language"></i>
+                </div>
+                <div>
+                  <strong style="color: var(--text-primary); font-size: 0.92rem;">Highlight Bilingual Certifications</strong>
+                  <p style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 4px;">Ensure your fluency level in French and English is explicitly tagged in your profile header to unlock regional CEMAC opportunities.</p>
+                </div>
+              </div>
+
+              <div class="suggestion-item">
+                <div class="suggestion-icon" style="background: #dcfce7; color: #166534;">
+                  <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div>
+                  <strong style="color: var(--text-primary); font-size: 0.92rem;">Add Professional Order Affiliations (ONMC / Order of Civil Engineers)</strong>
+                  <p style="font-size: 0.86rem; color: var(--text-secondary); margin-top: 4px;">Many leading employers in Yaoundé &amp; Douala require explicit professional board registration.</p>
+                </div>
+              </div>
+
+              <div style="margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap;">
+                <a href="profile.html" class="btn btn-primary">Update Profile &amp; CV</a>
+                <a href="jobs.html" class="btn btn-secondary">Browse Matching Jobs</a>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Actionable Improvement Suggestions -->
-      <div class="card-standard">
-        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">
-          <i class="fa-solid fa-lightbulb" style="color: var(--brand-gold);"></i> Actionable AI Resume Improvements
-        </h3>
-
-        <div class="suggestion-item">
-          <div class="suggestion-icon" style="background: #fef9c3; color: #854d0e;">
-            <i class="fa-solid fa-arrow-trend-up"></i>
-          </div>
-          <div>
-            <strong style="color: var(--text-primary); font-size: 0.95rem;">Quantify Business &amp; Engineering Outcomes</strong>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">In your latest experience at Razel-BEC, adding exact metrics (e.g. <em>"Managed a 1.2B XAF highway corridor delivery with 0 safety incidents"</em>) boosts employer match relevance by up to 18%.</p>
-          </div>
-        </div>
-
-        <div class="suggestion-item">
-          <div class="suggestion-icon" style="background: #eef4fc; color: var(--brand-blue);">
-            <i class="fa-solid fa-language"></i>
-          </div>
-          <div>
-            <strong style="color: var(--text-primary); font-size: 0.95rem;">Highlight Bilingual Certifications</strong>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">Ensure your fluency level in French and English is explicitly tagged in your profile header to unlock regional CEMAC opportunities.</p>
-          </div>
-        </div>
-
-        <div class="suggestion-item">
-          <div class="suggestion-icon" style="background: #dcfce7; color: #166534;">
-            <i class="fa-solid fa-certificate"></i>
-          </div>
-          <div>
-            <strong style="color: var(--text-primary); font-size: 0.95rem;">Add Professional Order Affiliations (ONMC / Order of Civil Engineers)</strong>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">Many leading employers in Yaoundé &amp; Douala require explicit professional board registration.</p>
-          </div>
-        </div>
-
-        <div style="margin-top: 28px; display: flex; gap: 14px;">
-          <a href="profile.html" class="btn btn-primary">Update Profile &amp; CV</a>
-          <a href="jobs.html" class="btn btn-secondary">Browse Matching Jobs</a>
         </div>
       </div>
     </main>
 
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

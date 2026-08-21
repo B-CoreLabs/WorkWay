@@ -4,23 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Applications — WorkWay</title>
+    <meta name="description" content="Track your job applications, review stage statuses, and interview schedules on WorkWay." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .page-wrapper { padding: 100px 0 80px; }
       .tab-bar {
         display: flex;
         gap: 0;
         border-bottom: 2px solid var(--border-subtle);
-        margin-bottom: 28px;
+        margin-bottom: 24px;
+        overflow-x: auto;
       }
       .tab-btn {
-        padding: 12px 24px;
+        padding: 12px 20px;
         background: none;
         border: none;
         font-weight: 700;
@@ -31,6 +33,7 @@
         margin-bottom: -2px;
         font-family: 'Montserrat', sans-serif;
         transition: all var(--transition-fast);
+        white-space: nowrap;
       }
       .tab-btn.active {
         color: var(--brand-blue);
@@ -77,54 +80,142 @@
     </style>
   </head>
   <body>
+    <!-- Minimized Top Header for Dashboard view -->
     <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobseeker-dashboard.html">Dashboard</a>
-          <a href="jobs.html">Find Jobs</a>
-          <a href="saved-jobs.html">Saved Jobs</a>
-          <a href="profile.html">My Profile</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="page-wrapper">
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="dashboard-wrapper">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-          <div>
-            <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">My Applications</h1>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Track your application pipeline and interview stages</p>
-          </div>
-          <a href="jobs.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Apply to More Jobs</a>
-        </div>
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-        <!-- Tab Bar -->
-        <div class="tab-bar">
-          <button class="tab-btn active" onclick="filterApps('all', this)">All Applications</button>
-          <button class="tab-btn" onclick="filterApps('applied', this)">Applied</button>
-          <button class="tab-btn" onclick="filterApps('review', this)">Under Review</button>
-          <button class="tab-btn" onclick="filterApps('interview', this)">Interview</button>
-          <button class="tab-btn" onclick="filterApps('offer', this)">Offers</button>
-        </div>
-
-        <div id="appList">
-          <!-- Skeleton -->
-          <div class="app-card">
-            <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
-              <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <!-- User Header -->
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
+              </div>
             </div>
-          </div>
-          <div class="app-card">
-            <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
-            <div style="flex:1;">
-              <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
-              <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+
+            <!-- Scrollable Navigation -->
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="2fa-setup.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: Main Content Area ─────────── -->
+          <div class="dash-main">
+            <div class="dash-main-header">
+              <div>
+                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">My Applications</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Track your application pipeline and interview stages</p>
+              </div>
+              <a href="jobs.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Apply to More Jobs</a>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+              <button class="tab-btn active" onclick="filterApps('all', this)">All Applications</button>
+              <button class="tab-btn" onclick="filterApps('applied', this)">Applied</button>
+              <button class="tab-btn" onclick="filterApps('review', this)">Under Review</button>
+              <button class="tab-btn" onclick="filterApps('interview', this)">Interview</button>
+              <button class="tab-btn" onclick="filterApps('offer', this)">Offers</button>
+            </div>
+
+            <div id="appList">
+              <!-- Skeletons -->
+              <div class="app-card">
+                <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
+                  <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+                </div>
+              </div>
+              <div class="app-card">
+                <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
+                  <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -199,6 +290,7 @@
         renderApps(allApps);
       });
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

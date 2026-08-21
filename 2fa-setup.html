@@ -4,115 +4,192 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Two-Factor Authentication Setup — WorkWay</title>
+    <meta name="description" content="Set up two-factor authentication on WorkWay for enhanced account security." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="style (2).css" />
     <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .auth-wrapper {
-        min-height: calc(100vh - 80px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 120px 20px 60px;
-      }
       .auth-card {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
         border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
-        width: 100%;
-        max-width: 520px;
-        padding: 40px;
+        box-shadow: var(--shadow-sm);
+        max-width: 540px;
+        padding: 36px;
         position: relative;
         text-align: center;
-      }
-      .auth-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 6px;
-        background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-gold) 100%);
+        margin: 0 auto;
       }
       .icon-shield {
-        width: 70px;
-        height: 70px;
+        width: 64px;
+        height: 64px;
         border-radius: 50%;
         background: var(--brand-blue-light);
         color: var(--brand-blue);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.8rem;
-        margin: 0 auto 20px;
+        font-size: 1.6rem;
+        margin: 0 auto 16px;
       }
       .qr-box {
         background: #ffffff;
         border: 2px dashed var(--border-color);
         border-radius: var(--radius-md);
-        padding: 24px;
-        margin: 20px auto;
+        padding: 18px;
+        margin: 16px auto;
         display: inline-block;
       }
       .secret-code {
         background: var(--bg-card-subtle);
-        padding: 10px;
+        padding: 8px 12px;
         border-radius: var(--radius-sm);
         font-family: monospace;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         font-weight: 700;
         letter-spacing: 2px;
         color: var(--brand-blue);
-        margin-bottom: 20px;
+        margin-bottom: 18px;
+        display: inline-block;
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
+    <!-- Minimized Top Header for Dashboard view -->
+    <header class="site-header scrolled">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
-        <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="recruiter.html">For Recruiters</a>
-          <a href="how.html">How It Works</a>
-          <a href="resources.html">Career Resources</a>
-        </nav>
         <div class="nav-actions"></div>
       </div>
     </header>
 
-    <main class="auth-wrapper">
-      <div class="auth-card">
-        <div class="icon-shield">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <h1 style="font-size: 1.7rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px;">Two-Factor Authentication</h1>
-        <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px;">Protect your account with an extra verification code from your authenticator app (Google Authenticator or Authy).</p>
+    <!-- Mobile Drawer Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <div class="qr-box">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=otpauth://totp/WorkWay:User?secret=JBSWY3DPEHPK3PXP&issuer=WorkWay" alt="2FA QR Code" width="160" height="160" />
-        </div>
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Mobile Sidebar Toggle -->
+        <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="dashSidebar">
+          <i class="fa-solid fa-bars"></i> Menu
+        </button>
 
-        <div class="secret-code">JBSW Y3DP EHPK 3PXP</div>
+        <div class="dashboard-layout">
+          <!-- ── Left Column: Fixed Sidebar ──────────────── -->
+          <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Job Seeker Navigation">
+            <div class="sidebar-user-header">
+              <div class="sidebar-avatar-lg" id="sidebarAvatar">JS</div>
+              <div class="sidebar-user-info">
+                <div class="sidebar-user-name" id="sidebarName">My Account</div>
+                <div class="sidebar-user-badge"><i class="fa-solid fa-graduation-cap"></i> Job Seeker</div>
+              </div>
+            </div>
 
-        <form id="twoFaForm">
-          <div class="form-group" style="margin-bottom: 16px;">
-            <input type="text" id="verifyCode" class="form-control" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;" required />
+            <nav class="sidebar-nav-scroll">
+              <div class="sidebar-section-label">Overview</div>
+              <a href="jobseeker-dashboard.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-chart-line"></i></span>
+                Dashboard
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Job Search</div>
+              <a href="jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-blue);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                Find Jobs
+              </a>
+              <a href="my-applications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
+                My Applications
+              </a>
+              <a href="saved-jobs.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
+                Saved Jobs
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Profile &amp; AI Tools</div>
+              <a href="profile.html" class="sidebar-link">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-user-circle"></i></span>
+                My Profile
+              </a>
+              <a href="career-assessment.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #8b5cf6;"><i class="fa-solid fa-brain"></i></span>
+                Career Assessment
+              </a>
+              <a href="resume-analysis.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #ec4899;"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                Resume AI Analysis
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Communication</div>
+              <a href="messages.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #10b981;"><i class="fa-solid fa-comments"></i></span>
+                Messages
+              </a>
+              <a href="notifications.html" class="sidebar-link">
+                <span class="sidebar-link-icon" style="color: #f59e0b;"><i class="fa-solid fa-bell"></i></span>
+                Notifications
+              </a>
+
+              <div class="sidebar-divider"></div>
+
+              <div class="sidebar-section-label">Settings</div>
+              <a href="settings.html" class="sidebar-link active" aria-current="page">
+                <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
+                Security &amp; 2FA
+              </a>
+            </nav>
+
+            <div class="sidebar-footer">
+              <button type="button" class="sidebar-signout-btn" id="sidebarLogoutBtn">
+                <span class="sidebar-link-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                Sign Out
+              </button>
+            </div>
+          </aside>
+
+          <!-- ── Right Column: 2FA Setup Area ────────────── -->
+          <div class="dash-main">
+            <div class="auth-card">
+              <div class="icon-shield">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h1 style="font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 6px;">Two-Factor Authentication</h1>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">Scan the QR code with your authenticator app (Google Authenticator, Authy, etc.).</p>
+
+              <div class="qr-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=otpauth://totp/WorkWay:User?secret=JBSWY3DPEHPK3PXP&issuer=WorkWay" alt="2FA QR Code" width="150" height="150" />
+              </div>
+
+              <div>
+                <span class="secret-code">JBSW Y3DP EHPK 3PXP</span>
+              </div>
+
+              <form id="twoFaForm">
+                <div class="form-group" style="margin-bottom: 16px;">
+                  <input type="text" id="verifyCode" class="form-control" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 4px; margin: 0 auto;" required />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; max-width: 440px; padding: 12px;">
+                  Enable 2FA Protection
+                </button>
+              </form>
+
+              <div style="margin-top: 18px;">
+                <a href="settings.html" style="color: var(--brand-blue); font-weight: 600; font-size: 0.88rem;">&larr; Back to Account Settings</a>
+              </div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">
-            Enable 2FA Protection
-          </button>
-        </form>
-
-        <div style="margin-top: 20px;">
-          <a href="settings.html" style="color: var(--text-muted); font-size: 0.88rem;">Back to Account Settings</a>
         </div>
       </div>
     </main>
@@ -126,6 +203,7 @@
         window.location.href = 'settings.html';
       });
     </script>
+    <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>
 </html>

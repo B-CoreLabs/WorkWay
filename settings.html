@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Saved Jobs — WorkWay</title>
-    <meta name="description" content="View and manage the jobs you have bookmarked on WorkWay." />
+    <title>Account Settings &amp; Security — WorkWay</title>
+    <meta name="description" content="Manage your WorkWay account settings, security preferences, password, and two-factor authentication." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -14,29 +14,63 @@
     <link rel="stylesheet" href="css/dashboard-sidebar.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      .saved-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-      .saved-card {
+      .settings-card {
         background: var(--bg-card);
         border: 1px solid var(--border-color);
         border-radius: var(--radius-lg);
-        padding: 22px;
+        padding: 24px;
         box-shadow: var(--shadow-sm);
-        transition: all var(--transition-normal);
-        position: relative;
+        margin-bottom: 20px;
       }
-      .saved-card:hover { border-color: var(--brand-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-      .unsave-btn {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        background: none;
-        border: none;
-        font-size: 1.1rem;
-        color: var(--brand-gold);
-        cursor: pointer;
-        transition: transform var(--transition-fast);
+      .settings-card h2 {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 6px;
       }
-      .unsave-btn:hover { transform: scale(1.2); }
+      .settings-card p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        margin-bottom: 18px;
+      }
+      .form-group {
+        margin-bottom: 16px;
+      }
+      .form-label {
+        display: block;
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+      .form-control {
+        width: 100%;
+        max-width: 440px;
+        padding: 10px 14px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background: var(--bg-input);
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        outline: none;
+        font-family: 'Montserrat', sans-serif;
+      }
+      .form-control:focus {
+        border-color: var(--brand-blue);
+      }
+      .security-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border-subtle);
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .security-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
     </style>
   </head>
   <body>
@@ -89,7 +123,7 @@
                 <span class="sidebar-link-icon" style="color: #0284c7;"><i class="fa-solid fa-file-signature"></i></span>
                 My Applications
               </a>
-              <a href="saved-jobs.html" class="sidebar-link active" aria-current="page">
+              <a href="saved-jobs.html" class="sidebar-link">
                 <span class="sidebar-link-icon" style="color: var(--brand-gold-hover);"><i class="fa-solid fa-bookmark"></i></span>
                 Saved Jobs
               </a>
@@ -125,7 +159,7 @@
               <div class="sidebar-divider"></div>
 
               <div class="sidebar-section-label">Settings</div>
-              <a href="2fa-setup.html" class="sidebar-link">
+              <a href="settings.html" class="sidebar-link active" aria-current="page">
                 <span class="sidebar-link-icon" style="color: #059669;"><i class="fa-solid fa-shield-halved"></i></span>
                 Security &amp; 2FA
               </a>
@@ -139,21 +173,60 @@
             </div>
           </aside>
 
-          <!-- ── Right Column: Main Content Area ─────────── -->
+          <!-- ── Right Column: Settings Main Area ────────── -->
           <div class="dash-main">
             <div class="dash-main-header">
               <div>
-                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Saved Jobs</h1>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Jobs you've bookmarked for later consideration</p>
+                <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">Account Settings &amp; Security</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage your login credentials, 2FA, and privacy preferences</p>
               </div>
-              <a href="jobs.html" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Explore More Jobs</a>
             </div>
 
-            <div class="saved-grid" id="savedGrid">
-              <!-- Skeletons -->
-              <div class="saved-card"><div class="skeleton skel-row" style="width:60%;height:14px;margin-bottom:10px;"></div><div class="skeleton skel-row" style="width:40%;height:11px;"></div></div>
-              <div class="saved-card"><div class="skeleton skel-row" style="width:60%;height:14px;margin-bottom:10px;"></div><div class="skeleton skel-row" style="width:40%;height:11px;"></div></div>
-              <div class="saved-card"><div class="skeleton skel-row" style="width:60%;height:14px;margin-bottom:10px;"></div><div class="skeleton skel-row" style="width:40%;height:11px;"></div></div>
+            <!-- Security & 2FA -->
+            <div class="settings-card">
+              <h2><i class="fa-solid fa-shield-halved" style="color: #10b981; margin-right: 8px;"></i> Security &amp; Two-Factor Authentication</h2>
+              <p>Protect your account with modern two-factor authentication and active session monitoring.</p>
+
+              <div class="security-row">
+                <div>
+                  <strong style="color: var(--text-primary); font-size: 0.95rem; display: block;">Two-Factor Authentication (2FA)</strong>
+                  <span style="font-size: 0.82rem; color: var(--text-muted);">Require an authenticator code when logging in</span>
+                </div>
+                <a href="2fa-setup.html" class="btn btn-secondary" style="padding: 8px 18px; font-size: 0.82rem;">
+                  Configure 2FA
+                </a>
+              </div>
+
+              <div class="security-row">
+                <div>
+                  <strong style="color: var(--text-primary); font-size: 0.95rem; display: block;">Password Reset</strong>
+                  <span style="font-size: 0.82rem; color: var(--text-muted);">Change your current login password</span>
+                </div>
+                <a href="forgot-password.html" class="btn btn-secondary" style="padding: 8px 18px; font-size: 0.82rem; background: transparent; border-color: var(--border-color); color: var(--text-secondary);">
+                  Reset Password
+                </a>
+              </div>
+            </div>
+
+            <!-- Personal Info -->
+            <div class="settings-card">
+              <h2><i class="fa-solid fa-user-gear" style="color: var(--brand-blue); margin-right: 8px;"></i> Profile Information</h2>
+              <p>Update your primary name and account contact details.</p>
+
+              <form id="profileForm">
+                <div class="form-group">
+                  <label class="form-label" for="settingsFullName">Full Name</label>
+                  <input type="text" class="form-control" id="settingsFullName" placeholder="Your name" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="settingsEmail">Email Address</label>
+                  <input type="email" class="form-control" id="settingsEmail" placeholder="your.email@example.com" disabled style="opacity: 0.7; cursor: not-allowed;" />
+                </div>
+                <button type="submit" id="saveProfileBtn" class="btn btn-primary" style="padding: 10px 24px;">
+                  Save Changes
+                </button>
+                <span id="saveStatus" style="font-size: 0.84rem; font-weight: 700; color: #15803d; margin-left: 14px; display: none;">Saved successfully!</span>
+              </form>
             </div>
           </div>
         </div>
@@ -161,57 +234,38 @@
     </main>
 
     <script type="module">
-      import { supabase } from './js/supabase-config.js';
       import { AuthService } from './js/services/auth.service.js';
+      import { supabase } from './js/supabase-config.js';
 
       document.addEventListener('DOMContentLoaded', async () => {
         const user = await AuthService.getCurrentProfile();
         if (!user) { window.location.href = 'login.html'; return; }
 
-        const { data } = await supabase
-          .from('saved_jobs')
-          .select(`*, jobs(id, title, location, job_type, salary_min, salary_max, salary_currency, work_mode, skills_required, companies(name))`)
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-
-        const grid = document.getElementById('savedGrid');
-
-        if (!data || data.length === 0) {
-          grid.innerHTML = `
-            <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);">
-              <i class="fa-solid fa-bookmark" style="font-size:2.5rem;opacity:0.3;margin-bottom:14px;"></i>
-              <p>No saved jobs yet. Explore opportunities and save the ones you're interested in!</p>
-              <a href="jobs.html" class="btn btn-primary" style="margin-top:16px;">Find Jobs</a>
-            </div>`;
-          return;
-        }
-
-        grid.innerHTML = data.map(saved => {
-          const job = saved.jobs || {};
-          const company = job.companies || {};
-          const fmt = (n) => n >= 1000000 ? `${(n/1000000).toFixed(1)}M` : `${Math.round(n/1000)}K`;
-
-          return `
-            <div class="saved-card" id="saved-${saved.id}">
-              <button class="unsave-btn" onclick="unsave('${saved.id}', '${saved.job_id}')" title="Remove from Saved">
-                <i class="fa-solid fa-bookmark"></i>
-              </button>
-              <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:8px;">${job.job_type?.replace('_',' ') || ''} &bull; ${job.work_mode?.replace('_',' ') || ''}</div>
-              <div style="font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:4px;">${job.title || 'Job Title'}</div>
-              <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;">${company.name || 'Company'} &bull; ${job.location || ''}</div>
-              <div style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:16px;">
-                ${fmt(job.salary_min || 0)} – ${fmt(job.salary_max || 0)} ${job.salary_currency || 'XAF'}/mo
-              </div>
-              <a href="jobs.html?id=${job.id}" class="btn btn-primary" style="width:100%;text-align:center;">Apply Now</a>
-            </div>
-          `;
-        }).join('');
+        document.getElementById('settingsFullName').value = user.full_name || '';
+        document.getElementById('settingsEmail').value = user.email || '';
       });
 
-      window.unsave = async function(savedId, jobId) {
-        await supabase.from('saved_jobs').delete().eq('id', savedId);
-        document.getElementById(`saved-${savedId}`)?.remove();
-      };
+      document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const user = await AuthService.getCurrentProfile();
+        if (!user) return;
+
+        const newName = document.getElementById('settingsFullName').value.trim();
+        const saveStatus = document.getElementById('saveStatus');
+
+        try {
+          const { error } = await supabase
+            .from('profiles')
+            .update({ full_name: newName, updated_at: new Date().toISOString() })
+            .eq('id', user.id);
+
+          if (error) throw error;
+          saveStatus.style.display = 'inline';
+          setTimeout(() => { saveStatus.style.display = 'none'; }, 3000);
+        } catch (err) {
+          alert('Could not update profile: ' + err.message);
+        }
+      });
     </script>
     <script type="module" src="js/dashboard-sidebar.js"></script>
     <script type="module" src="js/nav-auth.js"></script>
