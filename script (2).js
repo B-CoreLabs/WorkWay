@@ -5,11 +5,15 @@ const sliderTabs = document.querySelectorAll(".slider-tab");
 
 const swiper = new Swiper(".slider-container", {
   effect: "fade",
-  speed: 1300,
+  fadeEffect: {
+    crossFade: true,
+  },
+  speed: 1200,
   autoplay: {
-    delay: 4000,
+    delay: 4500,
     disableOnInteraction: false,
   },
+  watchSlidesProgress: true,
 });
 
 function updateActiveTab(index) {

@@ -249,18 +249,31 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("WorkWay Images/First Image.png");
-  filter: brightness(75%) contrast(90%);
+  background-image:
+    linear-gradient(180deg, rgba(16, 24, 43, 0.35) 0%, rgba(16, 24, 43, 0.7) 100%),
+    url("WorkWay Images/First Image.png");
+  filter: brightness(85%) contrast(95%);
   background-size: cover;
   background-position: center;
+  transition: transform 1.6s cubic-bezier(0.25, 1, 0.5, 1), filter 1.2s ease;
+  transform: scale(1.04);
+}
+
+.slider-wrapper .slider-item.swiper-slide-active::before {
+  transform: scale(1);
 }
 
 .slider-wrapper .slider-item:nth-child(2):before {
-  background-image: url("WorkWay Images/Second Image.png");
+  background-image:
+    linear-gradient(180deg, rgba(16, 24, 43, 0.35) 0%, rgba(16, 24, 43, 0.7) 100%),
+    url("WorkWay Images/Second Image.png");
 }
 
 .slider-wrapper .slider-item:nth-child(3):before {
-  background-image: url("WorkWay Images/Third Image.png");
+  background-image:
+    linear-gradient(180deg, rgba(16, 24, 43, 0.35) 0%, rgba(16, 24, 43, 0.7) 100%),
+    url("WorkWay Images/Third image.png"),
+    url("WorkWay Images/Third Image.png");
 }
 
 .slider-wrapper .slider-item .slide-content {
@@ -329,6 +342,43 @@ body {
 .slider-item .slide-content .slide-button:hover {
   color: #f5bf0b;
   background: transparent;
+}
+
+/* Staggered slide text entrance animations */
+.slider-item .slide-content .slide-subtitle,
+.slider-item .slide-content .slide-title,
+.slider-item .slide-content .slide-description,
+.slider-item .slide-content .slide-button {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.slider-item.swiper-slide-active .slide-content .slide-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.12s;
+}
+
+.slider-item.swiper-slide-active .slide-content .slide-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.22s;
+}
+
+.slider-item.swiper-slide-active .slide-content .slide-description {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.32s;
+}
+
+.slider-item.swiper-slide-active .slide-content .slide-button {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.42s;
 }
 
 .slider-container .slider-controls {
