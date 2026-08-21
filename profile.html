@@ -85,7 +85,16 @@
       <!-- Left Sidebar -->
       <aside class="profile-sidebar">
         <div class="card-standard" style="text-align: center;">
-          <div class="profile-avatar-box" id="avatarBox">JS</div>
+          <div class="avatar-upload-wrapper" style="position: relative; width: 110px; height: 110px; margin: 0 auto 16px;">
+            <div class="profile-avatar-box" id="avatarBox" style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; margin: 0; box-shadow: 0 0 0 4px var(--brand-gold-light), 0 0 0 6px var(--brand-gold);">
+              JS
+            </div>
+            <label for="avatarFileInput" id="avatarEditBadge" class="avatar-edit-badge" title="Upload Profile Picture" style="position: absolute; bottom: 0; right: 0; width: 34px; height: 34px; border-radius: 50%; background: var(--brand-gold); color: #000; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); border: 2px solid #ffffff; transition: transform var(--transition-fast);">
+              <i class="fa-solid fa-camera" style="font-size: 0.85rem;"></i>
+            </label>
+            <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display: none;" />
+          </div>
+          <div id="avatarUploadStatus" style="font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; display: none;"></div>
           <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);" id="profName">Loading...</h2>
           <p style="font-size: 0.88rem; color: var(--brand-blue); font-weight: 600; margin-bottom: 16px;" id="profHeadline">Candidate</p>
           <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
@@ -179,6 +188,11 @@
     <script type="module">
       import { AuthService } from './js/services/auth.service.js';
       import { ProfileService } from './js/services/profiles.service.js';
+      import { StorageService } from './js/services/storage.service.js';
+      import { supabase } from './js/supabase-config.js';
+
+      let activeUserId = null;
+      let isOwner = false;
 
       document.addEventListener('DOMContentLoaded', async () => {
         const currentUser = await AuthService.getCurrentProfile();
@@ -190,6 +204,15 @@
           return;
         }
 
+        activeUserId = targetUserId;
+        isOwner = currentUser && (currentUser.id === targetUserId);
+
+        // Hide upload badge if viewing someone else's profile
+        if (!isOwner) {
+          const editBadge = document.getElementById('avatarEditBadge');
+          if (editBadge) editBadge.style.display = 'none';
+        }
+
         const data = await ProfileService.getCandidateFullProfile(targetUserId);
         const p = data.profile || currentUser || {};
         const d = data.details || {};
@@ -199,9 +222,8 @@
         document.getElementById('profLocation').textContent = p.location || 'Cameroon';
         if (p.bio) document.getElementById('profBio').textContent = p.bio;
 
-        if (p.full_name) {
-          document.getElementById('avatarBox').textContent = p.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        }
+        // Render Avatar (Photo or Initials)
+        renderAvatar(p);
 
         if (d.desired_role) document.getElementById('prefRole').textContent = d.desired_role;
         if (d.expected_salary_min) document.getElementById('prefSalary').textContent = `${d.expected_salary_min.toLocaleString()} XAF / mo`;
@@ -212,6 +234,82 @@
           container.innerHTML = data.skills.map(s => `<span class="tag-pill">${s.skill_name}</span>`).join(' ');
         }
       });
+
+      function renderAvatar(profile) {
+        const box = document.getElementById('avatarBox');
+        if (profile.avatar_url) {
+          box.innerHTML = `<img src="${profile.avatar_url}" alt="${profile.full_name || 'Avatar'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" onerror="this.onerror=null; this.parentElement.textContent='${(profile.full_name || 'JS').substring(0,2).toUpperCase()}';" />`;
+        } else if (profile.full_name) {
+          box.textContent = profile.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        } else {
+          box.textContent = 'WW';
+        }
+      }
+
+      // Profile Picture Upload Handler with Cybersecurity Sanitization
+      const fileInput = document.getElementById('avatarFileInput');
+      const uploadStatus = document.getElementById('avatarUploadStatus');
+
+      fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        if (!file || !activeUserId) return;
+
+        // Cybersecurity Guard 1: MIME-Type Whitelist
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (!allowedTypes.includes(file.type)) {
+          showStatus('Security notice: Only valid images (JPEG, PNG, WebP, GIF) are accepted.', '#ef4444');
+          fileInput.value = '';
+          return;
+        }
+
+        // Cybersecurity Guard 2: File Size Cap (5MB max to prevent payload abuse)
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+          showStatus('File exceeds maximum allowed size (5 MB). Please choose a smaller image.', '#ef4444');
+          fileInput.value = '';
+          return;
+        }
+
+        showStatus('<i class="fa-solid fa-spinner fa-spin"></i> Encrypting & uploading avatar...', 'var(--brand-blue)');
+        const avatarBox = document.getElementById('avatarBox');
+        const prevContent = avatarBox.innerHTML;
+        avatarBox.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: #ffffff;"></i>';
+
+        try {
+          // Upload to Supabase Storage 'avatars' bucket
+          const publicUrl = await StorageService.uploadAvatar(activeUserId, file);
+
+          // Update user's profile record in database
+          const { error: dbError } = await supabase
+            .from('profiles')
+            .update({ 
+              avatar_url: publicUrl,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', activeUserId);
+
+          if (dbError) throw dbError;
+
+          // Update UI
+          avatarBox.innerHTML = `<img src="${publicUrl}" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" />`;
+          showStatus('✅ Profile picture updated successfully!', '#15803d');
+
+          setTimeout(() => {
+            uploadStatus.style.display = 'none';
+          }, 3500);
+
+        } catch (err) {
+          console.error('Avatar upload failed:', err);
+          avatarBox.innerHTML = prevContent;
+          showStatus('Upload failed: ' + (err.message || 'Storage error'), '#ef4444');
+        }
+      });
+
+      function showStatus(msg, color) {
+        uploadStatus.innerHTML = msg;
+        uploadStatus.style.color = color;
+        uploadStatus.style.display = 'block';
+      }
     </script>
     <script type="module" src="js/nav-auth.js"></script>
   </body>

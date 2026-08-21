@@ -394,9 +394,12 @@
 
         const firstName = (user.full_name || user.email).split(' ')[0];
         document.getElementById('greetName').textContent = firstName;
-        document.getElementById('sidebarName').textContent = user.full_name || user.email;
-        document.getElementById('sidebarRole').textContent = 'Job Seeker';
-        document.getElementById('sidebarAvatar').textContent = (user.full_name || 'JS').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const avatarEl = document.getElementById('sidebarAvatar');
+        if (user.avatar_url) {
+          avatarEl.innerHTML = `<img src="${user.avatar_url}" alt="${user.full_name || 'User'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" onerror="this.onerror=null; this.parentElement.textContent='${(user.full_name || 'JS').substring(0, 2).toUpperCase()}';" />`;
+        } else {
+          avatarEl.textContent = (user.full_name || 'JS').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        }
 
         // Load stats
         const [appsRes, savedRes] = await Promise.all([

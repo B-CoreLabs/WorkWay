@@ -119,6 +119,10 @@ class NavigationController {
           ? profile.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
           : profile.email.substring(0, 2).toUpperCase();
 
+        const avatarMarkup = profile.avatar_url
+          ? `<img src="${profile.avatar_url}" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--brand-gold);" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'user-avatar-sm\\'>${initials}</div>';" />`
+          : `<div class="user-avatar-sm">${initials}</div>`;
+
         const dashboardUrl = profile.role === 'admin' 
           ? 'admin.html' 
           : profile.role === 'recruiter' 
@@ -138,7 +142,7 @@ class NavigationController {
 
           <div class="user-menu-wrapper" id="userMenuWrapper">
             <button type="button" class="user-menu-btn" id="userMenuBtn">
-              <div class="user-avatar-sm">${initials}</div>
+              ${avatarMarkup}
               <span>${profile.full_name ? profile.full_name.split(' ')[0] : 'Account'}</span>
               <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
             </button>
