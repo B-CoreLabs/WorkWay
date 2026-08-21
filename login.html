@@ -3,34 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log In — WorkWay</title>
+    <title>Log In — WorkWay Portal</title>
+    <!-- Non-blocking Google Fonts with font-display: swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      body {
-        background: #f4f8fc;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
       .auth-wrapper {
-        flex: 1;
+        min-height: calc(100vh - 80px);
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 120px 20px 60px;
       }
       .auth-card {
-        background: #ffffff;
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(1, 69, 178, 0.12);
-        border: 1px solid rgba(1, 69, 178, 0.08);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
         width: 100%;
-        max-width: 480px;
+        max-width: 500px;
         padding: 40px;
         position: relative;
         overflow: hidden;
@@ -42,7 +38,7 @@
         left: 0;
         right: 0;
         height: 6px;
-        background: linear-gradient(90deg, #0145b2 0%, #f5bf0b 100%);
+        background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-gold) 100%);
       }
       .auth-header {
         text-align: center;
@@ -50,22 +46,63 @@
       }
       .auth-header h1 {
         font-size: 1.8rem;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 8px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 6px;
       }
       .auth-header p {
         font-size: 0.92rem;
-        color: #64748b;
+        color: var(--text-muted);
+      }
+      .oauth-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .oauth-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-surface);
+        border-radius: var(--radius-md);
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+      }
+      .oauth-btn:hover {
+        border-color: var(--brand-blue);
+        box-shadow: var(--shadow-sm);
+      }
+      .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 20px 0;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+      }
+      .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .divider span {
+        padding: 0 12px;
       }
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
       }
       .form-group label {
         display: block;
         font-size: 0.82rem;
         font-weight: 700;
-        color: #334155;
+        color: var(--text-secondary);
         margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -73,20 +110,35 @@
       .form-control {
         width: 100%;
         padding: 14px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
+        border: 2px solid var(--border-subtle);
+        background: var(--bg-input);
+        color: var(--text-primary);
+        border-radius: var(--radius-md);
         font-size: 0.95rem;
-        font-family: inherit;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         outline: none;
       }
       .form-control:focus {
-        border-color: #0145b2;
+        border-color: var(--brand-blue);
         box-shadow: 0 0 0 4px rgba(1, 69, 178, 0.12);
       }
+      .form-flex-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+      }
+      .form-flex-row a {
+        color: var(--brand-blue);
+        font-weight: 600;
+      }
+      .form-flex-row a:hover {
+        text-decoration: underline;
+      }
       .auth-alert {
-        padding: 12px 16px;
-        border-radius: 12px;
+        padding: 14px 16px;
+        border-radius: var(--radius-md);
         font-size: 0.88rem;
         margin-bottom: 20px;
         display: none;
@@ -107,31 +159,28 @@
         text-align: center;
         margin-top: 24px;
         padding-top: 20px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--border-subtle);
         font-size: 0.9rem;
-        color: #64748b;
+        color: var(--text-muted);
       }
       .auth-footer a {
-        color: #0145b2;
+        color: var(--brand-blue);
         font-weight: 700;
-      }
-      .auth-footer a:hover {
-        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <!-- Site Header -->
+    <!-- Standard Header -->
     <header class="site-header">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
         <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="recruiter.html">For Recruiters</a>
-          <a href="how.html">How It Works</a>
-          <a href="resources.html">Career Resources</a>
+          <a href="jobs.html" data-i18n="nav_find_jobs">Find Jobs</a>
+          <a href="recruiter.html" data-i18n="nav_recruiters">For Recruiters</a>
+          <a href="how.html" data-i18n="nav_how_it_works">How It Works</a>
+          <a href="resources.html" data-i18n="nav_resources">Career Resources</a>
         </nav>
         <div class="nav-actions">
           <a href="signup.html" class="btn btn-primary">Get Started</a>
@@ -139,11 +188,25 @@
       </div>
     </header>
 
-    <div class="auth-wrapper">
+    <main class="auth-wrapper">
       <div class="auth-card">
         <div class="auth-header">
           <h1>Welcome Back</h1>
-          <p>Log in to manage your career or recruiter dashboard</p>
+          <p>Log in to access your WorkWay dashboard and opportunities</p>
+        </div>
+
+        <!-- OAuth Buttons -->
+        <div class="oauth-buttons">
+          <button type="button" class="oauth-btn" id="btnGoogleOAuth">
+            <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google
+          </button>
+          <button type="button" class="oauth-btn" id="btnLinkedinOAuth">
+            <i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> LinkedIn
+          </button>
+        </div>
+
+        <div class="divider">
+          <span>Or log in with email</span>
         </div>
 
         <div id="authAlert" class="auth-alert"></div>
@@ -151,7 +214,7 @@
         <form id="loginForm">
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" class="form-control" placeholder="yourname@example.com" required />
+            <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
           </div>
 
           <div class="form-group">
@@ -159,23 +222,108 @@
             <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
           </div>
 
-          <button type="submit" id="submitBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; padding: 14px;">
-            Log In
+          <div class="form-flex-row">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-secondary);">
+              <input type="checkbox" id="rememberMe" checked /> Remember me
+            </label>
+            <a href="forgot-password.html">Forgot Password?</a>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; padding: 14px;">
+            Log In to WorkWay
           </button>
         </form>
 
         <div class="auth-footer">
-          Don't have an account yet? <a href="signup.html">Get Started free</a>
+          Don't have an account yet? <a href="signup.html">Create one here</a>
         </div>
       </div>
-    </div>
+    </main>
 
     <script type="module">
       import { AuthService } from './js/services/auth.service.js';
+      import { supabase } from './js/supabase-config.js';
 
       const loginForm = document.getElementById('loginForm');
       const submitBtn = document.getElementById('submitBtn');
       const authAlert = document.getElementById('authAlert');
+      const btnGoogleOAuth = document.getElementById('btnGoogleOAuth');
+      const btnLinkedinOAuth = document.getElementById('btnLinkedinOAuth');
+
+      // Check if arriving from OAuth redirect
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const session = await AuthService.getSession();
+          if (session && session.user) {
+            authAlert.className = 'auth-alert success';
+            authAlert.style.display = 'block';
+            authAlert.innerText = 'Authenticated successfully! Redirecting...';
+
+            const desiredRole = localStorage.getItem('workway_oauth_desired_role');
+            if (desiredRole) {
+              localStorage.removeItem('workway_oauth_desired_role');
+              try {
+                await supabase.from('profiles').update({ role: desiredRole }).eq('id', session.user.id);
+              } catch (e) {
+                console.warn('Role sync:', e);
+              }
+            }
+
+            setTimeout(async () => {
+              await AuthService.routeUserByRole();
+            }, 600);
+          }
+        } catch (e) {
+          console.warn('OAuth check:', e);
+        }
+      });
+
+      // Also listen to auth state changes from hash fragments / OAuth tokens
+      AuthService.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          authAlert.className = 'auth-alert success';
+          authAlert.style.display = 'block';
+          authAlert.innerText = 'Signed in successfully! Loading your portal...';
+
+          const desiredRole = localStorage.getItem('workway_oauth_desired_role');
+          if (desiredRole) {
+            localStorage.removeItem('workway_oauth_desired_role');
+            try {
+              await supabase.from('profiles').update({ role: desiredRole }).eq('id', session.user.id);
+            } catch (e) {
+              console.warn('Role sync:', e);
+            }
+          }
+
+          setTimeout(async () => {
+            await AuthService.routeUserByRole();
+          }, 600);
+        }
+      });
+
+      btnGoogleOAuth.addEventListener('click', async () => {
+        try {
+          btnGoogleOAuth.disabled = true;
+          await AuthService.signInWithOAuth('google');
+        } catch (err) {
+          authAlert.className = 'auth-alert error';
+          authAlert.style.display = 'block';
+          authAlert.textContent = err.message || 'Google sign in failed.';
+          btnGoogleOAuth.disabled = false;
+        }
+      });
+
+      btnLinkedinOAuth.addEventListener('click', async () => {
+        try {
+          btnLinkedinOAuth.disabled = true;
+          await AuthService.signInWithOAuth('linkedin');
+        } catch (err) {
+          authAlert.className = 'auth-alert error';
+          authAlert.style.display = 'block';
+          authAlert.textContent = err.message || 'LinkedIn sign in failed.';
+          btnLinkedinOAuth.disabled = false;
+        }
+      });
 
       loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -186,21 +334,24 @@
         const password = document.getElementById('password').value;
 
         submitBtn.disabled = true;
-        submitBtn.innerText = 'Logging in...';
+        submitBtn.innerText = 'Authenticating...';
 
         try {
           await AuthService.signIn({ email, password });
           authAlert.className = 'auth-alert success';
-          authAlert.innerText = 'Login successful! Redirecting...';
+          authAlert.style.display = 'block';
+          authAlert.innerText = 'Login successful! Directing to dashboard...';
 
           setTimeout(async () => {
             await AuthService.routeUserByRole();
           }, 800);
+
         } catch (err) {
           authAlert.className = 'auth-alert error';
+          authAlert.style.display = 'block';
           authAlert.innerText = err.message || 'Invalid email or password.';
           submitBtn.disabled = false;
-          submitBtn.innerText = 'Log In';
+          submitBtn.innerText = 'Log In to WorkWay';
         }
       });
     </script>

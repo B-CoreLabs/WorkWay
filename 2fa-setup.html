@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-Factor Authentication Setup — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .auth-wrapper {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 20px 60px;
+      }
+      .auth-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 520px;
+        padding: 40px;
+        position: relative;
+        text-align: center;
+      }
+      .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-gold) 100%);
+      }
+      .icon-shield {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: var(--brand-blue-light);
+        color: var(--brand-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin: 0 auto 20px;
+      }
+      .qr-box {
+        background: #ffffff;
+        border: 2px dashed var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 24px;
+        margin: 20px auto;
+        display: inline-block;
+      }
+      .secret-code {
+        background: var(--bg-card-subtle);
+        padding: 10px;
+        border-radius: var(--radius-sm);
+        font-family: monospace;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--brand-blue);
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="recruiter.html">For Recruiters</a>
+          <a href="how.html">How It Works</a>
+          <a href="resources.html">Career Resources</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="auth-wrapper">
+      <div class="auth-card">
+        <div class="icon-shield">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h1 style="font-size: 1.7rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px;">Two-Factor Authentication</h1>
+        <p style="font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px;">Protect your account with an extra verification code from your authenticator app (Google Authenticator or Authy).</p>
+
+        <div class="qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=otpauth://totp/WorkWay:User?secret=JBSWY3DPEHPK3PXP&issuer=WorkWay" alt="2FA QR Code" width="160" height="160" />
+        </div>
+
+        <div class="secret-code">JBSW Y3DP EHPK 3PXP</div>
+
+        <form id="twoFaForm">
+          <div class="form-group" style="margin-bottom: 16px;">
+            <input type="text" id="verifyCode" class="form-control" placeholder="Enter 6-digit code" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 4px;" required />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">
+            Enable 2FA Protection
+          </button>
+        </form>
+
+        <div style="margin-top: 20px;">
+          <a href="settings.html" style="color: var(--text-muted); font-size: 0.88rem;">Back to Account Settings</a>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { AuthService } from './js/services/auth.service.js';
+      const form = document.getElementById('twoFaForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Two-factor authentication successfully enabled for your account!');
+        window.location.href = 'settings.html';
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messages — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .messaging-page { padding: 100px 0 0; height: 100vh; display: flex; flex-direction: column; }
+      .messaging-layout {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        flex: 1;
+        overflow: hidden;
+        border-top: 1px solid var(--border-color);
+      }
+      /* Left: Conversation List */
+      .conv-sidebar {
+        border-right: 1px solid var(--border-color);
+        background: var(--bg-card);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .conv-sidebar-header {
+        padding: 20px 20px 14px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .conv-search {
+        width: 100%; padding: 10px 14px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-full);
+        background: var(--bg-input); color: var(--text-primary);
+        font-size: 0.88rem; outline: none; font-family: 'Montserrat', sans-serif;
+        margin-top: 12px;
+      }
+      .conv-list { flex: 1; overflow-y: auto; }
+      .conv-item {
+        display: flex; align-items: center; gap: 14px;
+        padding: 16px 20px; cursor: pointer;
+        border-bottom: 1px solid var(--border-subtle);
+        transition: background var(--transition-fast);
+      }
+      .conv-item:hover, .conv-item.active { background: var(--bg-tag); }
+      .conv-avatar {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: var(--brand-blue); color: #fff;
+        font-weight: 700; font-size: 1rem;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .conv-name { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+      .conv-preview { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+      .unread-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--brand-blue); margin-left: auto; flex-shrink: 0;
+      }
+      /* Right: Active Chat */
+      .chat-main {
+        display: flex; flex-direction: column; background: var(--bg-body); overflow: hidden;
+      }
+      .chat-header {
+        padding: 16px 24px; border-bottom: 1px solid var(--border-color);
+        background: var(--bg-card);
+        display: flex; align-items: center; gap: 14px;
+      }
+      .chat-messages {
+        flex: 1; overflow-y: auto; padding: 24px;
+        display: flex; flex-direction: column; gap: 14px;
+      }
+      .msg-bubble {
+        max-width: 60%; padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 0.9rem; line-height: 1.5;
+        position: relative;
+      }
+      .msg-bubble.incoming {
+        background: var(--bg-card); border: 1px solid var(--border-subtle);
+        color: var(--text-primary); align-self: flex-start;
+        border-bottom-left-radius: 4px;
+      }
+      .msg-bubble.outgoing {
+        background: var(--brand-blue); color: #ffffff;
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+      }
+      .msg-time { font-size: 0.72rem; opacity: 0.65; margin-top: 4px; }
+      .chat-input-bar {
+        padding: 16px 24px; border-top: 1px solid var(--border-color);
+        background: var(--bg-card);
+        display: flex; gap: 12px; align-items: center;
+      }
+      .chat-input {
+        flex: 1; padding: 12px 18px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-full);
+        background: var(--bg-input); color: var(--text-primary);
+        font-size: 0.9rem; outline: none;
+        font-family: 'Montserrat', sans-serif;
+        transition: border-color var(--transition-fast);
+      }
+      .chat-input:focus { border-color: var(--brand-blue); }
+      .send-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: var(--brand-blue); color: #fff; border: none;
+        font-size: 1.1rem; cursor: pointer; display: flex;
+        align-items: center; justify-content: center;
+        transition: all var(--transition-fast);
+      }
+      .send-btn:hover { background: var(--brand-blue-hover); transform: scale(1.05); }
+      .no-chat-placeholder {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        color: var(--text-muted); text-align: center; padding: 40px;
+      }
+      @media (max-width: 768px) {
+        .messaging-layout { grid-template-columns: 1fr; }
+        .chat-main { display: none; }
+        .chat-main.mobile-open { display: flex; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header scrolled">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobseeker-dashboard.html">Dashboard</a>
+          <a href="jobs.html">Find Jobs</a>
+          <a href="profile.html">My Profile</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="messaging-page">
+      <div class="messaging-layout">
+        <!-- Conversation Sidebar -->
+        <aside class="conv-sidebar">
+          <div class="conv-sidebar-header">
+            <h2 style="font-size:1.1rem;font-weight:800;color:var(--text-primary);">Messages</h2>
+            <input type="text" class="conv-search" placeholder="Search conversations..." id="convSearch" />
+          </div>
+          <div class="conv-list" id="convList">
+            <!-- Demo conversations -->
+            <div class="conv-item active" onclick="openChat('Josephine Ngom', 'JN', 'Recruiter at Afriland First Bank')">
+              <div class="conv-avatar" style="background:#0145b2;">JN</div>
+              <div style="flex:1;overflow:hidden;">
+                <div class="conv-name">Josephine Ngom</div>
+                <div class="conv-preview">Your application was reviewed. We'd like to...</div>
+              </div>
+              <div class="unread-dot"></div>
+            </div>
+            <div class="conv-item" onclick="openChat('Paul Ekema', 'PE', 'HR Director at Razel-BEC')">
+              <div class="conv-avatar" style="background:#7c3aed;">PE</div>
+              <div style="flex:1;overflow:hidden;">
+                <div class="conv-name">Paul Ekema</div>
+                <div class="conv-preview">Please confirm your availability for a call on...</div>
+              </div>
+            </div>
+            <div class="conv-item" onclick="openChat('WorkWay Support', 'WW', 'WorkWay Platform Support')">
+              <div class="conv-avatar" style="background:var(--brand-gold);color:#000;">WW</div>
+              <div style="flex:1;overflow:hidden;">
+                <div class="conv-name">WorkWay Support</div>
+                <div class="conv-preview">Welcome to WorkWay! Your profile is 75% complete.</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Chat Main Area -->
+        <div class="chat-main" id="chatMain">
+          <!-- Default placeholder -->
+          <div class="no-chat-placeholder" id="chatPlaceholder">
+            <i class="fa-solid fa-comments" style="font-size:3rem;opacity:0.2;margin-bottom:16px;"></i>
+            <p>Select a conversation to start messaging</p>
+          </div>
+
+          <!-- Active chat -->
+          <div id="activeChatArea" style="display:none;flex:1;flex-direction:column;overflow:hidden;display:flex;">
+            <div class="chat-header" id="chatHeader">
+              <div class="conv-avatar" id="chatAvatar">JN</div>
+              <div>
+                <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);" id="chatName">Contact Name</div>
+                <div style="font-size:0.78rem;color:var(--text-muted);" id="chatRole">Role / Company</div>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg-bubble incoming">
+                Hello! Thank you for applying to the Senior Financial Analyst position. We were impressed with your profile and would like to schedule an initial interview.
+                <div class="msg-time">2:15 PM</div>
+              </div>
+              <div class="msg-bubble outgoing">
+                Thank you so much for reaching out! I'm very excited about this opportunity. I'm available any day next week between 9AM and 4PM.
+                <div class="msg-time">2:32 PM</div>
+              </div>
+              <div class="msg-bubble incoming">
+                Perfect! Let's schedule a video call for Tuesday at 10AM. I'll send the meeting link shortly.
+                <div class="msg-time">2:40 PM</div>
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <input type="text" class="chat-input" id="msgInput" placeholder="Type your message..." onkeydown="sendMsg(event)" />
+              <button class="send-btn" onclick="sendMsgBtn()">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { AuthService } from './js/services/auth.service.js';
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const user = await AuthService.getCurrentProfile();
+        if (!user) { window.location.href = 'login.html'; return; }
+
+        // Show first conv by default on desktop
+        if (window.innerWidth > 768) {
+          openChat('Josephine Ngom', 'JN', 'Recruiter at Afriland First Bank');
+        }
+      });
+
+      window.openChat = function(name, initials, role) {
+        document.querySelectorAll('.conv-item').forEach(i => i.classList.remove('active'));
+        event?.currentTarget?.classList.add('active');
+
+        document.getElementById('chatPlaceholder').style.display = 'none';
+        document.getElementById('activeChatArea').style.display = 'flex';
+        document.getElementById('chatName').textContent = name;
+        document.getElementById('chatRole').textContent = role;
+        document.getElementById('chatAvatar').textContent = initials;
+      };
+
+      window.sendMsg = function(e) { if (e.key === 'Enter') sendMsgBtn(); };
+      window.sendMsgBtn = function() {
+        const input = document.getElementById('msgInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const container = document.getElementById('chatMessages');
+        const bubble = document.createElement('div');
+        bubble.className = 'msg-bubble outgoing';
+        bubble.innerHTML = `${text}<div class="msg-time">${new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})}</div>`;
+        container.appendChild(bubble);
+        container.scrollTop = container.scrollHeight;
+        input.value = '';
+      };
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

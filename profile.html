@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .profile-layout {
+        padding: 120px 20px 80px;
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 32px;
+      }
+      .profile-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .profile-avatar-box {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+      }
+      .tag-pill {
+        display: inline-block;
+        background: var(--bg-tag);
+        color: var(--brand-blue);
+        padding: 6px 14px;
+        border-radius: var(--radius-full);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin: 4px;
+      }
+      .cv-version-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px;
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        margin-bottom: 12px;
+        background: var(--bg-card-subtle);
+      }
+      @media (max-width: 900px) {
+        .profile-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="jobseeker-dashboard.html">Dashboard</a>
+          <a href="my-applications.html">My Applications</a>
+          <a href="career-assessment.html">Assessments</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="profile-layout">
+      <!-- Left Sidebar -->
+      <aside class="profile-sidebar">
+        <div class="card-standard" style="text-align: center;">
+          <div class="profile-avatar-box" id="avatarBox">JS</div>
+          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);" id="profName">Loading...</h2>
+          <p style="font-size: 0.88rem; color: var(--brand-blue); font-weight: 600; margin-bottom: 16px;" id="profHeadline">Candidate</p>
+          <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
+            <i class="fa-solid fa-location-dot"></i> <span id="profLocation">Cameroon</span>
+          </div>
+          <div style="display: flex; gap: 10px; justify-content: center;">
+            <a href="resume-analysis.html" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.78rem;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> AI CV Analysis
+            </a>
+          </div>
+        </div>
+
+        <div class="card-standard">
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 14px;">Preferences</h3>
+          <div style="font-size: 0.88rem; line-height: 1.8; color: var(--text-secondary);">
+            <div><strong>Target Role:</strong> <span id="prefRole">Not specified</span></div>
+            <div><strong>Expected Salary:</strong> <span id="prefSalary">XAF</span></div>
+            <div><strong>Work Mode:</strong> <span id="prefMode">Hybrid</span></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Profile Body -->
+      <section style="display: flex; flex-direction: column; gap: 24px;">
+        <!-- Bio & Summary -->
+        <div class="card-standard">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">About &amp; Summary</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;" id="profBio">
+            No bio provided yet. Complete your profile setup to share your experience.
+          </p>
+        </div>
+
+        <!-- Skills -->
+        <div class="card-standard">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 12px;">Verified Skills</h3>
+          <div id="skillsContainer">
+            <span class="tag-pill">Project Management</span>
+            <span class="tag-pill">Engineering Design</span>
+            <span class="tag-pill">Bilingual FR/EN</span>
+          </div>
+        </div>
+
+        <!-- Multiple CV Versions Management -->
+        <div class="card-standard">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">Resume / CV Versions</h3>
+            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.78rem;" onclick="alert('Upload new resume version dialog opened.')">
+              <i class="fa-solid fa-plus"></i> Upload New Version
+            </button>
+          </div>
+
+          <div class="cv-version-row">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i class="fa-solid fa-file-pdf" style="font-size: 1.8rem; color: #ef4444;"></i>
+              <div>
+                <strong style="color: var(--text-primary); font-size: 0.95rem;">Primary_Technical_Resume_2026.pdf</strong>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">Uploaded Aug 2026 &bull; ATS Compatibility 88%</div>
+              </div>
+            </div>
+            <span class="tag-pill" style="background: #dcfce7; color: #166534;">Active Primary</span>
+          </div>
+
+          <div class="cv-version-row">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i class="fa-solid fa-file-lines" style="font-size: 1.8rem; color: var(--brand-blue);"></i>
+              <div>
+                <strong style="color: var(--text-primary); font-size: 0.95rem;">Executive_Consultancy_Resume.docx</strong>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">Uploaded Jul 2026 &bull; ATS Compatibility 84%</div>
+              </div>
+            </div>
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.75rem; background: transparent; color: var(--text-secondary); border-color: var(--border-color);">
+              Set as Primary
+            </button>
+          </div>
+        </div>
+
+        <!-- Experience History -->
+        <div class="card-standard">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">Work Experience History</h3>
+          <div id="experienceList">
+            <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 1rem; color: var(--text-primary); font-weight: 700;">Senior Project Engineer</h4>
+              <div style="font-size: 0.85rem; color: var(--brand-blue); font-weight: 600;">Razel-BEC Cameroun &bull; Douala</div>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 6px;">Supervised highway corridor construction, aggregate testing, and team safety compliance across national infrastructure routes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { AuthService } from './js/services/auth.service.js';
+      import { ProfileService } from './js/services/profiles.service.js';
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const currentUser = await AuthService.getCurrentProfile();
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUserId = urlParams.get('id') || currentUser?.id;
+
+        if (!targetUserId && !currentUser) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const data = await ProfileService.getCandidateFullProfile(targetUserId);
+        const p = data.profile || currentUser || {};
+        const d = data.details || {};
+
+        document.getElementById('profName').textContent = p.full_name || 'Candidate Profile';
+        document.getElementById('profHeadline').textContent = p.headline || 'WorkWay Candidate';
+        document.getElementById('profLocation').textContent = p.location || 'Cameroon';
+        if (p.bio) document.getElementById('profBio').textContent = p.bio;
+
+        if (p.full_name) {
+          document.getElementById('avatarBox').textContent = p.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        if (d.desired_role) document.getElementById('prefRole').textContent = d.desired_role;
+        if (d.expected_salary_min) document.getElementById('prefSalary').textContent = `${d.expected_salary_min.toLocaleString()} XAF / mo`;
+        if (d.work_mode_preference) document.getElementById('prefMode').textContent = d.work_mode_preference.toUpperCase();
+
+        if (data.skills && data.skills.length > 0) {
+          const container = document.getElementById('skillsContainer');
+          container.innerHTML = data.skills.map(s => `<span class="tag-pill">${s.skill_name}</span>`).join(' ');
+        }
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

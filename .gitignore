@@ -17,6 +17,10 @@ disable_email_confirm.py
 confirm_users.py
 install_autoconfirm.py
 fix_auth_trigger.sql
+run_schema_clean.py
+run_schema_migration.py
+run_migration.py
+run_storage_setup.py
 
 # Python cache
 __pycache__/

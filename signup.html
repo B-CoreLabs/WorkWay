@@ -3,34 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Get Started — Create your WorkWay Account</title>
+    <title>Sign Up — Create Your WorkWay Account</title>
+    <!-- Non-blocking Google Fonts with font-display: swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
     <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
     <style>
-      body {
-        background: #f4f8fc;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
       .auth-wrapper {
-        flex: 1;
+        min-height: calc(100vh - 80px);
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 120px 20px 60px;
       }
       .auth-card {
-        background: #ffffff;
-        border-radius: 24px;
-        box-shadow: 0 20px 50px rgba(1, 69, 178, 0.12);
-        border: 1px solid rgba(1, 69, 178, 0.08);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
         width: 100%;
-        max-width: 520px;
+        max-width: 540px;
         padding: 40px;
         position: relative;
         overflow: hidden;
@@ -42,7 +38,7 @@
         left: 0;
         right: 0;
         height: 6px;
-        background: linear-gradient(90deg, #0145b2 0%, #f5bf0b 100%);
+        background: linear-gradient(90deg, var(--brand-blue) 0%, var(--brand-gold) 100%);
       }
       .auth-header {
         text-align: center;
@@ -50,21 +46,21 @@
       }
       .auth-header h1 {
         font-size: 1.8rem;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 8px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 6px;
       }
       .auth-header p {
         font-size: 0.92rem;
-        color: #64748b;
+        color: var(--text-muted);
       }
       .role-selector {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        background: #eef4fc;
+        gap: 12px;
+        background: var(--bg-card-subtle);
         padding: 6px;
-        border-radius: 14px;
+        border-radius: var(--radius-md);
         margin-bottom: 24px;
       }
       .role-btn {
@@ -75,17 +71,58 @@
         padding: 12px;
         border: none;
         background: transparent;
-        border-radius: 10px;
+        border-radius: var(--radius-sm);
         font-size: 0.88rem;
         font-weight: 700;
-        color: #4a5568;
+        color: var(--text-secondary);
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all var(--transition-fast);
       }
       .role-btn.active {
-        background: #ffffff;
-        color: #0145b2;
-        box-shadow: 0 4px 12px rgba(1, 69, 178, 0.15);
+        background: var(--bg-surface);
+        color: var(--brand-blue);
+        box-shadow: var(--shadow-sm);
+      }
+      .oauth-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .oauth-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-surface);
+        border-radius: var(--radius-md);
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+      }
+      .oauth-btn:hover {
+        border-color: var(--brand-blue);
+        box-shadow: var(--shadow-sm);
+      }
+      .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 20px 0;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+      }
+      .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .divider span {
+        padding: 0 12px;
       }
       .form-group {
         margin-bottom: 18px;
@@ -94,7 +131,7 @@
         display: block;
         font-size: 0.82rem;
         font-weight: 700;
-        color: #334155;
+        color: var(--text-secondary);
         margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -102,23 +139,25 @@
       .form-control {
         width: 100%;
         padding: 14px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
+        border: 2px solid var(--border-subtle);
+        background: var(--bg-input);
+        color: var(--text-primary);
+        border-radius: var(--radius-md);
         font-size: 0.95rem;
-        font-family: inherit;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         outline: none;
       }
       .form-control:focus {
-        border-color: #0145b2;
+        border-color: var(--brand-blue);
         box-shadow: 0 0 0 4px rgba(1, 69, 178, 0.12);
       }
       .auth-alert {
-        padding: 12px 16px;
-        border-radius: 12px;
+        padding: 14px 16px;
+        border-radius: var(--radius-md);
         font-size: 0.88rem;
         margin-bottom: 20px;
         display: none;
+        line-height: 1.5;
       }
       .auth-alert.error {
         background: #fee2e2;
@@ -136,31 +175,28 @@
         text-align: center;
         margin-top: 24px;
         padding-top: 20px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--border-subtle);
         font-size: 0.9rem;
-        color: #64748b;
+        color: var(--text-muted);
       }
       .auth-footer a {
-        color: #0145b2;
+        color: var(--brand-blue);
         font-weight: 700;
-      }
-      .auth-footer a:hover {
-        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <!-- Site Header -->
+    <!-- Standard Header -->
     <header class="site-header">
       <div class="container nav-inner">
         <a href="index.html" class="logo">
           <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
         </a>
         <nav class="nav-links" id="navLinks">
-          <a href="jobs.html">Find Jobs</a>
-          <a href="recruiter.html">For Recruiters</a>
-          <a href="how.html">How It Works</a>
-          <a href="resources.html">Career Resources</a>
+          <a href="jobs.html" data-i18n="nav_find_jobs">Find Jobs</a>
+          <a href="recruiter.html" data-i18n="nav_recruiters">For Recruiters</a>
+          <a href="how.html" data-i18n="nav_how_it_works">How It Works</a>
+          <a href="resources.html" data-i18n="nav_resources">Career Resources</a>
         </nav>
         <div class="nav-actions">
           <a href="login.html" class="btn btn-secondary">Log In</a>
@@ -168,35 +204,51 @@
       </div>
     </header>
 
-    <div class="auth-wrapper">
+    <main class="auth-wrapper">
       <div class="auth-card">
         <div class="auth-header">
           <h1>Join WorkWay</h1>
-          <p>Create your free account and start connecting with opportunities</p>
+          <p>Create your account and unlock AI-powered career matching</p>
         </div>
 
+        <!-- 2-Step Flow: Step 1 Role Selection -->
         <div class="role-selector">
           <button type="button" class="role-btn active" id="btnSeeker">
             <i class="fa-solid fa-user-graduate"></i> Job Seeker
           </button>
           <button type="button" class="role-btn" id="btnRecruiter">
-            <i class="fa-solid fa-briefcase"></i> Recruiter / Employer
+            <i class="fa-solid fa-briefcase"></i> Employer / Recruiter
           </button>
+        </div>
+
+        <!-- OAuth Sign-In Buttons -->
+        <div class="oauth-buttons">
+          <button type="button" class="oauth-btn" id="btnGoogleOAuth">
+            <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google
+          </button>
+          <button type="button" class="oauth-btn" id="btnLinkedinOAuth">
+            <i class="fa-brands fa-linkedin" style="color: #0077b5;"></i> LinkedIn
+          </button>
+        </div>
+
+        <div class="divider">
+          <span>Or register with email</span>
         </div>
 
         <div id="authAlert" class="auth-alert"></div>
 
+        <!-- Step 2: Credentials Form -->
         <form id="signupForm">
           <input type="hidden" id="roleInput" value="job_seeker" />
 
           <div class="form-group">
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" class="form-control" placeholder="e.g. Alex Morgan" required />
+            <input type="text" id="fullName" class="form-control" placeholder="e.g. Samuel Eto'o" required />
           </div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" class="form-control" placeholder="alex@example.com" required />
+            <input type="email" id="email" class="form-control" placeholder="name@example.com" required />
           </div>
 
           <div class="form-group">
@@ -205,7 +257,7 @@
           </div>
 
           <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 14px;">
-            Create Account
+            Create Free Account
           </button>
         </form>
 
@@ -213,7 +265,7 @@
           Already have an account? <a href="login.html">Log In here</a>
         </div>
       </div>
-    </div>
+    </main>
 
     <script type="module">
       import { AuthService } from './js/services/auth.service.js';
@@ -224,6 +276,8 @@
       const signupForm = document.getElementById('signupForm');
       const submitBtn = document.getElementById('submitBtn');
       const authAlert = document.getElementById('authAlert');
+      const btnGoogleOAuth = document.getElementById('btnGoogleOAuth');
+      const btnLinkedinOAuth = document.getElementById('btnLinkedinOAuth');
 
       btnSeeker.addEventListener('click', () => {
         btnSeeker.classList.add('active');
@@ -235,6 +289,30 @@
         btnRecruiter.classList.add('active');
         btnSeeker.classList.remove('active');
         roleInput.value = 'recruiter';
+      });
+
+      btnGoogleOAuth.addEventListener('click', async () => {
+        try {
+          btnGoogleOAuth.disabled = true;
+          await AuthService.signInWithOAuth('google', roleInput.value);
+        } catch (err) {
+          authAlert.className = 'auth-alert error';
+          authAlert.style.display = 'block';
+          authAlert.textContent = err.message || 'Google sign in failed.';
+          btnGoogleOAuth.disabled = false;
+        }
+      });
+
+      btnLinkedinOAuth.addEventListener('click', async () => {
+        try {
+          btnLinkedinOAuth.disabled = true;
+          await AuthService.signInWithOAuth('linkedin', roleInput.value);
+        } catch (err) {
+          authAlert.className = 'auth-alert error';
+          authAlert.style.display = 'block';
+          authAlert.textContent = err.message || 'LinkedIn sign in failed.';
+          btnLinkedinOAuth.disabled = false;
+        }
       });
 
       signupForm.addEventListener('submit', async (e) => {
@@ -251,37 +329,28 @@
         submitBtn.innerText = 'Creating account...';
 
         try {
-          // Step 1: Sign up user with Supabase Auth
           const data = await AuthService.signUp({ email, password, fullName, role });
 
-          // Step 2: Immediately sign in (works because email confirmation is auto-handled by our trigger)
+          // Try automatic sign in
           try {
             await AuthService.signIn({ email, password });
             authAlert.className = 'auth-alert success';
-            authAlert.innerText = 'Account created! Taking you to your dashboard...';
+            authAlert.innerText = 'Account created! Redirecting to your portal...';
 
             setTimeout(async () => {
               await AuthService.routeUserByRole();
             }, 1000);
 
           } catch (loginErr) {
-            // Email confirmation might still be pending on free Supabase tier
-            // Show a friendly message instead of an error
-            authAlert.className = 'auth-alert success';
-            authAlert.innerHTML = `
-              <strong>Account created successfully!</strong><br>
-              <span style="font-size:0.9rem;">We sent a confirmation email to <strong>${email}</strong>.<br>
-              Click the link in that email, then <a href="login.html" style="color:#0145b2; font-weight:700;">log in here</a>.</span>
-            `;
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'Create Account';
+            // Redirect to verify email page
+            window.location.href = `verify-email.html?email=${encodeURIComponent(email)}`;
           }
 
         } catch (err) {
           authAlert.className = 'auth-alert error';
-          authAlert.innerText = err.message || 'An error occurred during sign up.';
+          authAlert.innerText = err.message || 'An error occurred during registration.';
           submitBtn.disabled = false;
-          submitBtn.innerText = 'Create Account';
+          submitBtn.innerText = 'Create Free Account';
         }
       });
     </script>

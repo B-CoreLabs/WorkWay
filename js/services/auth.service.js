@@ -1,5 +1,5 @@
 // ==============================================================================
-// AUTH SERVICE (Sign Up, Login, Logout, Session & Role Routing)
+// AUTH SERVICE (Sign Up, Login, OAuth, Password Reset, Role Routing & Sessions)
 // ==============================================================================
 import { supabase } from '../supabase-config.js';
 
@@ -37,12 +37,64 @@ export const AuthService = {
   },
 
   /**
+   * Sign in with OAuth provider (e.g. 'google', 'linkedin_oidc')
+   */
+  async signInWithOAuth(provider = 'google', role = null) {
+    if (role) {
+      localStorage.setItem('workway_oauth_desired_role', role);
+    }
+    const currentFolder = window.location.href.split('?')[0].split('#')[0].replace(/\/[^/]*$/, '/');
+    const redirectUrl = `${currentFolder}login.html`;
+    const providerKey = provider === 'linkedin' ? 'linkedin_oidc' : provider;
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: providerKey,
+      options: {
+        redirectTo: redirectUrl,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent'
+        }
+      }
+    });
+
+    if (error) throw error;
+    return data;
+  },
+
+  /**
+   * Request password reset email
+   */
+  async resetPasswordForEmail(email) {
+    const currentFolder = window.location.href.split('?')[0].split('#')[0].replace(/\/[^/]*$/, '/');
+    const resetRedirect = `${currentFolder}reset-password.html`;
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: resetRedirect
+    });
+
+    if (error) throw error;
+    return data;
+  },
+
+  /**
+   * Update password for user with active session/recovery token
+   */
+  async updateUserPassword(newPassword) {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) throw error;
+    return data;
+  },
+
+  /**
    * Sign out current user
    */
   async signOut() {
     const { error } = await supabase.auth.signOut();
     if (error) console.warn('Sign out error:', error.message);
-    window.location.href = window.location.origin + '/index.html';
+    window.location.href = 'index.html';
   },
 
   /**
@@ -75,27 +127,48 @@ export const AuthService = {
       id: user.id,
       email: user.email,
       full_name: user.user_metadata?.full_name || user.email.split('@')[0],
-      role: user.user_metadata?.role || 'job_seeker'
+      role: user.user_metadata?.role || 'job_seeker',
+      theme_preference: 'light',
+      language_preference: 'en'
     };
   },
 
   /**
+   * Check if recruiter has an associated company profile
+   */
+  async getRecruiterCompany(userId) {
+    const { data, error } = await supabase
+      .from('companies')
+      .select('*')
+      .eq('created_by', userId)
+      .limit(1);
+
+    if (error || !data || data.length === 0) return null;
+    return data[0];
+  },
+
+  /**
    * Redirect user to their appropriate portal dashboard based on role.
-   * Always resolves from origin root so paths are never relative to current page.
    */
   async routeUserByRole() {
     const profile = await this.getCurrentProfile();
-    const root = window.location.origin;
 
     if (!profile) {
-      window.location.href = root + '/login.html';
+      window.location.href = 'login.html';
       return;
     }
 
-    if (profile.role === 'recruiter') {
-      window.location.href = root + '/Recruiter%20Portal/dashboard.html';
+    if (profile.role === 'admin') {
+      window.location.href = 'admin.html';
+    } else if (profile.role === 'recruiter') {
+      const company = await this.getRecruiterCompany(profile.id);
+      if (!company) {
+        window.location.href = 'recruiter-onboarding.html';
+      } else {
+        window.location.href = 'recruiter-dashboard.html';
+      }
     } else {
-      window.location.href = root + '/Job%20Seeker%20Portal/dashboard.html';
+      window.location.href = 'jobseeker-dashboard.html';
     }
   },
 

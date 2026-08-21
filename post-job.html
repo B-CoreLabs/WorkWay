@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post a Job — WorkWay Recruiter Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .post-job-wrapper { padding: 100px 0 80px; }
+      .post-job-layout { display: grid; grid-template-columns: 1fr 320px; gap: 28px; margin-top: 28px; }
+      .form-section {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 32px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 24px;
+      }
+      .form-section-title {
+        font-size: 1rem; font-weight: 800; color: var(--text-primary);
+        margin-bottom: 20px; padding-bottom: 14px;
+        border-bottom: 2px solid var(--border-subtle);
+        display: flex; align-items: center; gap: 10px;
+      }
+      .form-section-title i { color: var(--brand-blue); }
+      .form-group { margin-bottom: 20px; }
+      .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+      .form-control { width: 100%; padding: 13px 16px; border: 2px solid var(--border-subtle); background: var(--bg-input); color: var(--text-primary); border-radius: var(--radius-md); font-size: 0.95rem; outline: none; font-family: 'Montserrat', sans-serif; transition: border-color var(--transition-fast); }
+      .form-control:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(1,69,178,0.12); }
+      .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+      .preview-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 24px;
+        box-shadow: var(--shadow-md);
+        position: sticky;
+        top: 110px;
+      }
+      .tag-input-container {
+        display: flex; flex-wrap: wrap; gap: 8px;
+        padding: 10px; border: 2px solid var(--border-subtle);
+        border-radius: var(--radius-md); background: var(--bg-input);
+        min-height: 52px; cursor: text;
+        transition: border-color var(--transition-fast);
+      }
+      .tag-input-container:focus-within { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(1,69,178,0.12); }
+      .tag-pill-input {
+        background: var(--brand-blue-light); color: var(--brand-blue);
+        padding: 4px 10px; border-radius: var(--radius-full);
+        font-size: 0.8rem; font-weight: 700;
+        display: flex; align-items: center; gap: 6px;
+      }
+      .tag-pill-input button { background: none; border: none; cursor: pointer; color: var(--brand-blue); font-size: 0.75rem; padding: 0; }
+      .tag-text-input { border: none; background: transparent; outline: none; font-size: 0.88rem; font-family: 'Montserrat', sans-serif; color: var(--text-primary); min-width: 120px; flex: 1; }
+      @media (max-width: 900px) {
+        .post-job-layout { grid-template-columns: 1fr; }
+        .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+        .preview-card { position: static; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header scrolled">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="recruiter-dashboard.html">Dashboard</a>
+          <a href="manage-jobs.html">Manage Jobs</a>
+          <a href="candidate-search.html">Find Candidates</a>
+          <a href="messages.html">Messages</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="post-job-wrapper">
+      <div class="container">
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:1.8rem;font-weight:800;color:var(--text-primary);">Post a New Job</h1>
+          <p style="color:var(--text-muted);font-size:0.9rem;">Your listing will be published and AI-matched to qualified candidates within minutes.</p>
+        </div>
+
+        <form id="postJobForm">
+          <div class="post-job-layout">
+            <!-- Left: Form Sections -->
+            <div>
+              <!-- Section 1: Basic Info -->
+              <div class="form-section">
+                <div class="form-section-title"><i class="fa-solid fa-circle-info"></i> Basic Job Information</div>
+                <div class="form-group">
+                  <label>Job Title *</label>
+                  <input type="text" id="jobTitle" class="form-control" required placeholder="e.g. Senior Financial Analyst" oninput="updatePreview()" />
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Industry / Category *</label>
+                    <select id="jobCategory" class="form-control" required onchange="updatePreview()">
+                      <option value="">Select Category</option>
+                      <option>Finance &amp; Accounting</option>
+                      <option>Engineering &amp; Civil Construction</option>
+                      <option>Medicine &amp; Healthcare</option>
+                      <option>Logistics &amp; Supply Chain</option>
+                      <option>Agriculture &amp; Agro-Industry</option>
+                      <option>Education &amp; Training</option>
+                      <option>Technology &amp; Software</option>
+                      <option>Energy &amp; Mining</option>
+                      <option>Government &amp; Public Sector</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Employment Type *</label>
+                    <select id="jobType" class="form-control" required>
+                      <option value="full_time">Full-Time</option>
+                      <option value="part_time">Part-Time</option>
+                      <option value="contract">Contract / Consulting</option>
+                      <option value="internship">Internship / Apprenticeship</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Experience Level *</label>
+                    <select id="jobLevel" class="form-control" required>
+                      <option value="entry">Entry Level (0-2 yrs)</option>
+                      <option value="mid">Mid Level (2-5 yrs)</option>
+                      <option value="senior">Senior (5-10 yrs)</option>
+                      <option value="lead">Lead / Executive (10+ yrs)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Work Mode *</label>
+                    <select id="jobMode" class="form-control" required>
+                      <option value="on_site">On-Site</option>
+                      <option value="hybrid">Hybrid</option>
+                      <option value="remote">Fully Remote</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Location *</label>
+                  <input type="text" id="jobLocation" class="form-control" required placeholder="e.g. Yaoundé, Centre Region, Cameroon" oninput="updatePreview()" />
+                </div>
+              </div>
+
+              <!-- Section 2: Description & Requirements -->
+              <div class="form-section">
+                <div class="form-section-title"><i class="fa-solid fa-file-lines"></i> Role Description &amp; Requirements</div>
+                <div class="form-group">
+                  <label>Job Overview / Description *</label>
+                  <textarea id="jobDescription" class="form-control" rows="5" required placeholder="Describe the role purpose, key stakeholders, and impact..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Key Responsibilities (one per line)</label>
+                  <textarea id="jobResponsibilities" class="form-control" rows="5" placeholder="e.g.&#10;Manage quarterly financial reporting to COBAC standards&#10;Lead weekly credit risk committee meetings&#10;Develop stress testing models for portfolio exposure"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Candidate Requirements (one per line)</label>
+                  <textarea id="jobRequirements" class="form-control" rows="4" placeholder="e.g.&#10;Master's degree in Finance or Accounting&#10;5+ years of experience in commercial banking&#10;Bilingual English and French required"></textarea>
+                </div>
+              </div>
+
+              <!-- Section 3: Skills -->
+              <div class="form-section">
+                <div class="form-section-title"><i class="fa-solid fa-tags"></i> Skills &amp; Compensation</div>
+                <div class="form-group">
+                  <label>Required Skills (Press Enter to add)</label>
+                  <div class="tag-input-container" id="skillsContainer" onclick="document.getElementById('skillsTextInput').focus()">
+                    <input type="text" id="skillsTextInput" class="tag-text-input" placeholder="Type skill, press Enter..." onkeydown="addSkillTag(event)" />
+                  </div>
+                  <input type="hidden" id="skillsHidden" />
+                </div>
+                <div class="form-grid-3">
+                  <div class="form-group">
+                    <label>Min Salary (XAF/mo)</label>
+                    <input type="number" id="salaryMin" class="form-control" placeholder="400000" />
+                  </div>
+                  <div class="form-group">
+                    <label>Max Salary (XAF/mo)</label>
+                    <input type="number" id="salaryMax" class="form-control" placeholder="900000" />
+                  </div>
+                  <div class="form-group">
+                    <label>Currency</label>
+                    <select id="salaryCurrency" class="form-control">
+                      <option value="XAF">XAF (FCFA)</option>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="display:flex;align-items:center;gap:12px;">
+                  <input type="checkbox" id="isFeatured" style="width:18px;height:18px;" />
+                  <label for="isFeatured" style="text-transform:none;letter-spacing:0;margin:0;cursor:pointer;">
+                    Feature this job listing (highlighted at the top of search results)
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" id="publishBtn" class="btn btn-primary" style="width:100%;padding:16px;font-size:1rem;">
+                <i class="fa-solid fa-paper-plane"></i> Publish Job Listing
+              </button>
+            </div>
+
+            <!-- Right: Preview Card -->
+            <aside>
+              <div class="preview-card">
+                <div style="font-size:0.78rem;font-weight:700;color:var(--brand-blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:14px;">Live Preview</div>
+                <div style="font-weight:800;font-size:1.1rem;color:var(--text-primary);margin-bottom:6px;" id="prevTitle">Job Title</div>
+                <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;" id="prevLocation">Location</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;" id="prevTags">
+                  <span class="job-tag">Full-Time</span>
+                  <span class="job-tag">On-Site</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--text-secondary);padding-top:14px;border-top:1px solid var(--border-subtle);">
+                  <i class="fa-solid fa-circle-check" style="color:#22c55e;"></i> Will be live on WorkWay after publishing
+                </div>
+              </div>
+            </aside>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module">
+      import { supabase } from './js/supabase-config.js';
+      import { AuthService } from './js/services/auth.service.js';
+
+      let currentUser = null;
+      let companyId = null;
+      const skills = [];
+
+      window.updatePreview = function() {
+        const title = document.getElementById('jobTitle').value || 'Job Title';
+        const location = document.getElementById('jobLocation').value || 'Location';
+        const type = document.getElementById('jobType').value?.replace('_', ' ') || 'Full-Time';
+        const mode = document.getElementById('jobMode').value?.replace('_', ' ') || 'On-Site';
+        document.getElementById('prevTitle').textContent = title;
+        document.getElementById('prevLocation').textContent = location;
+        document.getElementById('prevTags').innerHTML = `
+          <span class="job-tag" style="background:var(--bg-tag);color:var(--brand-blue);padding:4px 10px;border-radius:999px;font-size:0.75rem;font-weight:700;">${type}</span>
+          <span class="job-tag" style="background:var(--bg-tag);color:var(--brand-blue);padding:4px 10px;border-radius:999px;font-size:0.75rem;font-weight:700;">${mode}</span>
+        `;
+      };
+
+      window.addSkillTag = function(e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        const input = document.getElementById('skillsTextInput');
+        const val = input.value.trim();
+        if (!val || skills.includes(val)) return;
+        skills.push(val);
+        const container = document.getElementById('skillsContainer');
+        const tag = document.createElement('span');
+        tag.className = 'tag-pill-input';
+        tag.innerHTML = `${val} <button type="button" onclick="removeSkill('${val}', this)">×</button>`;
+        container.insertBefore(tag, input);
+        input.value = '';
+        document.getElementById('skillsHidden').value = JSON.stringify(skills);
+      };
+
+      window.removeSkill = function(skill, btn) {
+        const idx = skills.indexOf(skill);
+        if (idx > -1) skills.splice(idx, 1);
+        btn.parentElement.remove();
+        document.getElementById('skillsHidden').value = JSON.stringify(skills);
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        currentUser = await AuthService.getCurrentProfile();
+        if (!currentUser) { window.location.href = 'login.html'; return; }
+        if (currentUser.role !== 'recruiter') { window.location.href = 'jobseeker-dashboard.html'; return; }
+
+        const company = await AuthService.getRecruiterCompany(currentUser.id);
+        if (!company) { window.location.href = 'recruiter-onboarding.html'; return; }
+        companyId = company.id;
+      });
+
+      document.getElementById('postJobForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('publishBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing...';
+
+        const responsibilities = document.getElementById('jobResponsibilities').value.split('\n').map(s => s.trim()).filter(Boolean);
+        const requirements = document.getElementById('jobRequirements').value.split('\n').map(s => s.trim()).filter(Boolean);
+
+        const payload = {
+          company_id: companyId,
+          recruiter_id: currentUser.id,
+          title: document.getElementById('jobTitle').value.trim(),
+          category: document.getElementById('jobCategory').value,
+          job_type: document.getElementById('jobType').value,
+          experience_level: document.getElementById('jobLevel').value,
+          work_mode: document.getElementById('jobMode').value,
+          location: document.getElementById('jobLocation').value.trim(),
+          description: document.getElementById('jobDescription').value.trim(),
+          responsibilities,
+          requirements,
+          skills_required: skills,
+          salary_min: Number(document.getElementById('salaryMin').value) || null,
+          salary_max: Number(document.getElementById('salaryMax').value) || null,
+          salary_currency: document.getElementById('salaryCurrency').value,
+          is_featured: document.getElementById('isFeatured').checked,
+          is_active: true
+        };
+
+        try {
+          const { error } = await supabase.from('jobs').insert(payload);
+          if (error) throw error;
+          alert('✅ Job published successfully! Candidates are being matched now.');
+          window.location.href = 'manage-jobs.html';
+        } catch (err) {
+          alert('Error publishing job: ' + err.message);
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Publish Job Listing';
+        }
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recruiter Dashboard — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .dashboard-wrapper { padding: 100px 0 80px; }
+      .rec-grid { display: grid; grid-template-columns: 260px 1fr; gap: 28px; margin-top: 28px; }
+      .sidebar-nav { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 24px 16px; position: sticky; top: 110px; height: fit-content; box-shadow: var(--shadow-sm); }
+      .sidebar-nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radius-md); color: var(--text-secondary); font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: all var(--transition-fast); margin-bottom: 4px; }
+      .sidebar-nav-link:hover, .sidebar-nav-link.active { background: var(--bg-tag); color: var(--brand-blue); }
+      .sidebar-nav-link .icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: var(--bg-card-subtle); }
+      .sidebar-nav-link.active .icon { background: var(--brand-blue); color: #fff; }
+      .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+      .stat-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+      .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--brand-blue); }
+      .stat-card.gold::after { background: var(--brand-gold); }
+      .stat-card.green::after { background: #22c55e; }
+      .stat-card.red::after { background: #ef4444; }
+      .stat-val { font-size: 2rem; font-weight: 800; color: var(--text-primary); line-height: 1; margin: 8px 0 4px; }
+      .stat-label { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+      .job-row { display: flex; align-items: center; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border-subtle); transition: background var(--transition-fast); }
+      .job-row:hover { background: var(--bg-card-subtle); }
+      .job-row:last-child { border-bottom: none; }
+      .candidate-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
+      .candidate-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--brand-blue); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+      @media (max-width: 900px) { .rec-grid { grid-template-columns: 1fr; } .stat-cards { grid-template-columns: repeat(2, 1fr); } .sidebar-nav { display: none; } }
+    </style>
+  </head>
+  <body>
+    <header class="site-header scrolled">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="post-job.html">Post a Job</a>
+          <a href="manage-jobs.html">Manage Jobs</a>
+          <a href="candidate-search.html">Find Candidates</a>
+          <a href="messages.html">Messages</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div>
+            <h1 style="font-size:1.7rem;font-weight:800;color:var(--text-primary);">Recruiter Dashboard</h1>
+            <p style="color:var(--text-muted);font-size:0.9rem;" id="companyMeta">Loading company information...</p>
+          </div>
+          <a href="post-job.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Post New Job</a>
+        </div>
+
+        <div class="rec-grid">
+          <!-- Sidebar -->
+          <aside class="sidebar-nav">
+            <div style="padding:0 8px 20px;border-bottom:1px solid var(--border-subtle);margin-bottom:16px;">
+              <div style="font-weight:700;color:var(--text-primary);font-size:0.9rem;" id="sidebarCompany">Your Company</div>
+              <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;" id="sidebarIndustry">Industry</div>
+            </div>
+            <a href="recruiter-dashboard.html" class="sidebar-nav-link active">
+              <div class="icon"><i class="fa-solid fa-chart-line"></i></div> Dashboard
+            </a>
+            <a href="post-job.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-plus-circle"></i></div> Post a Job
+            </a>
+            <a href="manage-jobs.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-briefcase"></i></div> Manage Jobs
+            </a>
+            <a href="candidate-search.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-users"></i></div> Find Candidates
+            </a>
+            <a href="messages.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-comments"></i></div> Messages
+            </a>
+            <a href="interviews.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-calendar-check"></i></div> Interviews
+            </a>
+            <a href="analytics.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-chart-bar"></i></div> Analytics
+            </a>
+            <a href="settings.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-gear"></i></div> Settings
+            </a>
+          </aside>
+
+          <!-- Main Content -->
+          <div>
+            <!-- Stat Cards -->
+            <div class="stat-cards">
+              <div class="stat-card">
+                <div style="float:right;width:38px;height:38px;border-radius:var(--radius-md);background:var(--brand-blue-light);color:var(--brand-blue);display:flex;align-items:center;justify-content:center;">
+                  <i class="fa-solid fa-briefcase"></i>
+                </div>
+                <div class="stat-label">Active Job Listings</div>
+                <div class="stat-val" id="statJobs">0</div>
+              </div>
+              <div class="stat-card gold">
+                <div style="float:right;width:38px;height:38px;border-radius:var(--radius-md);background:var(--brand-gold-light);color:var(--brand-gold-hover);display:flex;align-items:center;justify-content:center;">
+                  <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="stat-label">Total Applications</div>
+                <div class="stat-val" id="statApps">0</div>
+              </div>
+              <div class="stat-card green">
+                <div style="float:right;width:38px;height:38px;border-radius:var(--radius-md);background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;">
+                  <i class="fa-solid fa-user-check"></i>
+                </div>
+                <div class="stat-label">Shortlisted</div>
+                <div class="stat-val" id="statShortlisted">0</div>
+              </div>
+              <div class="stat-card red">
+                <div style="float:right;width:38px;height:38px;border-radius:var(--radius-md);background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;">
+                  <i class="fa-solid fa-calendar"></i>
+                </div>
+                <div class="stat-label">Interviews Scheduled</div>
+                <div class="stat-val">0</div>
+              </div>
+            </div>
+
+            <!-- Active Job Listings -->
+            <div class="card-standard" style="margin-bottom:28px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--text-primary);">Your Active Job Listings</h3>
+                <a href="manage-jobs.html" style="font-size:0.85rem;font-weight:700;color:var(--brand-blue);">View all <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+              <div id="jobListingsTable">
+                <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.9rem;">
+                  <div class="skeleton skel-row" style="width:100%;height:48px;margin-bottom:10px;border-radius:8px;"></div>
+                  <div class="skeleton skel-row" style="width:100%;height:48px;border-radius:8px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Applications -->
+            <div class="card-standard">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--text-primary);">Recent Applications</h3>
+              </div>
+              <div id="recentApps">
+                <div style="text-align:center;padding:30px;color:var(--text-muted);">
+                  <i class="fa-solid fa-inbox" style="font-size:2rem;opacity:0.3;margin-bottom:10px;"></i>
+                  <p>No applications yet. Post your first job to start receiving candidates!</p>
+                  <a href="post-job.html" class="btn btn-primary" style="margin-top:14px;">Post a Job</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { supabase } from './js/supabase-config.js';
+      import { AuthService } from './js/services/auth.service.js';
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const user = await AuthService.getCurrentProfile();
+        if (!user) { window.location.href = 'login.html'; return; }
+        if (user.role === 'job_seeker') { window.location.href = 'jobseeker-dashboard.html'; return; }
+
+        const company = await AuthService.getRecruiterCompany(user.id);
+        if (!company) { window.location.href = 'recruiter-onboarding.html'; return; }
+
+        document.getElementById('companyMeta').textContent = `${company.name} • ${company.industry || ''}`;
+        document.getElementById('sidebarCompany').textContent = company.name;
+        document.getElementById('sidebarIndustry').textContent = company.industry || 'Company';
+
+        // Load job stats
+        const { data: jobs, count: jobCount } = await supabase.from('jobs').select('id, title, location, job_type', { count: 'exact' }).eq('company_id', company.id).eq('is_active', true);
+        document.getElementById('statJobs').textContent = jobCount || 0;
+
+        // Render job listings
+        if (jobs && jobs.length > 0) {
+          document.getElementById('jobListingsTable').innerHTML = jobs.map(j => `
+            <div class="job-row">
+              <div style="flex:1;">
+                <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);">${j.title}</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">${j.location} &bull; ${j.job_type?.replace('_',' ')}</div>
+              </div>
+              <a href="manage-jobs.html" class="btn btn-secondary" style="padding:7px 14px;font-size:0.8rem;">Manage</a>
+            </div>
+          `).join('');
+        } else {
+          document.getElementById('jobListingsTable').innerHTML = `
+            <div style="text-align:center;padding:30px;color:var(--text-muted);">
+              <p>No active jobs. <a href="post-job.html" style="color:var(--brand-blue);font-weight:700;">Post your first job listing.</a></p>
+            </div>`;
+        }
+
+        // Load applications
+        if (jobs && jobs.length > 0) {
+          const jobIds = jobs.map(j => j.id);
+          const { data: apps, count: appCount } = await supabase.from('job_applications').select('*, profiles(full_name, email)', { count: 'exact' }).in('job_id', jobIds).order('created_at', { ascending: false }).limit(5);
+          document.getElementById('statApps').textContent = appCount || 0;
+
+          if (apps && apps.length > 0) {
+            document.getElementById('recentApps').innerHTML = apps.map(app => `
+              <div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border-subtle);">
+                <div class="candidate-avatar">${(app.profiles?.full_name || 'CA').substring(0, 2).toUpperCase()}</div>
+                <div style="flex:1;">
+                  <div style="font-weight:700;font-size:0.9rem;color:var(--text-primary);">${app.profiles?.full_name || 'Candidate'}</div>
+                  <div style="font-size:0.8rem;color:var(--text-muted);">${app.profiles?.email || ''}</div>
+                </div>
+                <span style="background:#dbeafe;color:#1d4ed8;padding:4px 12px;border-radius:999px;font-size:0.78rem;font-weight:700;">${app.status || 'applied'}</span>
+              </div>
+            `).join('');
+          }
+        }
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

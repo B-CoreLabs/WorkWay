@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Setup — WorkWay Candidate Onboarding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .onboarding-wrapper {
+        padding: 120px 20px 80px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .step-progress {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 36px;
+        position: relative;
+      }
+      .step-progress::before {
+        content: '';
+        position: absolute;
+        top: 18px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--border-subtle);
+        z-index: 1;
+      }
+      .step-item {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .step-bubble {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-surface);
+        border: 2px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        transition: all var(--transition-normal);
+      }
+      .step-item.active .step-bubble {
+        background: var(--brand-blue);
+        border-color: var(--brand-blue);
+        color: #ffffff;
+        box-shadow: 0 0 0 6px rgba(1, 69, 178, 0.15);
+      }
+      .step-item.completed .step-bubble {
+        background: var(--brand-gold);
+        border-color: var(--brand-gold);
+        color: #000000;
+      }
+      .step-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .step-item.active .step-label {
+        color: var(--brand-blue);
+      }
+      .step-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 40px;
+        box-shadow: var(--shadow-md);
+        display: none;
+      }
+      .step-card.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .step-card-header {
+        margin-bottom: 28px;
+      }
+      .step-card-header h2 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+      }
+      .step-card-header p {
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .form-control {
+        width: 100%;
+        padding: 13px 16px;
+        border: 2px solid var(--border-subtle);
+        background: var(--bg-input);
+        color: var(--text-primary);
+        border-radius: var(--radius-md);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color var(--transition-fast);
+      }
+      .form-control:focus {
+        border-color: var(--brand-blue);
+        box-shadow: 0 0 0 4px rgba(1, 69, 178, 0.12);
+      }
+      .upload-dropzone {
+        border: 2px dashed var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 36px 20px;
+        text-align: center;
+        background: var(--bg-card-subtle);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+      }
+      .upload-dropzone:hover {
+        border-color: var(--brand-blue);
+        background: var(--bg-tag);
+      }
+      .btn-nav-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-subtle);
+      }
+      @media (max-width: 768px) {
+        .form-grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .step-label {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="resources.html">Career Resources</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="onboarding-wrapper">
+      <!-- Multi-step Indicator -->
+      <div class="step-progress">
+        <div class="step-item active" id="indicator1">
+          <div class="step-bubble">1</div>
+          <span class="step-label">Personal</span>
+        </div>
+        <div class="step-item" id="indicator2">
+          <div class="step-bubble">2</div>
+          <span class="step-label">CV Upload</span>
+        </div>
+        <div class="step-item" id="indicator3">
+          <div class="step-bubble">3</div>
+          <span class="step-label">Experience</span>
+        </div>
+        <div class="step-item" id="indicator4">
+          <div class="step-bubble">4</div>
+          <span class="step-label">Skills</span>
+        </div>
+        <div class="step-item" id="indicator5">
+          <div class="step-bubble">5</div>
+          <span class="step-label">Preferences</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Personal Info -->
+      <div class="step-card active" id="step1">
+        <div class="step-card-header">
+          <h2>Step 1: Personal &amp; Professional Info</h2>
+          <p>Tell recruiters who you are and what your career headline is.</p>
+        </div>
+        <form id="formStep1">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="headline">Professional Headline</label>
+              <input type="text" id="headline" class="form-control" placeholder="e.g. Senior Civil Engineer | Infrastructure Specialist" required />
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="location">Location / City</label>
+              <input type="text" id="location" class="form-control" placeholder="e.g. Yaoundé, Cameroon" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" class="form-control" placeholder="+237 6XX XXX XXX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bio">Professional Summary / Bio</label>
+            <textarea id="bio" class="form-control" rows="4" placeholder="Briefly describe your experience and career goals..."></textarea>
+          </div>
+          <div class="btn-nav-row">
+            <div></div>
+            <button type="submit" class="btn btn-primary">Continue to CV Upload <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: CV Upload -->
+      <div class="step-card" id="step2">
+        <div class="step-card-header">
+          <h2>Step 2: Resume / CV Upload</h2>
+          <p>Upload your latest CV in PDF or DOCX format for instant AI parsing and ATS compatibility analysis.</p>
+        </div>
+        <div class="upload-dropzone" id="cvDropzone">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.8rem; color: var(--brand-blue); margin-bottom: 14px;"></i>
+          <h3 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px;">Click or Drag &amp; Drop Resume</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Supports PDF, DOCX (Max 10MB)</p>
+          <input type="file" id="cvFileInput" accept=".pdf,.doc,.docx" style="display: none;" />
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('cvFileInput').click()">Browse Files</button>
+        </div>
+        <div id="cvUploadedNotice" style="display:none; margin-top: 20px; padding: 14px; background: var(--bg-tag); border-radius: var(--radius-md); color: var(--brand-blue); font-weight: 700;">
+          <i class="fa-solid fa-circle-check"></i> <span id="cvFileNameDisplay">Resume.pdf</span> attached
+        </div>
+        <div class="btn-nav-row">
+          <button type="button" class="btn btn-secondary" onclick="goToStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(3)">Continue <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 3: Experience & Education -->
+      <div class="step-card" id="step3">
+        <div class="step-card-header">
+          <h2>Step 3: Work Experience &amp; Education</h2>
+          <p>Add your recent employment and academic qualifications.</p>
+        </div>
+        <form id="formStep3">
+          <h3 style="font-size: 1.05rem; margin-bottom: 14px; color: var(--brand-blue); font-weight: 700;">Latest Work Experience</h3>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Job Title</label>
+              <input type="text" id="expTitle" class="form-control" placeholder="e.g. Project Lead" required />
+            </div>
+            <div class="form-group">
+              <label>Company Name</label>
+              <input type="text" id="expCompany" class="form-control" placeholder="e.g. Razel-BEC Cameroun" required />
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" id="expStart" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label>End Date (or Present)</label>
+              <input type="date" id="expEnd" class="form-control" />
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.05rem; margin: 20px 0 14px; color: var(--brand-blue); font-weight: 700;">Highest Education</h3>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Institution / University</label>
+              <input type="text" id="eduInstitution" class="form-control" placeholder="e.g. University of Yaoundé I" required />
+            </div>
+            <div class="form-group">
+              <label>Degree &amp; Field</label>
+              <input type="text" id="eduDegree" class="form-control" placeholder="e.g. Master in Civil Engineering" required />
+            </div>
+          </div>
+
+          <div class="btn-nav-row">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button type="submit" class="btn btn-primary">Continue to Skills <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 4: Skills & Certifications -->
+      <div class="step-card" id="step4">
+        <div class="step-card-header">
+          <h2>Step 4: Skills &amp; Portfolio Links</h2>
+          <p>Highlight your core domain skills for the AI matching algorithm.</p>
+        </div>
+        <form id="formStep4">
+          <div class="form-group">
+            <label>Key Skills (Comma-separated)</label>
+            <input type="text" id="skillsInput" class="form-control" placeholder="e.g. Civil Engineering, AutoCAD Civil 3D, Site Supervision, Risk Management" required />
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>LinkedIn Profile URL</label>
+              <input type="url" id="linkedinUrl" class="form-control" placeholder="https://linkedin.com/in/username" />
+            </div>
+            <div class="form-group">
+              <label>Portfolio / GitHub URL</label>
+              <input type="url" id="portfolioUrl" class="form-control" placeholder="https://portfolio-or-github.com" />
+            </div>
+          </div>
+          <div class="btn-nav-row">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button type="submit" class="btn btn-primary">Continue to Preferences <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 5: Preferences -->
+      <div class="step-card" id="step5">
+        <div class="step-card-header">
+          <h2>Step 5: Job &amp; Work Preferences</h2>
+          <p>Specify your ideal salary, work mode, and target categories.</p>
+        </div>
+        <form id="formStep5">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Desired Job Title / Target Role</label>
+              <input type="text" id="desiredRole" class="form-control" placeholder="e.g. Senior Project Engineer" required />
+            </div>
+            <div class="form-group">
+              <label>Target Industry</label>
+              <select id="targetIndustry" class="form-control">
+                <option value="Engineering & Civil Construction">Engineering &amp; Civil Construction</option>
+                <option value="Finance & Banking">Finance &amp; Banking</option>
+                <option value="Medicine & Healthcare">Medicine &amp; Healthcare</option>
+                <option value="Logistics & Supply Chain">Logistics &amp; Supply Chain</option>
+                <option value="Agriculture & Agro-Industry">Agriculture &amp; Agro-Industry</option>
+                <option value="Education & Training">Education &amp; Training</option>
+                <option value="Technology & Software">Technology &amp; Software</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Expected Monthly Salary (XAF)</label>
+              <input type="number" id="expectedSalary" class="form-control" placeholder="850000" required />
+            </div>
+            <div class="form-group">
+              <label>Work Mode Preference</label>
+              <select id="workMode" class="form-control">
+                <option value="hybrid">Hybrid</option>
+                <option value="on_site">On-Site</option>
+                <option value="remote">Remote</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-nav-row">
+            <button type="button" class="btn btn-secondary" onclick="goToStep(4)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button type="submit" id="finishBtn" class="btn btn-primary" style="padding: 14px 36px;">
+              Complete Profile &amp; Match Jobs <i class="fa-solid fa-check-circle"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module">
+      import { AuthService } from './js/services/auth.service.js';
+      import { ProfileService } from './js/services/profiles.service.js';
+
+      let currentUser = null;
+      window.goToStep = (step) => {
+        for (let i = 1; i <= 5; i++) {
+          document.getElementById(`step${i}`).classList.remove('active');
+          document.getElementById(`indicator${i}`).classList.remove('active');
+          if (i < step) document.getElementById(`indicator${i}`).classList.add('completed');
+        }
+        document.getElementById(`step${step}`).classList.add('active');
+        document.getElementById(`indicator${step}`).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        currentUser = await AuthService.getCurrentProfile();
+        if (!currentUser) {
+          window.location.href = 'login.html';
+          return;
+        }
+        if (currentUser.full_name) {
+          document.getElementById('fullName').value = currentUser.full_name;
+        }
+      });
+
+      // Step 1 Submit
+      document.getElementById('formStep1').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await ProfileService.updateProfile(currentUser.id, {
+          full_name: document.getElementById('fullName').value.trim(),
+          headline: document.getElementById('headline').value.trim(),
+          location: document.getElementById('location').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          bio: document.getElementById('bio').value.trim()
+        });
+        goToStep(2);
+      });
+
+      // File upload handler
+      document.getElementById('cvFileInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          document.getElementById('cvFileNameDisplay').textContent = file.name;
+          document.getElementById('cvUploadedNotice').style.display = 'block';
+        }
+      });
+
+      // Step 3 Submit
+      document.getElementById('formStep3').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await ProfileService.addExperience(currentUser.id, {
+          job_title: document.getElementById('expTitle').value.trim(),
+          company_name: document.getElementById('expCompany').value.trim(),
+          start_date: document.getElementById('expStart').value,
+          end_date: document.getElementById('expEnd').value || null,
+          is_current: !document.getElementById('expEnd').value
+        });
+        await ProfileService.addEducation(currentUser.id, {
+          institution: document.getElementById('eduInstitution').value.trim(),
+          degree: document.getElementById('eduDegree').value.trim()
+        });
+        goToStep(4);
+      });
+
+      // Step 4 Submit
+      document.getElementById('formStep4').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rawSkills = document.getElementById('skillsInput').value.split(',').map(s => s.trim()).filter(Boolean);
+        await ProfileService.saveSkills(currentUser.id, rawSkills.map(s => ({ name: s, level: 'advanced', years: 3 })));
+        await ProfileService.updateProfile(currentUser.id, {
+          skills: rawSkills,
+          linkedin_url: document.getElementById('linkedinUrl').value.trim(),
+          portfolio_url: document.getElementById('portfolioUrl').value.trim()
+        });
+        goToStep(5);
+      });
+
+      // Step 5 Finish
+      document.getElementById('formStep5').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const finishBtn = document.getElementById('finishBtn');
+        finishBtn.disabled = true;
+        finishBtn.innerText = 'Saving preferences...';
+
+        await ProfileService.upsertCandidateDetails(currentUser.id, {
+          desired_role: document.getElementById('desiredRole').value.trim(),
+          target_industries: [document.getElementById('targetIndustry').value],
+          expected_salary_min: Number(document.getElementById('expectedSalary').value),
+          work_mode_preference: document.getElementById('workMode').value
+        });
+
+        window.location.href = 'jobseeker-dashboard.html';
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

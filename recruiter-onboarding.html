@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recruiter Onboarding — Set Up Your Company on WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .onboarding-wrapper { padding: 120px 20px 80px; max-width: 720px; margin: 0 auto; }
+      .step-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 40px;
+        box-shadow: var(--shadow-md);
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+      .step-card.active { display: block; }
+      @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+      .step-header {
+        border-left: 4px solid var(--brand-blue);
+        padding-left: 16px;
+        margin-bottom: 28px;
+      }
+      .step-header h2 { font-size: 1.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+      .step-header p { font-size: 0.9rem; color: var(--text-muted); }
+      .form-group { margin-bottom: 20px; }
+      .form-group label {
+        display: block; font-size: 0.82rem; font-weight: 700;
+        color: var(--text-secondary); margin-bottom: 6px;
+        text-transform: uppercase; letter-spacing: 0.5px;
+      }
+      .form-control {
+        width: 100%; padding: 13px 16px;
+        border: 2px solid var(--border-subtle);
+        background: var(--bg-input); color: var(--text-primary);
+        border-radius: var(--radius-md); font-size: 0.95rem;
+        outline: none; font-family: 'Montserrat', sans-serif;
+        transition: border-color var(--transition-fast);
+      }
+      .form-control:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(1,69,178,0.12); }
+      .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .btn-nav-row { display: flex; justify-content: space-between; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-subtle); }
+      .recruiter-value-list { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+      .recruiter-value-item { display: flex; gap: 14px; align-items: flex-start; }
+      .rv-icon { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--brand-blue-light); color: var(--brand-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+      @media (max-width: 600px) { .form-grid-2 { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks"></nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="onboarding-wrapper">
+      <!-- Step 1: Welcome to Recruiter Portal -->
+      <div class="step-card active" id="recStep1">
+        <div style="text-align:center;margin-bottom:28px;">
+          <div style="width:70px;height:70px;border-radius:50%;background:var(--brand-blue-light);color:var(--brand-blue);font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <h1 style="font-size:1.8rem;font-weight:800;color:var(--text-primary);margin-bottom:8px;">Welcome, Recruiter!</h1>
+          <p style="font-size:0.95rem;color:var(--text-muted);">Let's set up your company profile so candidates can discover your openings and your AI-matched shortlists begin loading.</p>
+        </div>
+
+        <div class="recruiter-value-list">
+          <div class="recruiter-value-item">
+            <div class="rv-icon"><i class="fa-solid fa-brain"></i></div>
+            <div>
+              <strong style="color:var(--text-primary);">AI-Powered Candidate Shortlisting</strong>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">Our matching engine ranks candidates against your roles using skills, experience, and culture fit automatically.</p>
+            </div>
+          </div>
+          <div class="recruiter-value-item">
+            <div class="rv-icon"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <strong style="color:var(--text-primary);">Access 50,000+ Cameroon Candidates</strong>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">Browse bilingual, multi-sector talent across Yaoundé, Douala, and regional cities.</p>
+            </div>
+          </div>
+          <div class="recruiter-value-item">
+            <div class="rv-icon"><i class="fa-solid fa-comments"></i></div>
+            <div>
+              <strong style="color:var(--text-primary);">Integrated Messaging &amp; Interview Scheduling</strong>
+              <p style="font-size:0.85rem;color:var(--text-secondary);">Communicate directly with shortlisted candidates and schedule interviews without leaving the platform.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-nav-row">
+          <div></div>
+          <button class="btn btn-primary" onclick="goRecStep(2)">Set Up My Company <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Step 2: Company Details -->
+      <div class="step-card" id="recStep2">
+        <div class="step-header">
+          <h2>Company Profile</h2>
+          <p>These details will appear to job seekers browsing your company listings.</p>
+        </div>
+        <form id="formCompany">
+          <div class="form-group">
+            <label>Company / Organisation Name *</label>
+            <input type="text" id="compName" class="form-control" required placeholder="e.g. Afriland First Bank S.A." />
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Industry / Sector *</label>
+              <select id="compIndustry" class="form-control" required>
+                <option value="">Select Sector</option>
+                <option>Finance &amp; Banking</option>
+                <option>Engineering &amp; Construction</option>
+                <option>Medicine &amp; Healthcare</option>
+                <option>Logistics &amp; Supply Chain</option>
+                <option>Agriculture &amp; Agro-Industry</option>
+                <option>Education &amp; Training</option>
+                <option>Technology &amp; Software</option>
+                <option>Energy &amp; Mining</option>
+                <option>Government &amp; Public Sector</option>
+                <option>NGO / International Development</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Company Size</label>
+              <select id="compSize" class="form-control">
+                <option value="1-10">1 – 10 employees</option>
+                <option value="11-50">11 – 50 employees</option>
+                <option value="51-200">51 – 200 employees</option>
+                <option value="201-1000">201 – 1,000 employees</option>
+                <option value="1000+">1,000+ employees</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Headquarters Location</label>
+            <input type="text" id="compLocation" class="form-control" placeholder="e.g. Yaoundé, Centre Region, Cameroon" />
+          </div>
+          <div class="form-group">
+            <label>Company Website</label>
+            <input type="url" id="compWebsite" class="form-control" placeholder="https://www.yourcompany.cm" />
+          </div>
+          <div class="form-group">
+            <label>Company Description</label>
+            <textarea id="compDescription" class="form-control" rows="4" placeholder="Brief overview of your company, mission, and culture (visible to candidates)..."></textarea>
+          </div>
+          <div class="btn-nav-row">
+            <button type="button" class="btn btn-secondary" onclick="goRecStep(1)" style="background:transparent;color:var(--text-secondary);border-color:var(--border-color);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="btn btn-primary">Continue <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 3: Recruiter Contact Info -->
+      <div class="step-card" id="recStep3">
+        <div class="step-header">
+          <h2>Your Contact Details</h2>
+          <p>Let candidates and the WorkWay team know who to reach for hiring inquiries.</p>
+        </div>
+        <form id="formContact">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Your Full Name *</label>
+              <input type="text" id="recFullName" class="form-control" required placeholder="e.g. Marie-Claire Nkeng" />
+            </div>
+            <div class="form-group">
+              <label>Job Title at Company *</label>
+              <input type="text" id="recTitle" class="form-control" required placeholder="e.g. Head of Talent Acquisition" />
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Work Phone Number</label>
+              <input type="tel" id="recPhone" class="form-control" placeholder="+237 6XX XXX XXX" />
+            </div>
+            <div class="form-group">
+              <label>LinkedIn Profile (Optional)</label>
+              <input type="url" id="recLinkedin" class="form-control" placeholder="https://linkedin.com/in/username" />
+            </div>
+          </div>
+          <div class="btn-nav-row">
+            <button type="button" class="btn btn-secondary" onclick="goRecStep(2)" style="background:transparent;color:var(--text-secondary);border-color:var(--border-color);">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" id="finishOnboardingBtn" class="btn btn-primary">Launch Recruiter Dashboard <i class="fa-solid fa-rocket"></i></button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module">
+      import { supabase } from './js/supabase-config.js';
+      import { AuthService } from './js/services/auth.service.js';
+
+      let currentUser = null;
+      let companyData = {};
+
+      window.goRecStep = (step) => {
+        for (let i = 1; i <= 3; i++) document.getElementById(`recStep${i}`).classList.remove('active');
+        document.getElementById(`recStep${step}`).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        currentUser = await AuthService.getCurrentProfile();
+        if (!currentUser) { window.location.href = 'login.html'; return; }
+        if (currentUser.role !== 'recruiter') { window.location.href = 'jobseeker-dashboard.html'; return; }
+
+        // Pre-check company
+        const company = await AuthService.getRecruiterCompany(currentUser.id);
+        if (company) { window.location.href = 'recruiter-dashboard.html'; return; }
+      });
+
+      document.getElementById('formCompany').addEventListener('submit', (e) => {
+        e.preventDefault();
+        companyData = {
+          name: document.getElementById('compName').value.trim(),
+          industry: document.getElementById('compIndustry').value,
+          size: document.getElementById('compSize').value,
+          location: document.getElementById('compLocation').value.trim(),
+          website: document.getElementById('compWebsite').value.trim(),
+          description: document.getElementById('compDescription').value.trim()
+        };
+        goRecStep(3);
+      });
+
+      document.getElementById('formContact').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('finishOnboardingBtn');
+        btn.disabled = true;
+        btn.innerText = 'Creating your company profile...';
+
+        try {
+          const { error } = await supabase.from('companies').insert({
+            ...companyData,
+            created_by: currentUser.id
+          });
+
+          if (error) throw error;
+
+          await supabase.from('profiles').update({
+            full_name: document.getElementById('recFullName').value.trim(),
+            headline: document.getElementById('recTitle').value.trim(),
+            phone: document.getElementById('recPhone').value.trim(),
+            linkedin_url: document.getElementById('recLinkedin').value.trim()
+          }).eq('id', currentUser.id);
+
+          window.location.href = 'recruiter-dashboard.html';
+        } catch (err) {
+          alert('Error creating company: ' + err.message);
+          btn.disabled = false;
+          btn.innerText = 'Launch Recruiter Dashboard';
+        }
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

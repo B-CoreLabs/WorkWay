@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Seeker Dashboard — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .dashboard-wrapper {
+        padding: 100px 0 80px;
+        min-height: 100vh;
+      }
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 28px;
+        margin-top: 28px;
+      }
+      .sidebar-nav {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 24px 16px;
+        position: sticky;
+        top: 110px;
+        height: fit-content;
+        box-shadow: var(--shadow-sm);
+      }
+      .sidebar-user {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-subtle);
+        margin-bottom: 16px;
+      }
+      .sidebar-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        color: #ffffff;
+        font-size: 1.8rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        box-shadow: 0 0 0 4px var(--brand-gold-light), 0 0 0 6px var(--brand-gold);
+      }
+      .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: var(--radius-md);
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all var(--transition-fast);
+        margin-bottom: 4px;
+      }
+      .sidebar-nav-link:hover, .sidebar-nav-link.active {
+        background: var(--bg-tag);
+        color: var(--brand-blue);
+      }
+      .sidebar-nav-link .icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-card-subtle);
+      }
+      .sidebar-nav-link.active .icon {
+        background: var(--brand-blue);
+        color: #ffffff;
+      }
+      .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        box-shadow: var(--shadow-sm);
+        position: relative;
+        overflow: hidden;
+      }
+      .stat-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--brand-blue);
+      }
+      .stat-card.gold::after { background: var(--brand-gold); }
+      .stat-card.green::after { background: #22c55e; }
+      .stat-card.purple::after { background: #8b5cf6; }
+      .stat-val {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1;
+        margin: 8px 0 4px;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .stat-icon {
+        float: right;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+      .quick-action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .quick-action-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-decoration: none;
+        box-shadow: var(--shadow-sm);
+        transition: all var(--transition-normal);
+      }
+      .quick-action-card:hover {
+        border-color: var(--brand-blue);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+      .qa-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .activity-feed-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .activity-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--brand-blue);
+        flex-shrink: 0;
+      }
+      @media (max-width: 900px) {
+        .dashboard-grid { grid-template-columns: 1fr; }
+        .stat-cards { grid-template-columns: repeat(2, 1fr); }
+        .quick-action-grid { grid-template-columns: 1fr; }
+        .sidebar-nav { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header scrolled">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobs.html">Find Jobs</a>
+          <a href="career-assessment.html">Assessment</a>
+          <a href="profile.html">My Profile</a>
+          <a href="resources.html">Resources</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="dashboard-wrapper">
+      <div class="container">
+        <!-- Welcome Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div>
+            <h1 style="font-size: 1.7rem; font-weight: 800; color: var(--text-primary);">
+              Welcome back, <span id="greetName" style="color: var(--brand-blue);">loading...</span> 👋
+            </h1>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 4px;" id="greetSub">Here's a snapshot of your career journey</p>
+          </div>
+          <a href="jobs.html" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Find Jobs
+          </a>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- ── Left Sidebar Nav ─────────────────── -->
+          <aside class="sidebar-nav">
+            <div class="sidebar-user">
+              <div class="sidebar-avatar" id="sidebarAvatar">JS</div>
+              <div style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;" id="sidebarName">...</div>
+              <div style="font-size: 0.78rem; color: var(--brand-blue); font-weight: 600; margin-top: 2px;" id="sidebarRole">Job Seeker</div>
+            </div>
+            <a href="jobseeker-dashboard.html" class="sidebar-nav-link active">
+              <div class="icon"><i class="fa-solid fa-chart-line"></i></div> Dashboard
+            </a>
+            <a href="profile.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-user"></i></div> My Profile
+            </a>
+            <a href="jobs.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div> Find Jobs
+            </a>
+            <a href="my-applications.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-file-lines"></i></div> My Applications
+            </a>
+            <a href="saved-jobs.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-bookmark"></i></div> Saved Jobs
+            </a>
+            <a href="career-assessment.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-brain"></i></div> Career Assessment
+            </a>
+            <a href="resume-analysis.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div> Resume AI Analysis
+            </a>
+            <a href="messages.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-comments"></i></div> Messages
+            </a>
+            <a href="notifications.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-bell"></i></div> Notifications
+            </a>
+            <a href="settings.html" class="sidebar-nav-link">
+              <div class="icon"><i class="fa-solid fa-gear"></i></div> Settings
+            </a>
+          </aside>
+
+          <!-- ── Main Content ──────────────────────── -->
+          <div>
+            <!-- Stat Cards -->
+            <div class="stat-cards">
+              <div class="stat-card">
+                <div class="stat-icon" style="background: var(--brand-blue-light); color: var(--brand-blue);">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div class="stat-label">Applications</div>
+                <div class="stat-val" id="statApps">0</div>
+              </div>
+              <div class="stat-card gold">
+                <div class="stat-icon" style="background: var(--brand-gold-light); color: var(--brand-gold);">
+                  <i class="fa-solid fa-eye"></i>
+                </div>
+                <div class="stat-label">Profile Views</div>
+                <div class="stat-val">14</div>
+              </div>
+              <div class="stat-card green">
+                <div class="stat-icon" style="background: #dcfce7; color: #16a34a;">
+                  <i class="fa-solid fa-bookmark"></i>
+                </div>
+                <div class="stat-label">Saved Jobs</div>
+                <div class="stat-val" id="statSaved">0</div>
+              </div>
+              <div class="stat-card purple">
+                <div class="stat-icon" style="background: #ede9fe; color: #7c3aed;">
+                  <i class="fa-solid fa-percent"></i>
+                </div>
+                <div class="stat-label">Avg Match Score</div>
+                <div class="stat-val">87%</div>
+              </div>
+            </div>
+
+            <!-- Profile Completion Banner -->
+            <div id="profileBanner" style="background: linear-gradient(135deg, var(--brand-blue) 0%, #002566 100%); border-radius: var(--radius-lg); padding: 24px; color: #ffffff; margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+              <div>
+                <strong style="font-size: 1.05rem;">Complete Your Profile to Unlock Better Matches</strong>
+                <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 4px;">Add your skills, experience, and take the career assessment to improve AI matching accuracy by up to 40%.</div>
+                <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+                  <div style="flex: 1; height: 6px; background: rgba(255,255,255,0.25); border-radius: 4px; max-width: 300px;">
+                    <div id="profileCompletionBar" style="height: 100%; background: var(--brand-gold); border-radius: 4px; width: 55%;"></div>
+                  </div>
+                  <span style="font-size: 0.82rem; font-weight: 700;" id="profilePct">55%</span>
+                </div>
+              </div>
+              <a href="profile-setup.html" class="btn btn-primary" style="flex-shrink: 0; white-space: nowrap;">Complete Profile</a>
+            </div>
+
+            <!-- Quick Actions -->
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 14px;">Quick Actions</h3>
+            <div class="quick-action-grid">
+              <a href="jobs.html" class="quick-action-card">
+                <div class="qa-icon" style="background: var(--brand-blue-light); color: var(--brand-blue);">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-primary);">Discover AI Matches</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">Explore jobs ranked by your profile compatibility</div>
+                </div>
+              </a>
+              <a href="career-assessment.html" class="quick-action-card">
+                <div class="qa-icon" style="background: #ede9fe; color: #7c3aed;">
+                  <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-primary);">Career Assessment</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">Discover your work personality & leadership style</div>
+                </div>
+              </a>
+              <a href="resume-analysis.html" class="quick-action-card">
+                <div class="qa-icon" style="background: var(--brand-gold-light); color: var(--brand-gold-hover);">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-primary);">AI Resume Analysis</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">Get ATS score & improvement recommendations</div>
+                </div>
+              </a>
+              <a href="messages.html" class="quick-action-card">
+                <div class="qa-icon" style="background: #dcfce7; color: #16a34a;">
+                  <i class="fa-solid fa-comments"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; color: var(--text-primary);">Recruiter Messages</div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">Check direct messages from hiring managers</div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card-standard">
+              <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px;">Recent Activity</h3>
+              <div id="activityFeed">
+                <div class="activity-feed-item">
+                  <div class="activity-dot" style="background: #22c55e;"></div>
+                  <div style="flex: 1;">
+                    <strong style="font-size: 0.9rem; color: var(--text-primary);">Application Submitted</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-muted);">Senior Financial Analyst &amp; Risk Controller — Afriland First Bank</p>
+                  </div>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">2h ago</span>
+                </div>
+                <div class="activity-feed-item">
+                  <div class="activity-dot" style="background: var(--brand-gold);"></div>
+                  <div style="flex: 1;">
+                    <strong style="font-size: 0.9rem; color: var(--text-primary);">Profile Viewed by Recruiter</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-muted);">Recruiter from Razel-BEC Cameroun viewed your profile</p>
+                  </div>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">1d ago</span>
+                </div>
+                <div class="activity-feed-item">
+                  <div class="activity-dot" style="background: var(--brand-blue);"></div>
+                  <div style="flex: 1;">
+                    <strong style="font-size: 0.9rem; color: var(--text-primary);">New AI Match Found</strong>
+                    <p style="font-size: 0.82rem; color: var(--text-muted);">Senior Full-Stack Cloud Engineer — 94% compatibility</p>
+                  </div>
+                  <span style="font-size: 0.78rem; color: var(--text-muted);">2d ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { supabase } from './js/supabase-config.js';
+      import { AuthService } from './js/services/auth.service.js';
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const user = await AuthService.getCurrentProfile();
+        if (!user) { window.location.href = 'login.html'; return; }
+        if (user.role === 'recruiter') { window.location.href = 'recruiter-dashboard.html'; return; }
+
+        const firstName = (user.full_name || user.email).split(' ')[0];
+        document.getElementById('greetName').textContent = firstName;
+        document.getElementById('sidebarName').textContent = user.full_name || user.email;
+        document.getElementById('sidebarRole').textContent = 'Job Seeker';
+        document.getElementById('sidebarAvatar').textContent = (user.full_name || 'JS').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+        // Load stats
+        const [appsRes, savedRes] = await Promise.all([
+          supabase.from('job_applications').select('id', { count: 'exact' }).eq('applicant_id', user.id),
+          supabase.from('saved_jobs').select('id', { count: 'exact' }).eq('user_id', user.id)
+        ]);
+        document.getElementById('statApps').textContent = appsRes.count || 0;
+        document.getElementById('statSaved').textContent = savedRes.count || 0;
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>

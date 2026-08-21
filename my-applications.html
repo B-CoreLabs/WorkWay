@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Applications — WorkWay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style (2).css" />
+    <link rel="stylesheet" href="css/core-design-system.css" />
+    <link rel="icon" type="image/x-icon" href="WorkWay Images/WorkWayLogo 2.png" />
+    <style>
+      .page-wrapper { padding: 100px 0 80px; }
+      .tab-bar {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid var(--border-subtle);
+        margin-bottom: 28px;
+      }
+      .tab-btn {
+        padding: 12px 24px;
+        background: none;
+        border: none;
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        font-family: 'Montserrat', sans-serif;
+        transition: all var(--transition-fast);
+      }
+      .tab-btn.active {
+        color: var(--brand-blue);
+        border-bottom-color: var(--brand-blue);
+      }
+      .app-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 14px;
+        box-shadow: var(--shadow-sm);
+        transition: all var(--transition-fast);
+      }
+      .app-card:hover { border-color: var(--brand-blue); box-shadow: var(--shadow-md); }
+      .app-logo {
+        width: 50px;
+        height: 50px;
+        border-radius: var(--radius-md);
+        background: var(--brand-blue-light);
+        color: var(--brand-blue);
+        font-weight: 800;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .app-status {
+        padding: 5px 12px;
+        border-radius: var(--radius-full);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+      .status-applied { background: #dbeafe; color: #1d4ed8; }
+      .status-review { background: #fef9c3; color: #854d0e; }
+      .status-interview { background: #ede9fe; color: #6d28d9; }
+      .status-offer { background: #dcfce7; color: #15803d; }
+      .status-rejected { background: #fee2e2; color: #b91c1c; }
+    </style>
+  </head>
+  <body>
+    <header class="site-header scrolled">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <img src="WorkWay Images/Workwaylogo.png" alt="WorkWay Logo" width="200" height="150" />
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="jobseeker-dashboard.html">Dashboard</a>
+          <a href="jobs.html">Find Jobs</a>
+          <a href="saved-jobs.html">Saved Jobs</a>
+          <a href="profile.html">My Profile</a>
+        </nav>
+        <div class="nav-actions"></div>
+      </div>
+    </header>
+
+    <main class="page-wrapper">
+      <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div>
+            <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary);">My Applications</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Track your application pipeline and interview stages</p>
+          </div>
+          <a href="jobs.html" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Apply to More Jobs</a>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="filterApps('all', this)">All Applications</button>
+          <button class="tab-btn" onclick="filterApps('applied', this)">Applied</button>
+          <button class="tab-btn" onclick="filterApps('review', this)">Under Review</button>
+          <button class="tab-btn" onclick="filterApps('interview', this)">Interview</button>
+          <button class="tab-btn" onclick="filterApps('offer', this)">Offers</button>
+        </div>
+
+        <div id="appList">
+          <!-- Skeleton -->
+          <div class="app-card">
+            <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
+              <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+            </div>
+          </div>
+          <div class="app-card">
+            <div class="skeleton" style="width:50px;height:50px;border-radius:10px;flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div class="skeleton skel-row" style="width:50%;height:14px;margin-bottom:8px;"></div>
+              <div class="skeleton skel-row" style="width:30%;height:11px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { supabase } from './js/supabase-config.js';
+      import { AuthService } from './js/services/auth.service.js';
+
+      let allApps = [];
+
+      function statusBadge(status) {
+        const map = {
+          applied: 'Applied',
+          review: 'Under Review',
+          interview: 'Interview',
+          offer: 'Offer Received',
+          rejected: 'Not Selected'
+        };
+        return `<span class="app-status status-${status}">${map[status] || status}</span>`;
+      }
+
+      function renderApps(apps) {
+        const list = document.getElementById('appList');
+        if (!apps.length) {
+          list.innerHTML = `
+            <div style="text-align:center;padding:60px 20px;color:var(--text-muted);">
+              <i class="fa-solid fa-file-lines" style="font-size:2.5rem;opacity:0.3;margin-bottom:14px;"></i>
+              <p>No applications yet. Start exploring opportunities!</p>
+              <a href="jobs.html" class="btn btn-primary" style="margin-top:16px;">Find Jobs</a>
+            </div>`;
+          return;
+        }
+        list.innerHTML = apps.map(app => {
+          const job = app.jobs || {};
+          const company = job.companies || {};
+          const initials = (company.name || 'WW').substring(0, 2).toUpperCase();
+          const date = new Date(app.applied_at || app.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          return `
+            <div class="app-card">
+              <div class="app-logo">${initials}</div>
+              <div style="flex:1;">
+                <div style="font-weight:700;color:var(--text-primary);font-size:1rem;">${job.title || 'Job Title'}</div>
+                <div style="font-size:0.82rem;color:var(--text-muted);margin-top:2px;">${company.name || 'Company'} &bull; ${job.location || ''}</div>
+              </div>
+              ${statusBadge(app.status || 'applied')}
+              <div style="font-size:0.78rem;color:var(--text-muted);white-space:nowrap;">${date}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      window.filterApps = function(status, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filtered = status === 'all' ? allApps : allApps.filter(a => a.status === status);
+        renderApps(filtered);
+      };
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        const user = await AuthService.getCurrentProfile();
+        if (!user) { window.location.href = 'login.html'; return; }
+
+        const { data, error } = await supabase
+          .from('job_applications')
+          .select(`*, jobs(title, location, companies(name))`)
+          .eq('applicant_id', user.id)
+          .order('created_at', { ascending: false });
+
+        allApps = data || [];
+        renderApps(allApps);
+      });
+    </script>
+    <script type="module" src="js/nav-auth.js"></script>
+  </body>
+</html>
